@@ -2,23 +2,28 @@
 
 /**
  * JurisMCP — Model Context Protocol (MCP) Stdio Server
- * Exposes cross-jurisdictional compliance orchestration as a standard MCP tool
+ * Exposes cross-jurisdictional compliance decision support as a standard MCP tool
  * for AI coding assistants (Claude Desktop, Cursor, Antigravity, etc.).
  */
 
 import readline from 'node:readline';
-import { orchestrateCompliance } from './src/engine/orchestrator.js';
+import { orchestrateCompliance, MANDATORY_LEGAL_DISCLAIMER } from './src/engine/orchestrator.js';
 
 const TOOL_DEFINITION = {
-  name: 'get_compliance_guidance',
+  name: 'analyze_compliance',
   description:
-    'Evaluates a natural language description of an AI application or feature against international regulatory frameworks (EU AI Act, GDPR, India DPDP Act 2023, US NIST AI RMF) and returns structured findings, risk classifications, cross-border tensions, and an actionable developer checklist.',
+    'Evaluates a natural language description of an AI feature against a curated, traceable library of international statutory rules (EU AI Act, GDPR, India DPDP Act 2023, US NIST AI RMF). Returns explicit risk signals, sourced findings labeled by legal status (binding legislation vs voluntary framework), actionable recommendations, and a developer checklist.',
   inputSchema: {
     type: 'object',
     properties: {
       feature_description: {
         type: 'string',
         description: 'Plain-language description of the software feature or AI component being developed.'
+      },
+      jurisdictions: {
+        type: 'array',
+        items: { type: 'string' },
+        description: "List of jurisdictions to evaluate (e.g. ['EU', 'IN', 'US']). Defaults to all."
       }
     },
     required: ['feature_description']
@@ -53,7 +58,11 @@ function handleRequest(req) {
       jsonrpc: '2.0',
       id,
       result: {
-        tools: [TOOL_DEFINITION]
+        tools: [
+          TOOL_DEFINITION,
+          // Backward-compatible alias
+          { ...TOOL_DEFINITION, name: 'get_compliance_guidance' }
+        ]
       }
     };
   }
@@ -62,7 +71,7 @@ function handleRequest(req) {
     const toolName = params?.name;
     const args = params?.arguments || {};
 
-    if (toolName !== 'get_compliance_guidance') {
+    if (toolName !== 'analyze_compliance' && toolName !== 'get_compliance_guidance') {
       return {
         jsonrpc: '2.0',
         id,
@@ -85,7 +94,7 @@ function handleRequest(req) {
       };
     }
 
-    // Run the orchestration pipeline
+    // Run the decision-support orchestration pipeline
     const report = orchestrateCompliance(featureDesc);
 
     return {
@@ -108,31 +117,56 @@ function handleRequest(req) {
           cross_border_tension: report.tension,
           jurisdictions: {
             EU: {
-              risk_tier: report.guidance.EU.riskTier,
-              findings: report.guidance.EU.findings,
-              action_items: report.guidance.EU.suggestions,
-              citations: report.guidance.EU.citations
+              jurisdiction: report.guidance.EU.jurisdiction,
+              has_binding_rules: report.guidance.EU.hasBinding,
+              rules: report.guidance.EU.rules.map(r => ({
+                id: r.id,
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                recommendation: r.recommendation,
+                action: r.action,
+                source_url: r.source_url,
+                source_note: r.source_note
+              }))
             },
             India: {
-              risk_tier: report.guidance.IN.riskTier,
-              findings: report.guidance.IN.findings,
-              action_items: report.guidance.IN.suggestions,
-              citations: report.guidance.IN.citations
+              jurisdiction: report.guidance.IN.jurisdiction,
+              has_binding_rules: report.guidance.IN.hasBinding,
+              rules: report.guidance.IN.rules.map(r => ({
+                id: r.id,
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                recommendation: r.recommendation,
+                action: r.action,
+                source_url: r.source_url,
+                source_note: r.source_note
+              }))
             },
             UnitedStates: {
-              framework_tier: report.guidance.US.riskTier,
-              findings: report.guidance.US.findings,
-              action_items: report.guidance.US.suggestions,
-              citations: report.guidance.US.citations
+              jurisdiction: report.guidance.US.jurisdiction,
+              has_binding_rules: report.guidance.US.hasBinding,
+              rules: report.guidance.US.rules.map(r => ({
+                id: r.id,
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                recommendation: r.recommendation,
+                action: r.action,
+                source_url: r.source_url,
+                source_note: r.source_note
+              }))
             }
-          }
+          },
+          disclaimer: MANDATORY_LEGAL_DISCLAIMER
         }
       }
     };
   }
 
   if (method === 'notifications/initialized') {
-    return null; // Notifications don't receive responses
+    return null;
   }
 
   return {
@@ -149,7 +183,7 @@ function handleRequest(req) {
 const cliArgs = process.argv.slice(2);
 if (cliArgs.length > 0 && !cliArgs[0].startsWith('--stdio')) {
   const query = cliArgs.join(' ');
-  console.log('--- JurisMCP CLI Direct Mode ---');
+  console.log('--- JurisMCP Decision Support CLI ---');
   const report = orchestrateCompliance(query);
   console.log(report.checklist);
   process.exit(0);

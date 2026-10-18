@@ -1,5 +1,5 @@
 import { SCENARIOS } from './data/scenarios.js';
-import { orchestrateCompliance } from './engine/orchestrator.js';
+import { orchestrateCompliance, MANDATORY_LEGAL_DISCLAIMER } from './engine/orchestrator.js';
 
 // DOM Elements
 const presetsContainer = document.getElementById('presets-container');
@@ -19,8 +19,18 @@ const tensionSummary = document.getElementById('tension-summary');
 const tensionGuidance = document.getElementById('tension-guidance');
 
 const guidanceSection = document.getElementById('guidance-section');
-const welcomeEmptyState = document.getElementById('welcome-empty-state');
+const checklistSection = document.getElementById('checklist-section');
+const checklistItemsContainer = document.getElementById('checklist-items');
 const btnCopyChecklist = document.getElementById('btn-copy-checklist');
+const welcomeEmptyState = document.getElementById('welcome-empty-state');
+
+const euRulesContainer = document.getElementById('eu-rules-container');
+const inRulesContainer = document.getElementById('in-rules-container');
+const usRulesContainer = document.getElementById('us-rules-container');
+
+const euStatusBadge = document.getElementById('eu-status-badge');
+const inStatusBadge = document.getElementById('in-status-badge');
+const usStatusBadge = document.getElementById('us-status-badge');
 
 const btnOpenMcp = document.getElementById('btn-open-mcp');
 const btnCloseMcp = document.getElementById('btn-close-mcp');
@@ -113,41 +123,108 @@ export function renderTension(tension) {
   tensionGuidance.textContent = tension.developerGuidance;
 }
 
-// Render Jurisdiction Cards
+// Render Sourced Jurisdiction Rules
 export function renderJurisdictions(guidance) {
   guidanceSection.classList.remove('hidden');
 
-  const configs = [
-    { prefix: 'eu', data: guidance.EU },
-    { prefix: 'in', data: guidance.IN },
-    { prefix: 'us', data: guidance.US }
+  // Render EU Rules
+  renderJurisdictionRules(euRulesContainer, euStatusBadge, guidance.EU);
+
+  // Render India Rules
+  renderJurisdictionRules(inRulesContainer, inStatusBadge, guidance.IN);
+
+  // Render US Rules
+  renderJurisdictionRules(usRulesContainer, usStatusBadge, guidance.US);
+}
+
+function renderJurisdictionRules(container, statusBadge, jurisdictionData) {
+  if (!container) return;
+  container.innerHTML = '';
+
+  const isBinding = jurisdictionData.hasBinding;
+  if (statusBadge) {
+    statusBadge.textContent = isBinding ? 'Binding Legislation' : 'Voluntary Framework';
+    statusBadge.className = isBinding
+      ? 'jurisdiction-status-badge status-pill binding'
+      : 'jurisdiction-status-badge status-pill voluntary';
+  }
+
+  jurisdictionData.rules.forEach(rule => {
+    const card = document.createElement('div');
+    card.className = 'rule-item-card';
+
+    const statusBadgeHtml = rule.status === 'binding'
+      ? `<span class="status-pill binding">🔒 Binding Legislation</span>`
+      : `<span class="status-pill voluntary">📋 Voluntary Framework</span>`;
+
+    const triggersHtml = rule.triggers.length > 0
+      ? rule.triggers.map(t => `<span class="trigger-badge">${t}</span>`).join('')
+      : `<span class="trigger-badge">general</span>`;
+
+    card.innerHTML = `
+      <div class="rule-header-row">
+        <span class="rule-instrument">${rule.instrument}</span>
+        ${statusBadgeHtml}
+      </div>
+      <div class="rule-block">
+        <span class="rule-block-label">Finding:</span>
+        <p class="rule-finding">${rule.finding}</p>
+      </div>
+      <div class="rule-block">
+        <span class="rule-block-label">Recommendation:</span>
+        <p class="rule-recommendation">${rule.recommendation}</p>
+      </div>
+      <div class="rule-action-box">
+        <strong>Action:</strong> ${rule.action}
+      </div>
+      <div class="rule-footer-row">
+        <a href="${rule.source_url}" target="_blank" rel="noopener noreferrer" class="rule-source-link">
+          🔗 Source: ${rule.source_note}
+        </a>
+        <div class="rule-trigger-chips">
+          ${triggersHtml}
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// Render Actionable Checklist
+export function renderChecklist(report) {
+  checklistSection.classList.remove('hidden');
+  checklistItemsContainer.innerHTML = '';
+
+  const coreTasks = [
+    { text: "Document intended use, system boundaries, and affected user demographics", tag: "Architectural" },
+    { text: "Review data handling, collection categories, and retention lifecycle policies", tag: "Data Governance" },
+    { text: "Test for algorithmic bias and document human review / override protocols", tag: "Accountability" },
+    { text: "Verify each recommendation against its cited statutory source instrument", tag: "Legal Diligence" }
   ];
 
-  configs.forEach(({ prefix, data }) => {
-    // Risk tier pill
-    const tierEl = document.getElementById(`${prefix}-tier`);
-    if (tierEl) {
-      tierEl.textContent = data.riskTier;
-      tierEl.className = `risk-tier-pill ${data.tierColor}`;
-    }
+  // Combine core tasks and matched rule actions
+  const allTasks = [...coreTasks];
 
-    // Findings
-    const findingsEl = document.getElementById(`${prefix}-findings`);
-    if (findingsEl) {
-      findingsEl.innerHTML = data.findings.map(f => `<p>${f}</p>`).join('');
-    }
+  ['EU', 'IN', 'US'].forEach(juris => {
+    report.guidance[juris].rules.forEach(rule => {
+      allTasks.push({
+        text: `[${juris}] ${rule.action}`,
+        tag: rule.instrument.split('(')[0].trim()
+      });
+    });
+  });
 
-    // Suggestions
-    const suggestionsEl = document.getElementById(`${prefix}-suggestions`);
-    if (suggestionsEl) {
-      suggestionsEl.innerHTML = data.suggestions.map(s => `<li>${s}</li>`).join('');
-    }
-
-    // Citations
-    const citationsEl = document.getElementById(`${prefix}-citations`);
-    if (citationsEl) {
-      citationsEl.innerHTML = data.citations.map(c => `<span class="citation-tag">${c}</span>`).join('');
-    }
+  allTasks.forEach((item, index) => {
+    const row = document.createElement('div');
+    row.className = 'checklist-item';
+    const id = `chk-${index}`;
+    row.innerHTML = `
+      <input type="checkbox" id="${id}" class="checklist-checkbox" />
+      <label for="${id}" class="checklist-text">${item.text}</label>
+      <span class="checklist-meta">${item.tag}</span>
+    `;
+    checklistItemsContainer.appendChild(row);
   });
 }
 
@@ -167,6 +244,7 @@ function runAnalysis() {
   renderSignals(currentReport.signals);
   renderTension(currentReport.tension);
   renderJurisdictions(currentReport.guidance);
+  renderChecklist(currentReport);
 
   // Persist query in localStorage
   try {
@@ -187,6 +265,7 @@ function setupEventListeners() {
     signalsSection.classList.add('hidden');
     tensionSection.classList.add('hidden');
     guidanceSection.classList.add('hidden');
+    checklistSection.classList.add('hidden');
     welcomeEmptyState.classList.remove('hidden');
     currentReport = null;
     try {
@@ -215,7 +294,6 @@ function setupEventListeners() {
       await navigator.clipboard.writeText(currentReport.checklist);
       showToast('✓ Markdown Checklist copied to clipboard!');
     } catch {
-      // Fallback
       window.prompt('Copy your developer compliance checklist below:', currentReport.checklist);
     }
   });
@@ -224,27 +302,54 @@ function setupEventListeners() {
   btnOpenMcp.addEventListener('click', () => {
     const payload = currentReport
       ? {
-          tool: "get_compliance_guidance",
-          input: { feature_description: currentReport.query },
+          tool: "analyze_compliance",
+          input: {
+            feature_description: currentReport.query,
+            jurisdictions: ["EU", "IN", "US"]
+          },
           output: {
             detected_signals: currentReport.signals.tags.map(t => t.label),
             cross_border_tension: currentReport.tension ? currentReport.tension.title : "None",
             jurisdictions: {
-              EU: { tier: currentReport.guidance.EU.riskTier, primary_action: currentReport.guidance.EU.suggestions[0] },
-              India: { tier: currentReport.guidance.IN.riskTier, primary_action: currentReport.guidance.IN.suggestions[0] },
-              US: { tier: currentReport.guidance.US.riskTier, primary_action: currentReport.guidance.US.suggestions[0] }
-            }
+              EU: currentReport.guidance.EU.rules.map(r => ({
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                action: r.action,
+                source: r.source_note
+              })),
+              India: currentReport.guidance.IN.rules.map(r => ({
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                action: r.action,
+                source: r.source_note
+              })),
+              UnitedStates: currentReport.guidance.US.rules.map(r => ({
+                status: r.status,
+                instrument: r.instrument,
+                finding: r.finding,
+                action: r.action,
+                source: r.source_note
+              }))
+            },
+            disclaimer: MANDATORY_LEGAL_DISCLAIMER
           }
         }
       : {
-          name: "get_compliance_guidance",
-          description: "Evaluates AI feature description across EU AI Act, GDPR, India DPDP, and US NIST AI RMF",
+          name: "analyze_compliance",
+          description: "Evaluates AI feature description against curated regulatory rules across EU AI Act, GDPR, India DPDP, and US NIST AI RMF",
           inputSchema: {
             type: "object",
             properties: {
               feature_description: {
                 type: "string",
                 description: "Natural language description of the application or AI feature"
+              },
+              jurisdictions: {
+                type: "array",
+                items: { type: "string" },
+                description: "List of jurisdictions to evaluate (default: ['EU', 'IN', 'US'])"
               }
             },
             required: ["feature_description"]

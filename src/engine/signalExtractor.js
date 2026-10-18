@@ -1,55 +1,57 @@
 /**
  * Signal Extraction Engine
- * Parses natural language feature descriptions to extract regulatory triggers
- * for EU AI Act, GDPR, India DPDP Act 2023, and US NIST AI RMF.
+ * Parses natural language feature descriptions to extract explicit, verifiable risk triggers.
  */
 
 const DICTIONARIES = {
-  ai: [
+  ai_decision: [
     'ai', 'artificial intelligence', 'machine learning', 'ml', 'llm', 'large language model',
     'neural', 'deep learning', 'gpt', 'classifier', 'algorithm', 'agent', 'model',
-    'rag', 'retrieval-augmented', 'computer vision', 'predictive', 'generative', 'chatbot'
+    'rag', 'retrieval-augmented', 'computer vision', 'predictive', 'generative', 'chatbot',
+    'rank', 'ranks', 'ranking', 'score', 'scores', 'scoring', 'automated decision'
   ],
-  personalData: [
+  employment: [
+    'cv', 'cvs', 'resume', 'resumes', 'candidate', 'candidates', 'hiring', 'recruitment', 'recruit',
+    'job', 'jobs', 'interview', 'interviews', 'applicant', 'applicants', 'workplace',
+    'promotion', 'firing', 'work experience', 'hr', 'human resources', 'talent', 'performance review'
+  ],
+  personal_data: [
+    'cv', 'cvs', 'resume', 'resumes', 'candidate', 'candidates', 'interview', 'interview answers',
     'user', 'users', 'customer', 'customers', 'client', 'email', 'emails', 'profile', 'profiles',
-    'account', 'accounts', 'record', 'records', 'pii', 'identity', 'identities', 'employee',
-    'employees', 'personal', 'history', 'chat history', 'name', 'phone', 'address'
+    'account', 'accounts', 'record', 'records', 'pii', 'identity', 'employee', 'employees',
+    'personal', 'history', 'chat history', 'name', 'phone'
   ],
   biometric: [
     'face', 'faces', 'facial', 'photo', 'photos', 'selfie', 'selfies', 'image', 'images',
     'voice', 'voices', 'speech', 'fingerprint', 'retina', 'scan', 'biometric', 'biometrics',
     'appearance', 'physical trait'
   ],
-  employment: [
-    'resume', 'resumes', 'candidate', 'candidates', 'hiring', 'recruitment', 'recruit',
-    'job', 'jobs', 'interview', 'interviews', 'applicant', 'applicants', 'workplace',
-    'promotion', 'firing', 'work experience', 'hr', 'human resources', 'talent', 'performance review'
-  ],
   health: [
     'patient', 'patients', 'clinical', 'medical', 'symptom', 'symptoms', 'health', 'disease',
     'diagnostic', 'triage', 'doctor', 'physician', 'drug', 'prescription', 'healthcare',
-    'treatment', 'vital'
+    'treatment'
   ],
-  autonomous: [
+  autonomous_action: [
     'automatic', 'automatically', 'reject', 'rejection', 'filter out', 'decide', 'decision',
-    'approve', 'approval', 'execute', 'autonomous', 'unmonitored', 'without human', 'auto-reject'
+    'approve', 'approval', 'execute', 'autonomous', 'unmonitored', 'without human', 'auto-reject',
+    'ranks', 'ranking', 'scores', 'scoring'
   ],
   children: [
-    'child', 'children', 'minor', 'minors', 'kid', 'kids', 'student', 'students', 'underage',
-    'school'
+    'child', 'children', 'minor', 'minors', 'kid', 'kids', 'student', 'students', 'underage'
   ],
-  financial: [
-    'credit', 'loan', 'score', 'creditworthiness', 'banking', 'financial', 'mortgage',
-    'transaction', 'fraud'
+  jurisdiction_eu: [
+    'eu', 'europe', 'european union', 'germany', 'france', 'gdpr', 'ai act'
+  ],
+  jurisdiction_in: [
+    'india', 'indian', 'dpdp', 'meity'
+  ],
+  jurisdiction_us: [
+    'us', 'usa', 'united states', 'america', 'california', 'nyc', 'bipa', 'nist'
   ]
 };
 
-/**
- * Checks if text contains any term in the dictionary using word boundary checks.
- */
 function matchesDictionary(textLower, terms) {
   return terms.some(term => {
-    // If term is multi-word, simple include is safer than strict single-word regex boundary
     if (term.includes(' ') || term.includes('-')) {
       return textLower.includes(term);
     }
@@ -66,116 +68,114 @@ function matchesDictionary(textLower, terms) {
 export function extractSignals(text) {
   if (!text || typeof text !== 'string') {
     return {
-      usesAi: false,
-      personalData: false,
-      biometricData: false,
-      employmentDomain: false,
-      healthDomain: false,
-      autonomousAction: false,
-      childrenData: false,
-      financialDomain: false,
-      tags: []
+      activeTriggers: new Set(),
+      tags: [],
+      jurisdictionsMentioned: []
     };
   }
 
   const lower = text.toLowerCase();
+  const activeTriggers = new Set();
 
-  const usesAi = matchesDictionary(lower, DICTIONARIES.ai);
-  const personalData = matchesDictionary(lower, DICTIONARIES.personalData);
-  const biometricData = matchesDictionary(lower, DICTIONARIES.biometric);
-  const employmentDomain = matchesDictionary(lower, DICTIONARIES.employment);
-  const healthDomain = matchesDictionary(lower, DICTIONARIES.health);
-  const autonomousAction = matchesDictionary(lower, DICTIONARIES.autonomous);
-  const childrenData = matchesDictionary(lower, DICTIONARIES.children);
-  const financialDomain = matchesDictionary(lower, DICTIONARIES.financial);
+  if (matchesDictionary(lower, DICTIONARIES.ai_decision)) activeTriggers.add('ai_decision');
+  if (matchesDictionary(lower, DICTIONARIES.employment)) activeTriggers.add('employment');
+  if (matchesDictionary(lower, DICTIONARIES.personal_data)) activeTriggers.add('personal_data');
+  if (matchesDictionary(lower, DICTIONARIES.biometric)) activeTriggers.add('biometric');
+  if (matchesDictionary(lower, DICTIONARIES.health)) activeTriggers.add('health');
+  if (matchesDictionary(lower, DICTIONARIES.autonomous_action)) activeTriggers.add('autonomous_action');
+  if (matchesDictionary(lower, DICTIONARIES.children)) activeTriggers.add('children');
+
+  const jurisdictionsMentioned = [];
+  if (matchesDictionary(lower, DICTIONARIES.jurisdiction_eu)) jurisdictionsMentioned.push('EU');
+  if (matchesDictionary(lower, DICTIONARIES.jurisdiction_in)) jurisdictionsMentioned.push('India');
+  if (matchesDictionary(lower, DICTIONARIES.jurisdiction_us)) jurisdictionsMentioned.push('US');
 
   const tags = [];
 
-  if (usesAi) {
+  if (activeTriggers.has('ai_decision')) {
     tags.push({
-      id: 'uses_ai',
-      label: 'AI-Driven System',
+      id: 'ai_decision',
+      label: 'AI-Assisted Decisions',
       icon: '⚡',
       badgeClass: 'active',
-      description: 'System deploys machine learning, LLM, or predictive heuristics.'
+      description: 'System uses AI/ML models or automated heuristics for scoring or predictions.'
     });
   }
 
-  if (biometricData) {
+  if (activeTriggers.has('employment')) {
     tags.push({
-      id: 'biometric_data',
+      id: 'employment',
+      label: 'Employment / Hiring',
+      icon: '💼',
+      badgeClass: 'high-risk',
+      description: 'Evaluates candidates, CVs, worker recruitment, or workforce management.'
+    });
+  }
+
+  if (activeTriggers.has('personal_data')) {
+    tags.push({
+      id: 'personal_data',
+      label: 'Personal Data',
+      icon: '👤',
+      badgeClass: 'active',
+      description: 'Collects or processes identifiable personal information (CVs, records, history).'
+    });
+  }
+
+  if (activeTriggers.has('biometric')) {
+    tags.push({
+      id: 'biometric',
       label: 'Biometric / Facial Data',
       icon: '👁️',
       badgeClass: 'high-risk',
-      description: 'Processes facial, voice, or biometric physical attributes (GDPR Art 9 special category).'
+      description: 'Processes facial geometry, voice, or physical traits (Special Category Data).'
     });
   }
 
-  if (employmentDomain) {
+  if (activeTriggers.has('health')) {
     tags.push({
-      id: 'employment_domain',
-      label: 'Employment / Hiring Domain',
-      icon: '💼',
-      badgeClass: 'high-risk',
-      description: 'Affects worker recruitment, candidate ranking, or workforce evaluation (EU AI Act Annex III).'
-    });
-  }
-
-  if (healthDomain) {
-    tags.push({
-      id: 'health_domain',
+      id: 'health',
       label: 'Clinical / Health Data',
       icon: '🩺',
       badgeClass: 'high-risk',
-      description: 'Processes medical diagnostic or health wellness telemetry.'
+      description: 'Processes medical diagnostic or health wellness data.'
     });
   }
 
-  if (autonomousAction) {
+  if (activeTriggers.has('autonomous_action')) {
     tags.push({
       id: 'autonomous_action',
-      label: 'Autonomous Decisions',
+      label: 'Autonomous Actions',
       icon: '🤖',
       badgeClass: 'warning',
-      description: 'Applies automated actions (filtering/rejection) without guaranteed real-time human override.'
+      description: 'Executes automated ranking, filtering, or rejection without guaranteed human review.'
     });
   }
 
-  if (childrenData) {
+  if (activeTriggers.has('children')) {
     tags.push({
-      id: 'children_data',
+      id: 'children',
       label: 'Children / Minor Data',
       icon: '🧒',
       badgeClass: 'high-risk',
-      description: 'Processes data concerning individuals under age of majority (DPDP Sec 9 / COPPA).'
+      description: 'Processes data concerning individuals under age of majority.'
     });
   }
 
-  if (financialDomain) {
+  if (jurisdictionsMentioned.length > 1) {
     tags.push({
-      id: 'financial_domain',
-      label: 'Financial / Credit Scoring',
-      icon: '💳',
-      badgeClass: 'warning',
-      description: 'Assesses financial trustworthiness or credit eligibility.'
-    });
-  }
-
-  if (personalData && !biometricData && !healthDomain) {
-    tags.push({
-      id: 'personal_data',
-      label: 'Personal Data (PII)',
-      icon: '👤',
+      id: 'multi_jurisdiction',
+      label: `Multiple Jurisdictions (${jurisdictionsMentioned.join(', ')})`,
+      icon: '🌐',
       badgeClass: 'active',
-      description: 'Collects or processes identifiable personal information (email, profile, history).'
+      description: 'Explicitly targets multiple sovereign legal jurisdictions.'
     });
   }
 
-  // If none detected, provide baseline
   if (tags.length === 0) {
     tags.push({
       id: 'minimal_footprint',
-      label: 'Standard Software / Low Signal',
+      label: 'Standard Software / Baseline Due Diligence',
       icon: '🟢',
       badgeClass: '',
       description: 'No sensitive regulatory keywords detected; standard software due diligence applies.'
@@ -183,14 +183,16 @@ export function extractSignals(text) {
   }
 
   return {
-    usesAi,
-    personalData: personalData || biometricData || employmentDomain || healthDomain,
-    biometricData,
-    employmentDomain,
-    healthDomain,
-    autonomousAction,
-    childrenData,
-    financialDomain,
-    tags
+    activeTriggers: Array.from(activeTriggers),
+    tags,
+    jurisdictionsMentioned,
+    // Convenience booleans
+    usesAi: activeTriggers.has('ai_decision'),
+    employmentDomain: activeTriggers.has('employment'),
+    personalData: activeTriggers.has('personal_data'),
+    biometricData: activeTriggers.has('biometric'),
+    healthDomain: activeTriggers.has('health'),
+    autonomousAction: activeTriggers.has('autonomous_action'),
+    childrenData: activeTriggers.has('children')
   };
 }

@@ -5,10 +5,16 @@ status: approved
 
 # JurisMCP — Product Requirements
 
-A development-time compliance intelligence tool that transforms plain-language AI feature descriptions into structured, multi-jurisdiction regulatory guidance (EU, India, US) with cross-border tension analysis and actionable developer checklists.
+A development-time compliance decision-support tool that transforms plain-language AI feature descriptions into transparent risk signals, maps them against a curated JSON rule library across multiple jurisdictions (EU, India, US), labels binding legislation vs voluntary frameworks, and outputs an actionable developer checklist.
 Source: `scope.md > The Unique Kernel` and `scope.md > Who It's For`.
 
-## The Core Journey
+## Decision-Support Pipeline
+1. **Feature Description** (natural language prompt or 1-click preset)
+2. **Detected Risk Signals** (visible chips: AI-Assisted decisions, employment/hiring, personal data, biometrics, multi-jurisdiction)
+3. **Curated Rule Library** (`rules.json`: traceable triggers, instruments, legal status, findings, actions, source URLs)
+4. **Sourced Findings** (EU AI Act & GDPR, India DPDP Act 2023, US NIST AI RMF & Sectoral/State laws; clearly labelled Binding vs Voluntary)
+5. **Actionable Developer Checklist** (copyable checklist with core architectural tasks and statutory actions)
+6. **Mandatory Disclaimer** ("Illustrative output for development support only. Not a verified legal assessment.")
 1. **Arrival**: The developer opens the JurisMCP web dashboard. They see a clean, high-performance interface with an intuitive prompt console, four quick-load real-world scenario presets, and an architectural overview explaining the MCP integration angle.
 2. **Input**: The developer either types a custom feature description (e.g., *"A facial verification microservice that indexes customer selfie uploads for cloud identity checks"*) or clicks a preloaded scenario button (*"HR Resume Ranker"*, *"Biometric Cloud Photos"*, *"Customer Support RAG Chatbot"*, or *"Autonomous Medical Triage"*).
 3. **Trigger**: The developer clicks **"Orchestrate Compliance"** (or presses `Ctrl+Enter`).

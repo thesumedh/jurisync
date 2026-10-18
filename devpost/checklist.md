@@ -61,24 +61,25 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — Slices 1–3 (Scaffold, Signal Radar, and Multi-Jurisdiction Engine)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — Slices 1–3 (Scaffold, Signal Radar, and Multi-Jurisdiction Engine)
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [to be recorded upon completion]
-Route and stops: [to be recorded upon completion]
-Edit outcome: [to be recorded upon completion]
-Reflection: [to be recorded upon completion]
-Activity mode: [to be recorded upon completion]
+Activity and evidence: Focused architecture walkthrough and multi-jurisdiction rule verification; verified against `tests/verify-slice2.js` through `tests/verify-slice5.js`.
+Route and stops: `src/main.js` (UI entry) &rarr; `src/engine/signalExtractor.js` (heuristics) &rarr; `src/engine/knowledgeBase.js` (statutory rules) &rarr; `src/engine/tensionEngine.js` (cross-border divergence) &rarr; `mcp-server.js` (stdio JSON-RPC agent tool).
+Edit outcome: Validated clean dual-mode operation (web dashboard + headless CLI/MCP stdio).
+Reflection: Reusable practice established: decoupling deterministic compliance orchestration logic into a standalone engine (`orchestrator.js`) enables simultaneous support for interactive human developer dashboards and autonomous AI agent tool calls.
+Activity mode: Live running Vite application (`http://localhost:5173`) and standalone MCP server (`node mcp-server.js`).
 
 ## Revisions
+None. All 5 slices completed in strict conformance with spec.md and prd.md.
 

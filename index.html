@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JurisMCP — Cross-Jurisdictional AI Compliance Orchestrator</title>
-  <meta name="description" content="Development-time compliance intelligence layer evaluating AI feature descriptions across EU, India, and US legal frameworks with MCP agent support." />
+  <title>JurisMCP — Cross-Jurisdictional AI Compliance Decision Support</title>
+  <meta name="description" content="Development-time compliance decision-support tool turning feature descriptions into visible risk signals, sourced multi-jurisdiction rules (binding vs voluntary), and actionable developer checklists." />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
             <div class="brand-title-row">
               <h1>JurisMCP</h1>
               <span class="badge mcp-badge">MCP Protocol v1.0</span>
-              <span class="badge build-badge">Devpost Build With AI</span>
+              <span class="badge decision-badge">Decision Support Engine</span>
             </div>
             <p class="brand-subtitle">Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Development</p>
           </div>
@@ -39,6 +39,22 @@
       </div>
     </header>
 
+    <!-- Transparent Pipeline Flow Banner -->
+    <div class="pipeline-strip glass-panel">
+      <span class="pipeline-label">Decision Pipeline:</span>
+      <div class="pipeline-steps">
+        <span class="pipeline-step active">1. Feature Input</span>
+        <span class="pipeline-arrow">&rarr;</span>
+        <span class="pipeline-step">2. Detected Signals</span>
+        <span class="pipeline-arrow">&rarr;</span>
+        <span class="pipeline-step">3. Curated Rule Library</span>
+        <span class="pipeline-arrow">&rarr;</span>
+        <span class="pipeline-step">4. Sourced Findings (Binding vs Voluntary)</span>
+        <span class="pipeline-arrow">&rarr;</span>
+        <span class="pipeline-step">5. Actionable Checklist</span>
+      </div>
+    </div>
+
     <main class="main-content">
       <!-- Input Console & Presets Section -->
       <section class="console-section card glass-panel">
@@ -47,7 +63,7 @@
             <span class="pill-number">01</span>
             <h2>Describe Your App or Feature</h2>
           </div>
-          <span class="helper-text">Enter plain text or pick a realistic scenario to analyze instantly</span>
+          <span class="helper-text">Enter plain text or pick a realistic scenario to analyze against curated statutory rules</span>
         </div>
 
         <!-- Scenario Preset Pills -->
@@ -62,7 +78,7 @@
         <div class="input-wrapper">
           <textarea 
             id="feature-input" 
-            placeholder="e.g. A recruitment service that scans employee resumes with an LLM, scores candidates against job roles, and automates interview rejections..."
+            placeholder="e.g. A company is building an AI system that ranks job applicants using CVs and interview answers in the EU and India..."
             rows="3"
             aria-label="AI Feature Description"
           ></textarea>
@@ -74,19 +90,19 @@
             <div class="console-actions">
               <button id="btn-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
               <button id="btn-analyze" class="btn btn-primary" type="button">
-                <span class="btn-icon">🔍</span> Orchestrate Compliance
+                <span class="btn-icon">🔍</span> Analyze Compliance
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Live Signal Radar Bar -->
+      <!-- Live Signal Radar Bar (Always Visible after submit) -->
       <section id="signals-section" class="signals-section card glass-panel hidden">
         <div class="signals-header">
           <div class="title-with-pill">
             <span class="pill-number">02</span>
-            <h3>Extracted Regulatory Signals</h3>
+            <h3>Detected Risk Signals</h3>
           </div>
           <span id="signal-count-badge" class="badge">0 signals detected</span>
         </div>
@@ -118,12 +134,11 @@
         <div class="section-header-row">
           <div class="title-with-pill">
             <span class="pill-number">03</span>
-            <h2>Multi-Country Regulatory Guidance</h2>
+            <h2>Sourced Multi-Jurisdiction Guidance (Curated Rule Library)</h2>
           </div>
-          <div class="guidance-actions">
-            <button id="btn-copy-checklist" class="btn btn-accent">
-              <span class="btn-icon">📋</span> Copy Developer Checklist
-            </button>
+          <div class="legend-pills">
+            <span class="status-legend-pill binding">🔒 Binding Legislation</span>
+            <span class="status-legend-pill voluntary">📋 Voluntary Framework</span>
           </div>
         </div>
 
@@ -136,21 +151,10 @@
                 <span class="jurisdiction-name">European Union</span>
                 <span class="framework-name">EU AI Act &amp; GDPR</span>
               </div>
-              <div id="eu-tier" class="risk-tier-pill">TBD</div>
+              <div id="eu-status-badge" class="jurisdiction-status-badge">Binding</div>
             </div>
-            <div class="card-body">
-              <div class="card-block">
-                <h4 class="block-label">Key Regulatory Finding</h4>
-                <div id="eu-findings" class="findings-list"></div>
-              </div>
-              <div class="card-block">
-                <h4 class="block-label">Developer Action Items</h4>
-                <ul id="eu-suggestions" class="suggestions-list"></ul>
-              </div>
-            </div>
-            <div class="card-footer">
-              <span class="citation-label">Binding Instruments:</span>
-              <div id="eu-citations" class="citations-container"></div>
+            <div class="card-body" id="eu-rules-container">
+              <!-- Sourced Rule Items Injected Dynamically -->
             </div>
           </div>
 
@@ -162,21 +166,10 @@
                 <span class="jurisdiction-name">India</span>
                 <span class="framework-name">DPDP Act 2023 &amp; MeitY Advisory</span>
               </div>
-              <div id="in-tier" class="risk-tier-pill">TBD</div>
+              <div id="in-status-badge" class="jurisdiction-status-badge">Binding</div>
             </div>
-            <div class="card-body">
-              <div class="card-block">
-                <h4 class="block-label">Key Regulatory Finding</h4>
-                <div id="in-findings" class="findings-list"></div>
-              </div>
-              <div class="card-block">
-                <h4 class="block-label">Developer Action Items</h4>
-                <ul id="in-suggestions" class="suggestions-list"></ul>
-              </div>
-            </div>
-            <div class="card-footer">
-              <span class="citation-label">Binding Instruments:</span>
-              <div id="in-citations" class="citations-container"></div>
+            <div class="card-body" id="in-rules-container">
+              <!-- Sourced Rule Items Injected Dynamically -->
             </div>
           </div>
 
@@ -188,23 +181,39 @@
                 <span class="jurisdiction-name">United States</span>
                 <span class="framework-name">NIST AI RMF 1.0 &amp; Sectoral/State</span>
               </div>
-              <div id="us-tier" class="risk-tier-pill">TBD</div>
+              <div id="us-status-badge" class="jurisdiction-status-badge">Voluntary / State</div>
             </div>
-            <div class="card-body">
-              <div class="card-block">
-                <h4 class="block-label">Key Regulatory Finding</h4>
-                <div id="us-findings" class="findings-list"></div>
-              </div>
-              <div class="card-block">
-                <h4 class="block-label">Developer Action Items</h4>
-                <ul id="us-suggestions" class="suggestions-list"></ul>
-              </div>
-            </div>
-            <div class="card-footer">
-              <span class="citation-label">Frameworks &amp; Statutes:</span>
-              <div id="us-citations" class="citations-container"></div>
+            <div class="card-body" id="us-rules-container">
+              <!-- Sourced Rule Items Injected Dynamically -->
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- Actionable Developer Checklist Section -->
+      <section id="checklist-section" class="checklist-section card glass-panel hidden">
+        <div class="section-header-row">
+          <div class="title-with-pill">
+            <span class="pill-number">04</span>
+            <h3>Actionable Developer Checklist</h3>
+          </div>
+          <button id="btn-copy-checklist" class="btn btn-accent">
+            <span class="btn-icon">📋</span> Copy Checklist
+          </button>
+        </div>
+        <p class="checklist-intro">Generated from detected risk signals and statutory requirements. Directly pasteable into GitHub issues, PRs, or architecture specs.</p>
+        <div class="checklist-items-container" id="checklist-items">
+          <!-- Dynamic Checklist Items -->
+        </div>
+      </section>
+
+      <!-- Mandatory Legal Disclaimer Banner -->
+      <section class="disclaimer-banner glass-panel">
+        <div class="disclaimer-content">
+          <span class="disclaimer-icon">ℹ️</span>
+          <p id="mandatory-disclaimer-text">
+            <strong>Notice:</strong> Illustrative output for development support only. Not a verified legal assessment. Exact applicability depends on the specific system and current law.
+          </p>
         </div>
       </section>
 
@@ -212,19 +221,19 @@
       <section id="welcome-empty-state" class="welcome-empty-state glass-panel">
         <div class="empty-graphic">🌐 ➔ ⚖️ ➔ 🚀</div>
         <h3>No Feature Analyzed Yet</h3>
-        <p>Type a feature description above or select one of the preloaded scenarios to trigger the cross-jurisdictional compliance engine.</p>
+        <p>Type a feature description above or select one of the preloaded scenarios to trigger the decision-support rule engine.</p>
         <div class="empty-highlights">
           <div class="highlight-item">
-            <span class="hl-icon">🇪🇺</span>
-            <span>Classifies EU AI Act risk tiers &amp; GDPR duties</span>
+            <span class="hl-icon">⚡</span>
+            <span>Detects explicit risk triggers (AI, PII, hiring, biometrics)</span>
           </div>
           <div class="highlight-item">
-            <span class="hl-icon">🇮🇳</span>
-            <span>Evaluates India DPDP Data Fiduciary rules</span>
+            <span class="hl-icon">📚</span>
+            <span>Matches traceable JSON rules from curated library</span>
           </div>
           <div class="highlight-item">
-            <span class="hl-icon">🇺🇸</span>
-            <span>Maps NIST AI RMF &amp; state enforcement</span>
+            <span class="hl-icon">🏷️</span>
+            <span>Labels Binding Legislation vs Voluntary Frameworks</span>
           </div>
         </div>
       </section>
@@ -239,7 +248,7 @@
           <strong>Research Topic:</strong> <em>Development of an MCP-based Cross-Jurisdictional Compliance Orchestration Layer for Dynamic Multi-Country Regulatory Guidance during AI-Assisted Application Development.</em>
         </p>
         <p class="research-text">
-          As AI coding assistants use the <strong>Model Context Protocol (MCP)</strong> to write software autonomously, applications are instantly exposed to conflicting international regimes. Existing tools either enforce single-regime rules or simple access control. <strong>JurisMCP</strong> proves that dynamic, development-time regulatory orchestration can catch architectural violations early—before costly redesigns or regulatory sanctions.
+          As AI coding assistants use the <strong>Model Context Protocol (MCP)</strong> to call tools and external data, applications are often deployed across multiple countries with diverging legal rules (binding legislation like EU AI Act, GDPR, India's DPDP Act vs voluntary frameworks like NIST AI RMF). <strong>JurisMCP</strong> proves that dynamic, development-time regulatory orchestration can catch architectural violations early—before costly redesigns or regulatory sanctions.
         </p>
       </section>
     </main>
@@ -249,7 +258,7 @@
       <div class="footer-left">
         <span>Devpost Build With AI: Basics Hackathon 2026</span>
         <span class="dot-separator">•</span>
-        <span>Standard Developer Guidance Prototype (Not Legal Advice)</span>
+        <span>Decision-Support Prototype (Not Legal Advice)</span>
       </div>
       <div class="footer-right">
         <span>Files: <code>scope.md</code> | <code>prd.md</code> | <code>spec.md</code></span>
@@ -268,11 +277,11 @@
     </div>
     <div class="modal-body">
       <p class="modal-desc">
-        This demonstrates how an AI coding assistant (e.g. Claude Desktop, Cursor, Antigravity) calls JurisMCP via standard stdio JSON-RPC tool calling:
+        Demonstrates how an AI coding assistant (e.g. Claude Desktop, Cursor, Antigravity) calls JurisMCP via standard stdio JSON-RPC tool calling:
       </p>
       <div class="code-block-container">
         <div class="code-header">
-          <span>MCP Tool Definition: <code>get_compliance_guidance</code></span>
+          <span>MCP Tool: <code>get_compliance_guidance</code></span>
           <button id="btn-copy-mcp-schema" class="btn btn-ghost btn-xs">Copy JSON</button>
         </div>
         <pre><code id="mcp-schema-code"></code></pre>
