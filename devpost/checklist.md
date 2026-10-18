@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: Click "HR Hiring Screener" and verify EU card shows "High Risk (Annex III)" while India card shows "Data Fiduciary Duties".
   Commit: `Add multi-jurisdiction compliance knowledge engine for EU, India, and US`
 
-- [ ] **4. Implement cross-jurisdictional tension engine and checklist exporter**
+- [x] **4. Implement cross-jurisdictional tension engine and checklist exporter**
   Becomes usable: The system detects cross-border regulatory divergences and displays a highlighted "Regulatory Tension Callout", plus a one-click "Copy Developer Checklist" button that copies formatted markdown to clipboard with toast notification.
   Why now: Solves the research problem of surfacing tensions across jurisdictions and gives the developer immediate utility (actionable checklist) in their workflow.
   PRD ref: `prd.md > 4. Cross-Jurisdictional Divergence Callout`, `prd.md > 5. Developer Checklist Export`
