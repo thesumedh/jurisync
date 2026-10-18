@@ -49,7 +49,7 @@ Build mode: fast
   Learner check: Click "Copy Developer Checklist" and paste into a scratchpad to see the formatted markdown checklist.
   Commit: `Implement cross-jurisdictional tension engine and checklist exporter`
 
-- [ ] **5. Add Model Context Protocol (MCP) stdio server and UI agent inspector**
+- [x] **5. Add Model Context Protocol (MCP) stdio server and UI agent inspector**
   Becomes usable: External AI coding agents (Claude Desktop, Cursor, Antigravity) can call `get_compliance_guidance` via stdio JSON-RPC using `node mcp-server.js`, and developers can inspect the live MCP JSON schema directly in the dashboard UI.
   Why now: Directly fulfills the research statement ("MCP-based Cross-Jurisdictional Compliance Orchestration Layer"), elevating the project to hackathon-winning quality.
   PRD ref: `prd.md > 6. Model Context Protocol (MCP) Integration Specification`
