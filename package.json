@@ -1,0 +1,27 @@
+{
+  "name": "jurismcp",
+  "version": "1.0.0",
+  "description": "Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Application Development",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "mcp": "node mcp-server.js"
+  },
+  "keywords": [
+    "compliance",
+    "mcp",
+    "ai-governance",
+    "eu-ai-act",
+    "gdpr",
+    "dpdp",
+    "nist-ai-rmf",
+    "devpost"
+  ],
+  "author": "Hackathon Participant",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
