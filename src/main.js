@@ -1,5 +1,6 @@
 import { SCENARIOS } from './data/scenarios.js';
 import { extractSignals } from './engine/signalExtractor.js';
+import { evaluateAllJurisdictions } from './engine/knowledgeBase.js';
 
 // DOM Elements
 const presetsContainer = document.getElementById('presets-container');
@@ -10,6 +11,7 @@ const btnAnalyze = document.getElementById('btn-analyze');
 const signalsSection = document.getElementById('signals-section');
 const signalsContainer = document.getElementById('signals-container');
 const signalCountBadge = document.getElementById('signal-count-badge');
+const guidanceSection = document.getElementById('guidance-section');
 const welcomeEmptyState = document.getElementById('welcome-empty-state');
 const btnOpenMcp = document.getElementById('btn-open-mcp');
 const btnCloseMcp = document.getElementById('btn-close-mcp');
@@ -119,6 +121,9 @@ function setupEventListeners() {
 
     const signalVector = extractSignals(query);
     renderSignals(signalVector);
+
+    const guidance = evaluateAllJurisdictions(signalVector);
+    renderJurisdictions(guidance);
   });
 }
 
@@ -141,6 +146,44 @@ export function renderSignals(signalVector) {
       <span>${tag.label}</span>
     `;
     signalsContainer.appendChild(chip);
+  });
+}
+
+// Render Jurisdiction Cards
+export function renderJurisdictions(guidance) {
+  guidanceSection.classList.remove('hidden');
+
+  const configs = [
+    { prefix: 'eu', data: guidance.EU },
+    { prefix: 'in', data: guidance.IN },
+    { prefix: 'us', data: guidance.US }
+  ];
+
+  configs.forEach(({ prefix, data }) => {
+    // Risk tier pill
+    const tierEl = document.getElementById(`${prefix}-tier`);
+    if (tierEl) {
+      tierEl.textContent = data.riskTier;
+      tierEl.className = `risk-tier-pill ${data.tierColor}`;
+    }
+
+    // Findings
+    const findingsEl = document.getElementById(`${prefix}-findings`);
+    if (findingsEl) {
+      findingsEl.innerHTML = data.findings.map(f => `<p>${f}</p>`).join('');
+    }
+
+    // Suggestions
+    const suggestionsEl = document.getElementById(`${prefix}-suggestions`);
+    if (suggestionsEl) {
+      suggestionsEl.innerHTML = data.suggestions.map(s => `<li>${s}</li>`).join('');
+    }
+
+    // Citations
+    const citationsEl = document.getElementById(`${prefix}-citations`);
+    if (citationsEl) {
+      citationsEl.innerHTML = data.citations.map(c => `<span class="citation-tag">${c}</span>`).join('');
+    }
   });
 }
 

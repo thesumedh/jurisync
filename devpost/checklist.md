@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Type "An AI system that ranks job applicants by analyzing resumes" and verify both "AI System" and "Employment / Hiring" badges light up.
   Commit: `Implement signal extraction engine and UI signal radar`
 
-- [ ] **3. Add multi-jurisdiction compliance knowledge engine for EU, India, and US**
+- [x] **3. Add multi-jurisdiction compliance knowledge engine for EU, India, and US**
   Becomes usable: The system evaluates extracted signals against EU (AI Act + GDPR), India (DPDP Act 2023), and US (NIST AI RMF + FTC/State) rules, rendering 3 structured, responsive cards with risk tiers, findings, and suggestions.
   Why now: Delivers the core value proposition of multi-country regulatory guidance during development.
   PRD ref: `prd.md > 3. Multi-Jurisdiction Regulatory Guidance Engine`
