@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Open http://localhost:5173, click the preset scenario pills, and observe the input field populating with sample text.
   Commit: `Initialize Vite project with Input Console and scenario presets`
 
-- [ ] **2. Implement signal extraction engine and UI signal radar**
+- [x] **2. Implement signal extraction engine and UI signal radar**
   Becomes usable: Typing an AI feature description and clicking "Orchestrate Compliance" extracts regulatory signals and renders animated badges in the Signal Radar bar.
   Why now: Signal detection is the essential foundation for cross-jurisdictional compliance evaluation.
   PRD ref: `prd.md > 2. High-Level Signal Extraction Engine`

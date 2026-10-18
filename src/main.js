@@ -1,4 +1,5 @@
 import { SCENARIOS } from './data/scenarios.js';
+import { extractSignals } from './engine/signalExtractor.js';
 
 // DOM Elements
 const presetsContainer = document.getElementById('presets-container');
@@ -6,6 +7,10 @@ const featureInput = document.getElementById('feature-input');
 const charCount = document.getElementById('char-count');
 const btnClear = document.getElementById('btn-clear');
 const btnAnalyze = document.getElementById('btn-analyze');
+const signalsSection = document.getElementById('signals-section');
+const signalsContainer = document.getElementById('signals-container');
+const signalCountBadge = document.getElementById('signal-count-badge');
+const welcomeEmptyState = document.getElementById('welcome-empty-state');
 const btnOpenMcp = document.getElementById('btn-open-mcp');
 const btnCloseMcp = document.getElementById('btn-close-mcp');
 const mcpDialog = document.getElementById('mcp-dialog');
@@ -103,13 +108,39 @@ function setupEventListeners() {
     }
   });
 
-  btnCopyMcpSchema.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(mcpSchemaCode.textContent);
-      showToast('MCP Tool Schema copied to clipboard!');
-    } catch {
-      showToast('Failed to copy to clipboard.');
+  // Analyze Button Click
+  btnAnalyze.addEventListener('click', () => {
+    const query = featureInput.value.trim();
+    if (!query) {
+      showToast('Please describe your feature or select a scenario above.');
+      featureInput.focus();
+      return;
     }
+
+    const signalVector = extractSignals(query);
+    renderSignals(signalVector);
+  });
+}
+
+// Render Signals
+export function renderSignals(signalVector) {
+  signalsSection.classList.remove('hidden');
+  welcomeEmptyState.classList.add('hidden');
+  signalsContainer.innerHTML = '';
+
+  const activeCount = signalVector.tags.filter(t => t.id !== 'minimal_footprint').length;
+  signalCountBadge.textContent = `${activeCount} signal${activeCount === 1 ? '' : 's'} detected`;
+  signalCountBadge.className = activeCount > 0 ? 'badge mcp-badge' : 'badge';
+
+  signalVector.tags.forEach(tag => {
+    const chip = document.createElement('div');
+    chip.className = `signal-chip ${tag.badgeClass || ''}`;
+    chip.title = tag.description;
+    chip.innerHTML = `
+      <span>${tag.icon}</span>
+      <span>${tag.label}</span>
+    `;
+    signalsContainer.appendChild(chip);
   });
 }
 
