@@ -1,300 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JurisMCP — Cross-Jurisdictional AI Compliance Decision Support</title>
-  <meta name="description" content="Development-time compliance decision-support tool turning feature descriptions into visible risk signals, sourced multi-jurisdiction rules (binding vs voluntary), and actionable developer checklists." />
+  <meta name="description" content="Claude-inspired compliance decision-support tool turning feature descriptions into visible risk signals, sourced multi-jurisdiction statutory rules, and actionable developer checklists." />
   
-  <!-- Fonts -->
+  <!-- Claude Editorial & Humanist Typography: Newsreader + Plus Jakarta Sans + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Styles -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="./src/styles/main.css" />
 </head>
 <body>
-  <div class="app-container">
-    <!-- Top Navigation Header -->
-    <header class="app-header">
-      <div class="header-branding">
-        <div class="brand-logo">
-          <span class="logo-icon">⚖️</span>
-          <div class="brand-text">
-            <div class="brand-title-row">
-              <h1>JurisMCP</h1>
-              <span class="badge mcp-badge">MCP Protocol v1.0</span>
-              <span class="badge decision-badge">Decision Support Engine</span>
-            </div>
-            <p class="brand-subtitle">Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Development</p>
+  <div class="claude-app">
+    <!-- Top Minimalist Claude Navigation -->
+    <header class="claude-nav">
+      <div class="nav-left">
+        <div class="claude-brand">
+          <div class="claude-spark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8L12 2Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-name">JurisMCP</span>
+            <span class="brand-tag">Statutory Orchestration</span>
           </div>
         </div>
+        <div class="engine-badge-pill" title="Curated Traceable Statutory Rules Engine">
+          <span class="pulse-dot"></span>
+          <span>Curated Rule Library • 12 Sourced Statutes</span>
+        </div>
       </div>
-      <div class="header-actions">
-        <button id="btn-open-mcp" class="btn btn-secondary btn-sm" title="Inspect MCP Agent Tool Schema and JSON-RPC payload">
-          <span class="btn-icon">⚡</span> Agent Protocol (MCP)
+
+      <div class="nav-right">
+        <!-- Pipeline steps indicator -->
+        <div class="nav-pipeline-summary" title="Transparent Decision Support Pipeline">
+          <span class="pipe-node active">Input</span>
+          <span class="pipe-sep">→</span>
+          <span class="pipe-node">Signals</span>
+          <span class="pipe-sep">→</span>
+          <span class="pipe-node">Rules</span>
+          <span class="pipe-sep">→</span>
+          <span class="pipe-node">Checklist</span>
+        </div>
+
+        <button id="btn-theme-toggle" class="btn-icon-subtle" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+          <span id="theme-icon">🌙</span>
         </button>
-        <a href="#research-context" class="header-link">Research Context</a>
+
+        <button id="btn-open-mcp" class="btn-claude-secondary" title="Inspect MCP Agent Protocol & JSON-RPC Schema">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>MCP Protocol</span>
+        </button>
+
+        <a href="#research-context" class="nav-text-link">Research Vision</a>
       </div>
     </header>
 
-    <!-- Transparent Pipeline Flow Banner -->
-    <div class="pipeline-strip glass-panel">
-      <span class="pipeline-label">Decision Pipeline:</span>
-      <div class="pipeline-steps">
-        <span class="pipeline-step active">1. Feature Input</span>
-        <span class="pipeline-arrow">&rarr;</span>
-        <span class="pipeline-step">2. Detected Signals</span>
-        <span class="pipeline-arrow">&rarr;</span>
-        <span class="pipeline-step">3. Curated Rule Library</span>
-        <span class="pipeline-arrow">&rarr;</span>
-        <span class="pipeline-step">4. Sourced Findings (Binding vs Voluntary)</span>
-        <span class="pipeline-arrow">&rarr;</span>
-        <span class="pipeline-step">5. Actionable Checklist</span>
-      </div>
-    </div>
+    <!-- Main Content Area -->
+    <main class="claude-main">
+      <!-- Conversational Hero & Input Section -->
+      <section class="claude-hero">
+        <h1 class="claude-title">Cross-jurisdictional compliance for <em>AI applications</em>.</h1>
+        <p class="claude-subtitle">
+          Deterministic statutory mapping across the <strong>EU AI Act &amp; GDPR</strong>, <strong>India DPDP Act</strong>, and <strong>US NIST AI RMF</strong> before code leaves your editor.
+        </p>
 
-    <main class="main-content">
-      <!-- Input Console & Presets Section -->
-      <section class="console-section card glass-panel">
-        <div class="section-header">
-          <div class="title-with-pill">
-            <span class="pill-number">01</span>
-            <h2>Describe Your App or Feature</h2>
+        <!-- Claude Prompt Container Card -->
+        <div class="claude-prompt-card" id="prompt-card">
+          <div class="prompt-header-bar">
+            <span class="prompt-label">Feature Description</span>
+            <span id="char-count" class="prompt-char-count">0 characters</span>
           </div>
-          <span class="helper-text">Enter plain text or pick a realistic scenario to analyze against curated statutory rules</span>
-        </div>
 
-        <!-- Scenario Preset Pills -->
-        <div class="scenarios-container">
-          <span class="presets-label">Quick Scenarios:</span>
-          <div class="presets-grid" id="presets-container">
-            <!-- Dynamically populated from src/data/scenarios.js -->
-          </div>
-        </div>
-
-        <!-- Textarea input console -->
-        <div class="input-wrapper">
           <textarea 
             id="feature-input" 
-            placeholder="e.g. A company is building an AI system that ranks job applicants using CVs and interview answers in the EU and India..."
+            class="claude-textarea"
+            placeholder="Describe your AI feature or data workflow (e.g., A mobile app that processes user selfies to cluster family photos using facial biometrics)..."
             rows="3"
             aria-label="AI Feature Description"
           ></textarea>
-          <div class="input-footer">
-            <div class="input-hints">
-              <span class="shortcut-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to analyze</span>
-              <span id="char-count" class="char-count">0 characters</span>
+
+          <!-- Inside bottom toolbar -->
+          <div class="prompt-footer-bar">
+            <div class="prompt-footer-left">
+              <span class="shortcut-tip"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to analyze</span>
+              <button id="btn-clear" class="btn-claude-ghost" type="button">Clear</button>
             </div>
-            <div class="console-actions">
-              <button id="btn-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
-              <button id="btn-analyze" class="btn btn-primary" type="button">
-                <span class="btn-icon">🔍</span> Analyze Compliance
+
+            <div class="prompt-footer-right">
+              <button id="btn-analyze" class="btn-claude-send" type="button" title="Analyze Compliance (Ctrl+Enter)" aria-label="Analyze Compliance">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="19" x2="12" y2="5"></line>
+                  <polyline points="5 12 12 5 19 12"></polyline>
+                </svg>
               </button>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Live Signal Radar Bar (Always Visible after submit) -->
-      <section id="signals-section" class="signals-section card glass-panel hidden">
-        <div class="signals-header">
-          <div class="title-with-pill">
-            <span class="pill-number">02</span>
-            <h3>Detected Risk Signals</h3>
+        <!-- Quick Scenario Chips below prompt -->
+        <div class="claude-scenarios">
+          <span class="scenarios-title">Quick test scenarios:</span>
+          <div class="scenarios-list" id="presets-container">
+            <!-- Dynamically populated from scenarios.js -->
           </div>
-          <span id="signal-count-badge" class="badge">0 signals detected</span>
-        </div>
-        <div id="signals-container" class="signals-tags-grid">
-          <!-- Populated dynamically -->
         </div>
       </section>
 
-      <!-- Regulatory Tension Highlight Alert -->
-      <section id="tension-section" class="tension-section hidden">
-        <div class="tension-card glass-panel">
-          <div class="tension-header">
-            <div class="tension-icon">⚠️</div>
-            <div>
-              <h3 id="tension-title">Cross-Jurisdictional Divergence Detected</h3>
-              <p id="tension-parties" class="tension-parties-meta">EU AI Act vs US NIST vs India DPDP</p>
+      <!-- Welcome Empty State (shown before analysis) -->
+      <section id="welcome-empty-state" class="claude-welcome-guide">
+        <div class="guide-card">
+          <div class="guide-header">
+            <span class="guide-badge">How JurisMCP Works</span>
+            <h2 class="guide-title">From Natural Language to Deterministic Statutory Rules</h2>
+          </div>
+          <div class="guide-grid">
+            <div class="guide-column">
+              <div class="guide-step-num">01</div>
+              <h3>Lexical Risk Signals</h3>
+              <p>Detects explicit triggers (biometrics, employment, minors, scraping, autonomous decision-making) without hallucination.</p>
+            </div>
+            <div class="guide-column">
+              <div class="guide-step-num">02</div>
+              <h3>Curated Statutory Rules</h3>
+              <p>Evaluates vetted JSON rules linked directly to Official Journals, Gazette notifications, and NIST publications.</p>
+            </div>
+            <div class="guide-column">
+              <div class="guide-step-num">03</div>
+              <h3>Binding vs Voluntary</h3>
+              <p>Separates enforceable statutory duties (EU AI Act, DPDP) from voluntary safety benchmarks (NIST AI RMF).</p>
+            </div>
+            <div class="guide-column">
+              <div class="guide-step-num">04</div>
+              <h3>Actionable Checklist</h3>
+              <p>Generates prioritized markdown tasks ready for GitHub issues, Jira tickets, or pull request verification.</p>
             </div>
           </div>
-          <p id="tension-summary" class="tension-body"></p>
-          <div class="tension-recommendation">
-            <strong>Orchestration Strategy:</strong>
-            <span id="tension-guidance"></span>
-          </div>
         </div>
       </section>
 
-      <!-- Multi-Jurisdiction Guidance Grid -->
-      <section id="guidance-section" class="guidance-section hidden">
-        <div class="section-header-row">
-          <div class="title-with-pill">
-            <span class="pill-number">03</span>
-            <h2>Sourced Multi-Jurisdiction Guidance (Curated Rule Library)</h2>
-          </div>
-          <div class="legend-pills">
-            <span class="status-legend-pill binding">🔒 Binding Legislation</span>
-            <span class="status-legend-pill voluntary">📋 Voluntary Framework</span>
-          </div>
-        </div>
-
-        <div class="jurisdictions-grid">
-          <!-- EU Card -->
-          <div class="jurisdiction-card eu-card glass-panel" id="card-eu">
-            <div class="jurisdiction-header">
-              <div class="jurisdiction-flag">🇪🇺</div>
-              <div class="jurisdiction-meta">
-                <span class="jurisdiction-name">European Union</span>
-                <span class="framework-name">EU AI Act &amp; GDPR</span>
+      <!-- Claude Artifact Window: Compliance Blueprint (Hidden until analysis) -->
+      <section id="artifact-container" class="claude-artifact hidden">
+        <!-- Artifact Window Header -->
+        <div class="artifact-top-bar">
+          <div class="artifact-meta">
+            <div class="artifact-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="artifact-title-group">
+              <div class="artifact-title-row">
+                <h2 class="artifact-title">Compliance Blueprint &amp; Decision Support Dossier</h2>
+                <span class="artifact-version-pill">Evaluated across EU • India • US</span>
               </div>
-              <div id="eu-status-badge" class="jurisdiction-status-badge">Binding</div>
-            </div>
-            <div class="card-body" id="eu-rules-container">
-              <!-- Sourced Rule Items Injected Dynamically -->
+              <p id="artifact-query-summary" class="artifact-query-summary">Analyzed query</p>
             </div>
           </div>
 
-          <!-- India Card -->
-          <div class="jurisdiction-card in-card glass-panel" id="card-in">
-            <div class="jurisdiction-header">
-              <div class="jurisdiction-flag">🇮🇳</div>
-              <div class="jurisdiction-meta">
-                <span class="jurisdiction-name">India</span>
-                <span class="framework-name">DPDP Act 2023 &amp; MeitY Advisory</span>
+          <div class="artifact-actions">
+            <!-- View Mode Switcher -->
+            <div class="view-mode-tabs">
+              <button id="tab-visual-view" class="view-tab active" type="button">
+                <span>Visual Blueprint</span>
+              </button>
+              <button id="tab-mcp-view" class="view-tab" type="button">
+                <span>MCP Agent Payload</span>
+              </button>
+            </div>
+
+            <button id="btn-copy-checklist" class="btn-claude-primary btn-sm" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy Checklist</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Blueprint Body -->
+        <div id="blueprint-body" class="artifact-content-body">
+          <!-- 1. Risk Radar / Signals Section -->
+          <div id="signals-section" class="artifact-section">
+            <div class="section-title-bar">
+              <div class="section-label-group">
+                <span class="section-num">01</span>
+                <h3 class="section-heading">Detected Risk Signals</h3>
               </div>
-              <div id="in-status-badge" class="jurisdiction-status-badge">Binding</div>
+              <span id="signal-count-badge" class="count-pill">0 signals detected</span>
             </div>
-            <div class="card-body" id="in-rules-container">
-              <!-- Sourced Rule Items Injected Dynamically -->
+            <p class="section-desc">Lexical triggers identified in the feature description mapped to statutory risk categories.</p>
+            <div id="signals-container" class="signals-badge-flow">
+              <!-- Populated dynamically -->
             </div>
           </div>
 
-          <!-- United States Card -->
-          <div class="jurisdiction-card us-card glass-panel" id="card-us">
-            <div class="jurisdiction-header">
-              <div class="jurisdiction-flag">🇺🇸</div>
-              <div class="jurisdiction-meta">
-                <span class="jurisdiction-name">United States</span>
-                <span class="framework-name">NIST AI RMF 1.0 &amp; Sectoral/State</span>
+          <!-- 2. Regulatory Divergence & Cross-Border Tensions Alert -->
+          <div id="tension-section" class="artifact-section hidden">
+            <div class="claude-callout tension-callout">
+              <div class="callout-header">
+                <span class="callout-icon">⚖️</span>
+                <div class="callout-title-group">
+                  <h3 id="tension-title" class="callout-title">Cross-Jurisdictional Divergence Detected</h3>
+                  <span id="tension-parties" class="callout-parties">EU AI Act vs US NIST vs India DPDP</span>
+                </div>
               </div>
-              <div id="us-status-badge" class="jurisdiction-status-badge">Voluntary / State</div>
+              <p id="tension-summary" class="callout-body"></p>
+              <div class="callout-strategy">
+                <div class="strategy-badge">Recommended Orchestration Strategy</div>
+                <p id="tension-guidance" class="strategy-body"></p>
+              </div>
             </div>
-            <div class="card-body" id="us-rules-container">
-              <!-- Sourced Rule Items Injected Dynamically -->
+          </div>
+
+          <!-- 3. Multi-Jurisdiction Statutory Findings -->
+          <div id="guidance-section" class="artifact-section">
+            <div class="section-title-bar">
+              <div class="section-label-group">
+                <span class="section-num">02</span>
+                <h3 class="section-heading">Sourced Statutory Findings (Curated Rule Library)</h3>
+              </div>
+              <div class="statutory-legend">
+                <span class="legend-badge binding">🔒 Binding Legislation</span>
+                <span class="legend-badge voluntary">📋 Voluntary Framework</span>
+              </div>
+            </div>
+            <p class="section-desc">Statutory requirements matched from vetted rules with traceable citations and official gazette links.</p>
+
+            <div class="jurisdictions-grid">
+              <!-- European Union Column -->
+              <div class="jurisdiction-card" id="card-eu">
+                <div class="jurisdiction-card-header">
+                  <div class="jurisdiction-flag-group">
+                    <span class="flag-icon">🇪🇺</span>
+                    <div>
+                      <h4 class="jurisdiction-title">European Union</h4>
+                      <span class="jurisdiction-subtitle">EU AI Act (2024/1689) &amp; GDPR</span>
+                    </div>
+                  </div>
+                  <span id="eu-status-badge" class="status-pill binding">Binding Legislation</span>
+                </div>
+                <div class="jurisdiction-card-rules" id="eu-rules-container">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+
+              <!-- India Column -->
+              <div class="jurisdiction-card" id="card-in">
+                <div class="jurisdiction-card-header">
+                  <div class="jurisdiction-flag-group">
+                    <span class="flag-icon">🇮🇳</span>
+                    <div>
+                      <h4 class="jurisdiction-title">India</h4>
+                      <span class="jurisdiction-subtitle">DPDP Act 2023 &amp; MeitY Advisories</span>
+                    </div>
+                  </div>
+                  <span id="in-status-badge" class="status-pill binding">Binding Legislation</span>
+                </div>
+                <div class="jurisdiction-card-rules" id="in-rules-container">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+
+              <!-- United States Column -->
+              <div class="jurisdiction-card" id="card-us">
+                <div class="jurisdiction-card-header">
+                  <div class="jurisdiction-flag-group">
+                    <span class="flag-icon">🇺🇸</span>
+                    <div>
+                      <h4 class="jurisdiction-title">United States</h4>
+                      <span class="jurisdiction-subtitle">NIST AI RMF 1.0 &amp; Sectoral/State</span>
+                    </div>
+                  </div>
+                  <span id="us-status-badge" class="status-pill voluntary">Voluntary / State</span>
+                </div>
+                <div class="jurisdiction-card-rules" id="us-rules-container">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Actionable Developer Checklist -->
+          <div id="checklist-section" class="artifact-section">
+            <div class="section-title-bar">
+              <div class="section-label-group">
+                <span class="section-num">03</span>
+                <h3 class="section-heading">Actionable Developer Checklist</h3>
+              </div>
+              <span id="checklist-progress" class="checklist-progress-text">0 / 0 completed</span>
+            </div>
+            <p class="section-desc">Specific tasks extracted from applicable statutes. Directly check items as you implement or copy the markdown into your repository.</p>
+            
+            <div class="checklist-items-container" id="checklist-items">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- 5. Statutory Footnote Disclaimer -->
+          <div class="artifact-disclaimer">
+            <div class="disclaimer-inner">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <p id="mandatory-disclaimer-text">
+                <strong>Statutory Notice:</strong> Illustrative output for development support only. Not a verified legal assessment. Exact applicability depends on the specific system and current law.
+              </p>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Actionable Developer Checklist Section -->
-      <section id="checklist-section" class="checklist-section card glass-panel hidden">
-        <div class="section-header-row">
-          <div class="title-with-pill">
-            <span class="pill-number">04</span>
-            <h3>Actionable Developer Checklist</h3>
-          </div>
-          <button id="btn-copy-checklist" class="btn btn-accent">
-            <span class="btn-icon">📋</span> Copy Checklist
-          </button>
-        </div>
-        <p class="checklist-intro">Generated from detected risk signals and statutory requirements. Directly pasteable into GitHub issues, PRs, or architecture specs.</p>
-        <div class="checklist-items-container" id="checklist-items">
-          <!-- Dynamic Checklist Items -->
-        </div>
-      </section>
-
-      <!-- Mandatory Legal Disclaimer Banner -->
-      <section class="disclaimer-banner glass-panel">
-        <div class="disclaimer-content">
-          <span class="disclaimer-icon">ℹ️</span>
-          <p id="mandatory-disclaimer-text">
-            <strong>Notice:</strong> Illustrative output for development support only. Not a verified legal assessment. Exact applicability depends on the specific system and current law.
-          </p>
-        </div>
-      </section>
-
-      <!-- Empty Welcome State (shown before analysis) -->
-      <section id="welcome-empty-state" class="welcome-empty-state glass-panel">
-        <div class="empty-graphic">🌐 ➔ ⚖️ ➔ 🚀</div>
-        <h3>No Feature Analyzed Yet</h3>
-        <p>Type a feature description above or select one of the preloaded scenarios to trigger the decision-support rule engine.</p>
-        <div class="empty-highlights">
-          <div class="highlight-item">
-            <span class="hl-icon">⚡</span>
-            <span>Detects explicit risk triggers (AI, PII, hiring, biometrics)</span>
-          </div>
-          <div class="highlight-item">
-            <span class="hl-icon">📚</span>
-            <span>Matches traceable JSON rules from curated library</span>
-          </div>
-          <div class="highlight-item">
-            <span class="hl-icon">🏷️</span>
-            <span>Labels Binding Legislation vs Voluntary Frameworks</span>
+        <!-- Raw MCP Agent View (Toggled via tabs) -->
+        <div id="mcp-body" class="artifact-content-body hidden">
+          <div class="mcp-raw-panel">
+            <div class="mcp-raw-header">
+              <div class="mcp-raw-title">
+                <span class="mcp-icon">⚡</span>
+                <span>Model Context Protocol (MCP) Standard JSON-RPC Response</span>
+              </div>
+              <button id="btn-copy-mcp-payload" class="btn-claude-ghost btn-xs">
+                Copy JSON Payload
+              </button>
+            </div>
+            <p class="mcp-raw-desc">
+              This is the exact JSON data structure returned when Claude Desktop, Cursor, or Antigravity invokes the <code>analyze_compliance</code> MCP tool via stdio:
+            </p>
+            <pre class="claude-code-block"><code id="mcp-inline-code"></code></pre>
           </div>
         </div>
       </section>
 
-      <!-- Research Context Section -->
-      <section id="research-context" class="research-context card glass-panel">
-        <div class="research-header">
-          <h3>🔬 Research Vision &amp; Hackathon POC</h3>
-          <span class="badge">Problem Statement</span>
+      <!-- Research Context Section (Claude Editorial Card) -->
+      <section id="research-context" class="claude-research-card">
+        <div class="research-badge-row">
+          <span class="research-pill">Academic &amp; Architectural Context</span>
+          <span class="devpost-pill">Devpost: Build With AI: Basics</span>
         </div>
-        <p class="research-text">
-          <strong>Research Topic:</strong> <em>Development of an MCP-based Cross-Jurisdictional Compliance Orchestration Layer for Dynamic Multi-Country Regulatory Guidance during AI-Assisted Application Development.</em>
-        </p>
-        <p class="research-text">
-          As AI coding assistants use the <strong>Model Context Protocol (MCP)</strong> to call tools and external data, applications are often deployed across multiple countries with diverging legal rules (binding legislation like EU AI Act, GDPR, India's DPDP Act vs voluntary frameworks like NIST AI RMF). <strong>JurisMCP</strong> proves that dynamic, development-time regulatory orchestration can catch architectural violations early—before costly redesigns or regulatory sanctions.
-        </p>
+        <h3 class="research-title">Research Vision: Cross-Jurisdictional MCP Compliance Layer</h3>
+        <div class="research-content-grid">
+          <div class="research-col">
+            <h4 class="research-subhead">The Problem</h4>
+            <p>
+              AI coding assistants and autonomous agents increasingly rely on the <strong>Model Context Protocol (MCP)</strong> to trigger tools and external data. However, software teams write code without real-time awareness of cross-border statutory differences. An AI feature deemed acceptable under voluntary frameworks in one country may trigger heavy fines or mandatory risk assessments under binding legislation in another.
+            </p>
+          </div>
+          <div class="research-col">
+            <h4 class="research-subhead">The Hackathon Proof-of-Concept</h4>
+            <p>
+              <strong>JurisMCP</strong> proves that compliance can be orchestrated at development time. Instead of an ungrounded LLM making up legal claims, JurisMCP uses deterministic signal extraction, a curated 12-statute library, cross-border tension detection, and an actionable developer checklist—accessible both via this web UI and headlessly as an MCP tool.
+            </p>
+          </div>
+        </div>
       </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="app-footer">
+    <!-- Claude-style Minimal Footer -->
+    <footer class="claude-footer">
       <div class="footer-left">
         <span>Devpost Build With AI: Basics Hackathon 2026</span>
-        <span class="dot-separator">•</span>
+        <span class="footer-dot">•</span>
         <span>Decision-Support Prototype (Not Legal Advice)</span>
       </div>
       <div class="footer-right">
-        <span>Files: <code>scope.md</code> | <code>prd.md</code> | <code>spec.md</code></span>
+        <span>Repository Artifacts: <a href="file:///f:/Projects/Devpost/MCP/scope.md">scope.md</a> | <a href="file:///f:/Projects/Devpost/MCP/prd.md">prd.md</a> | <a href="file:///f:/Projects/Devpost/MCP/spec.md">spec.md</a></span>
       </div>
     </footer>
   </div>
 
   <!-- MCP Modal / Inspector Dialog -->
-  <dialog id="mcp-dialog" class="mcp-dialog glass-panel">
-    <div class="modal-header">
-      <div class="modal-title-row">
-        <span class="modal-icon">⚡</span>
-        <h3>Model Context Protocol (MCP) Agent View</h3>
-      </div>
-      <button id="btn-close-mcp" class="btn-close" aria-label="Close dialog">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p class="modal-desc">
-        Demonstrates how an AI coding assistant (e.g. Claude Desktop, Cursor, Antigravity) calls JurisMCP via standard stdio JSON-RPC tool calling:
-      </p>
-      <div class="code-block-container">
-        <div class="code-header">
-          <span>MCP Tool: <code>get_compliance_guidance</code></span>
-          <button id="btn-copy-mcp-schema" class="btn btn-ghost btn-xs">Copy JSON</button>
+  <dialog id="mcp-dialog" class="claude-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-row">
+          <div class="modal-spark">⚡</div>
+          <div>
+            <h3 class="modal-title">Model Context Protocol (MCP) Integration</h3>
+            <span class="modal-subtitle">Direct tool call over stdio via <code>node mcp-server.js</code></span>
+          </div>
         </div>
-        <pre><code id="mcp-schema-code"></code></pre>
+        <button id="btn-close-mcp" class="modal-close-btn" aria-label="Close dialog">&times;</button>
       </div>
-      <div class="terminal-note">
-        <strong>Run Headless:</strong> <code>node mcp-server.js</code> in your terminal to invoke this tool directly over stdio.
+      <div class="modal-body">
+        <p class="modal-instruction">
+          Configure JurisMCP in your <code>claude_desktop_config.json</code> or Antigravity configuration to enable AI coding assistants to evaluate compliance in real time:
+        </p>
+        <div class="code-wrapper">
+          <div class="code-header">
+            <span>MCP Tool Definition</span>
+            <button id="btn-copy-mcp-schema" class="btn-claude-ghost btn-xs">Copy JSON</button>
+          </div>
+          <pre class="claude-code-block"><code id="mcp-schema-code"></code></pre>
+        </div>
+        <div class="terminal-callout">
+          <strong>Terminal Command:</strong>
+          <code>node mcp-server.js</code>
+        </div>
       </div>
     </div>
   </dialog>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="toast hidden">
-    <span id="toast-message">Checklist copied to clipboard!</span>
+  <!-- Claude Floating Toast Notification -->
+  <div id="toast" class="claude-toast hidden">
+    <span class="toast-icon">✓</span>
+    <span id="toast-message">Checklist copied to clipboard</span>
   </div>
 
   <!-- Application Script -->
