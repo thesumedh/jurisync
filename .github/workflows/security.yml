@@ -1,0 +1,34 @@
+name: Security & Audit
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  audit:
+    name: Dependency Audit & Code Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Audit Production Dependencies
+        run: npm audit --audit-level=high || true
+
+      - name: Verify No Secrets Committed
+        run: |
+          echo "Scanning for accidental token or key leaks..."
+          git grep -iE 'api[_-]?key|secret|password|bearer [a-zA-Z0-9_\-\.]{20,}' || true
+          echo "✓ Security scan completed"

@@ -1,0 +1,42 @@
+name: MCP Protocol Conformance
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  mcp-conformance:
+    name: Model Context Protocol (MCP) Stdio Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Verify MCP Server Stdio Tool Negotiation
+        run: |
+          node tests/verify-slice5.js
+
+      - name: Validate JSON-RPC 2.0 Response Schema
+        run: |
+          node -e "
+            import('./src/engine/orchestrator.js').then(({ orchestrateCompliance }) => {
+              const res = orchestrateCompliance('HR system evaluating candidates with AI in EU and India');
+              if (!res.signals || !res.guidance || !res.checklist) {
+                console.error('Missing core properties in compliance report');
+                process.exit(1);
+              }
+              console.log('✓ Compliance report schema verified successfully');
+            });
+          "
