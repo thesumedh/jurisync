@@ -3,13 +3,13 @@ doc: spec
 status: approved
 ---
 
-# JurisMCP — Technical Spec
+# JurisMesh — Technical Spec
 
 A development-time compliance decision-support tool built with modern web technologies and a standalone Model Context Protocol (MCP) server, evaluating plain-language AI feature descriptions against a curated JSON rule library across EU, India, and US regulatory frameworks.
 Implements: `prd.md` and `scope.md`.
 
 ## How This Works, In Plain Language
-JurisMCP bridges the critical gap between software development and international AI regulation.
+JurisMesh bridges the critical gap between software development and international AI regulation.
 1. When a developer types an app idea or chooses a scenario, the **Signal Extractor** scans the text for regulatory triggers: whether it uses AI models, handles personal or biometric data, touches employment or healthcare, executes autonomous decisions, or targets multiple jurisdictions.
 2. The **Curated Rule Engine** evaluates these signals against a traceable library of rules (`src/data/rules.json` and `src/data/rules.js`):
    - **European Union**: EU Artificial Intelligence Act (Annex III High Risk, Article 50 Transparency) & GDPR (Articles 6, 9, 22, 35).

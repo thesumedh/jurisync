@@ -46,7 +46,7 @@ function handleRequest(req) {
           tools: {}
         },
         serverInfo: {
-          name: 'jurismcp-compliance-server',
+          name: 'jurismesh-compliance-server',
           version: '1.0.0'
         }
       }

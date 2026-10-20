@@ -3,16 +3,16 @@ doc: scope
 status: approved
 ---
 
-# JurisMCP
+# JurisMesh
 
 A development-time cross-jurisdictional compliance orchestration layer that analyzes AI application feature descriptions and surfaces multi-country regulatory guidance (EU, India, US) before architectural lock-in.
 
 ## The Unique Kernel
-A development-time compliance intelligence engine that extracts risk and data signals from natural language feature descriptions, simultaneously evaluates them against diverging binding and voluntary international legal regimes (EU AI Act & GDPR, India DPDP Act 2023, US NIST AI RMF & FTC guidance), highlights cross-border regulatory tensions, and outputs actionable developer tasks ready for immediate coding workflows or agentic MCP tool invocation.
+A development-time compliance intelligence engine that extracts risk and data signals from natural language feature descriptions, simultaneously evaluates them against diverging binding and voluntary international legal regimes (EU AI Act & GDPR, India DPDP Act 2023, US NIST AI RMF & FTC guidance), highlights potential cross-border regulatory tensions for review, and outputs actionable developer tasks ready for immediate coding workflows or agentic MCP tool invocation.
 
 ## Who It's For
 Developers, AI engineers, and technical founders building AI-powered software for global deployment.
-Today, they build without regulatory feedback until post-launch legal reviews or compliance audits, risking massive redesigns, regulatory fines, or blocked market access. With JurisMCP, they receive precise, context-aware compliance guardrails while authoring code and feature specs.
+Today, they build without regulatory feedback until post-launch legal reviews or compliance audits, risking massive redesigns, regulatory fines, or blocked market access. With JurisMesh, they receive precise, context-aware compliance guardrails while authoring code and feature specs.
 
 ## The Core Loop
 1. **Input**: The developer inputs a natural language description of an app or feature (or clicks a representative real-world preset like an HR resume ranker, a biometric cloud photo app, or a customer service RAG chatbot).
@@ -21,13 +21,13 @@ Today, they build without regulatory feedback until post-launch legal reviews or
    - **EU**: AI Act risk tier (Unacceptable, High Risk, Specific Transparency, Minimal) and GDPR articles (lawful basis, purpose limitation, special category data).
    - **India**: DPDP Act 2023 obligations (Data Fiduciary responsibilities, notice/consent mechanics, legitimate uses, child data rules).
    - **United States**: NIST AI RMF core functions (Govern, Map, Measure, Manage) and sector/state awareness (EEOC/FTC algorithmic bias, NYC LL144).
-   - **Tension Matrix**: Flags cross-jurisdictional divergences where meeting one standard may conflict with or fall short of another.
-4. **Actionable Output**: The developer reviews structured jurisdiction cards with concrete code/architecture actions, and exports a one-click Markdown Checklist into their project repository or issue tracker.
+   - **Tension Matrix**: Flags potential cross-jurisdictional divergences where meeting one standard may conflict with or fall short of another.
+4. **Actionable Output**: The developer reviews structured jurisdiction cards with concrete code/architecture actions, inspects underlying statutory evidence, and exports a one-click Markdown Checklist into their project repository or issue tracker.
 
 ## Inspiration & Identity
-- **Mood**: High-tech, developer-first, authoritative, fast, and empowering.
-- **Visuals**: Dark-mode glassmorphic theme, clean modern typography (Inter/JetBrains Mono), vibrant jurisdiction badges (EU Blue/Gold, India Saffron/Green, US Crimson/Navy), clear risk indicators, and instant responsiveness.
-- **References**: Linear-like scannability and precision, modern developer tooling dashboards, and the Model Context Protocol (MCP) spec by Anthropic.
+- **Mood**: Intellectual, calm, authoritative, fast, and empowering.
+- **Visuals**: Claude-inspired warm parchment canvas and espresso dark mode, editorial serif typography (Newsreader + Plus Jakarta Sans + JetBrains Mono), terracotta accents, clear risk indicators, and instant responsiveness.
+- **References**: Anthropic Claude Artifacts, Linear-like scannability and precision, and the Model Context Protocol (MCP) spec by Anthropic.
 
 ## Why This Matters to the Learner
 This project represents a crucial practical slice of the learner's broader research: *“Development of an MCP-based Cross-Jurisdictional Compliance Orchestration Layer for Dynamic Multi-Country Regulatory Guidance during AI-Assisted Application Development.”* It demonstrates that development-time regulatory intelligence is viable, essential, and natural when integrated directly into the modern agentic developer workflow.

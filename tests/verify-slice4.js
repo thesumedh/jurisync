@@ -11,11 +11,11 @@ console.log('Detected Tension Title:', hrReport.tension?.title);
 assert.ok(hrReport.tension, 'HR text must trigger a cross-jurisdictional tension');
 assert.ok(hrReport.tension.parties.includes('EU AI Act'), 'Tension parties must cite EU AI Act');
 assert.ok(hrReport.tension.parties.includes('India DPDP'), 'Tension parties must cite India DPDP');
-assert.ok(hrReport.tension.developerGuidance.includes('Dual-Path Architecture'), 'Guidance must propose dual-path architecture');
+assert.ok(hrReport.tension.developerGuidance.includes('Architectural Exploration'), 'Guidance must propose architectural exploration for legal review');
 
 // Verify Markdown Checklist
 console.log('Checklist Sample Output:\n', hrReport.checklist.slice(0, 300), '...');
-assert.ok(hrReport.checklist.includes('# JurisMCP Developer Compliance Checklist'), 'Checklist must have header');
+assert.ok(hrReport.checklist.includes('# JurisMesh Developer Compliance Checklist'), 'Checklist must have header');
 assert.ok(hrReport.checklist.includes('## 🇪🇺 European Union'), 'Checklist must have EU section');
 assert.ok(hrReport.checklist.includes('## 🇮🇳 India'), 'Checklist must have India section');
 assert.ok(hrReport.checklist.includes('## 🇺🇸 United States'), 'Checklist must have US section');

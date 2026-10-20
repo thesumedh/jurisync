@@ -234,6 +234,39 @@ function renderJurisdictionRules(container, statusBadge, jurisdictionData) {
       <div class="rule-action-callout">
         <strong>Mandatory Action:</strong> ${rule.action}
       </div>
+      <details class="evidence-drawer">
+        <summary class="evidence-summary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Inspect Statutory Evidence &amp; Basis</span>
+        </summary>
+        <div class="evidence-content">
+          <div class="evidence-row">
+            <span class="evidence-label">Statutory Authority:</span>
+            <span class="evidence-val">${rule.instrument}</span>
+          </div>
+          <div class="evidence-row">
+            <span class="evidence-label">Legal Classification:</span>
+            <span class="evidence-val">${rule.status === 'binding' ? 'Binding Statutory Legislation (Enforceable duty)' : 'Voluntary Framework (Guidance &amp; safety standard)'}</span>
+          </div>
+          <div class="evidence-row">
+            <span class="evidence-label">Specific Legal Provision:</span>
+            <span class="evidence-val">${rule.source_note}</span>
+          </div>
+          <div class="evidence-row">
+            <span class="evidence-label">Active Risk Triggers:</span>
+            <span class="evidence-val"><code>${rule.triggers.join(', ') || 'general baseline'}</code></span>
+          </div>
+          <div class="evidence-row">
+            <span class="evidence-label">Official Publication:</span>
+            <a href="${rule.source_url}" target="_blank" rel="noopener noreferrer" class="evidence-link">
+              Read Official Gazette / Legislative Text ↗
+            </a>
+          </div>
+          <div class="evidence-caveat">
+            <em>Decision Support Note: Concrete legal applicability depends on your organization's role (deployer vs provider), geographic nexus, and specific statutory exceptions.</em>
+          </div>
+        </div>
+      </details>
       <div class="rule-footer-meta">
         <a href="${rule.source_url}" target="_blank" rel="noopener noreferrer" class="rule-source-citation">
           🔗 Source: ${rule.source_note}

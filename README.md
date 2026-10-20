@@ -1,4 +1,4 @@
-# JurisMCP ⚖️⚡
+# JurisMesh ⚖️⚡
 
 > **A Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Application Development**  
 > *Built for the Devpost "Build With AI: Basics" Hackathon (October 2026)*
@@ -27,7 +27,7 @@ Existing solutions either:
 2. Focus only on **single-jurisdiction compliance** (e.g. EU AI Act checkers), or
 3. Provide passive **regulatory knowledge retrieval** (RAG databases) without delivering concrete, actionable guidance *during development*.
 
-**JurisMCP** implements a development-time compliance intelligence layer. It extracts regulatory triggers from plain-language feature descriptions, maps them against international legal frameworks, identifies cross-border statutory tensions, and delivers structured developer checklists—both through an interactive dashboard and directly to AI coding agents via the Model Context Protocol.
+**JurisMesh** implements a development-time compliance intelligence layer. It extracts regulatory triggers from plain-language feature descriptions, maps them against international legal frameworks, identifies potential cross-border statutory tensions for review, and delivers structured developer checklists—both through an interactive dashboard and directly to AI coding agents via the Model Context Protocol.
 
 ---
 
@@ -37,16 +37,18 @@ Existing solutions either:
   Type any software feature or load pre-configured scenarios (*HR Resume Ranker*, *Biometric Cloud Photos*, *Customer Support RAG Chatbot*, *Clinical Triage Agent*).
 * 🔍 **High-Level Signal Radar**:
   Lexical pattern matching automatically detects regulatory triggers: `AI System`, `Personal Data (PII)`, `Biometric Data (GDPR Art 9)`, `Employment Domain (AI Act Annex III)`, `Clinical/Health Data`, and `Autonomous Decisions`.
-* 🌐 **Multi-Country Statutory Guidance**:
+* 🌐 **Multi-Country Statutory Guidance (12 Curated Rules)**:
   * **🇪🇺 European Union**: EU AI Act risk tiers (Prohibited, High Risk / Annex III, Specific Transparency / Art. 50, Minimal) and GDPR mandates (lawful basis, purpose limitation, DPIA requirements).
   * **🇮🇳 India**: DPDP Act 2023 obligations (Data Fiduciary responsibilities, notice in 22 languages, Section 8(7) retention erasure, Section 9 child tracking prohibitions).
   * **🇺🇸 United States**: NIST AI RMF core functions (Govern, Map, Measure, Manage), FTC deceptive AI scrutiny, and state laws (NYC Local Law 144 AEDT bias audits, Illinois BIPA).
-* ⚠️ **Cross-Jurisdictional Divergence Matrix**:
-  Surfaces explicit regulatory tensions where meeting one country's standard conflicts with another's (e.g., US retrospective bias audit retention vs. India DPDP immediate data erasure vs. EU ex-ante conformity documentation).
+* ⚠️ **Potential Cross-Jurisdictional Divergence Alerts**:
+  Surfaces explicit potential regulatory tensions where meeting one country's standard may conflict with another's (e.g., US retrospective bias audit retention vs. India DPDP data erasure mandates), providing exploratory architectural guidance for developer and legal review without claiming premature legal certainty.
+* 🔎 **Inspectable Statutory Evidence**:
+  Each finding includes an interactive evidence drawer detailing exact statutory provisions, legislative authority, classification (binding vs voluntary), and direct official gazette links.
 * 📋 **One-Click Markdown Checklist Exporter**:
   Instantly copies formatted markdown action items to clipboard for inclusion in GitHub issues, PR templates, or sprint boards.
 * 🤖 **Standalone MCP Stdio Server (`mcp-server.js`)**:
-  Fully functional Model Context Protocol tool endpoint (`get_compliance_guidance`) allowing AI assistants (Claude Desktop, Cursor, Antigravity) to query compliance programmatically via JSON-RPC 2.0.
+  Fully functional Model Context Protocol tool endpoint (`analyze_compliance`) allowing AI assistants (Claude Desktop, Cursor, Antigravity) to query compliance programmatically via JSON-RPC 2.0.
 
 ---
 
@@ -145,21 +147,22 @@ node mcp-server.js "An AI chatbot that answers HR questions using internal emplo
 ```
 
 ### 3. Run as an MCP Server in Claude Desktop / Cursor
-Add JurisMCP to your Claude Desktop configuration (`claude_desktop_config.json`):
+Add JurisMesh to your Claude Desktop configuration (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "jurismcp": {
+    "jurismesh": {
       "command": "node",
       "args": ["F:/Projects/Devpost/MCP/mcp-server.js"]
     }
   }
 }
 ```
-Now, whenever your AI coding agent helps you write software, it can invoke `get_compliance_guidance` to check multi-country compliance in real time!
+Now, whenever your AI coding agent helps you write software, it can invoke `analyze_compliance` to check multi-country compliance in real time!
 
 ### 4. Run the Automated Test Suite
 ```bash
+node tests/verify-target-flow.js
 node tests/verify-slice2.js
 node tests/verify-slice3.js
 node tests/verify-slice4.js
@@ -174,13 +177,13 @@ node tests/verify-slice5.js
   *"Developers building AI apps face an impossible challenge: their code deploys globally, but compliance rules are fragmented. The EU has the binding AI Act, India has the DPDP Act, and the US has NIST guidelines and state-level bias laws. Today, developers get compliance feedback late—after architectural lock-in."*
 * **0:25 - 0:50 (The Solution & Signal Detection)**:
   *Open the browser at `http://localhost:5173`.*
-  *"JurisMCP is a development-time compliance orchestration layer. Watch what happens when I click 'HR Hiring Screener': the signal radar instantly detects AI usage, sensitive employment domain, and autonomous rejection."*
-* **0:50 - 1:30 (Multi-Country Guidance & Cross-Border Tensions)**:
+  *"JurisMesh is a development-time compliance orchestration mesh. Watch what happens when I click 'HR Candidate Ranking': the signal radar instantly detects AI usage, sensitive employment domain, and autonomous rejection."*
+* **0:50 - 1:30 (Multi-Country Guidance & Inspectable Evidence)**:
   *Scroll down to the 3 jurisdiction cards and tension alert.*
-  *"In seconds, JurisMCP synthesizes three regimes: EU AI Act Annex III High-Risk classification, India DPDP Data Fiduciary rules, and US NYC Local Law 144 AEDT bias audit requirements. Crucially, JurisMCP flags a direct regulatory tension: US law requires retaining candidate scoring telemetry for annual bias audits, while India DPDP Section 8(7) requires immediate data erasure upon hiring completion! JurisMCP recommends a dual-path architecture to satisfy both."*
+  *"In seconds, JurisMesh synthesizes three regimes: EU AI Act Annex III High-Risk classification, India DPDP Data Fiduciary rules, and US NYC Local Law 144 AEDT bias audit requirements. Crucially, JurisMesh flags a potential cross-jurisdictional tension for legal review: US law requires retaining candidate scoring telemetry for annual bias audits, while India DPDP Section 8(7) requires data erasure upon hiring completion! JurisMesh surfaces architectural exploration considerations to help engineers and legal teams reconcile these requirements. And every finding includes an inspectable evidence drawer linking directly to official legislative texts."*
 * **1:30 - 2:00 (Checklist & MCP Protocol Integration)**:
-  *Click 'Copy Developer Checklist' and open the 'Agent Protocol (MCP)' dialog.*
-  *"With one click, the developer gets an actionable markdown checklist for their repository. And because JurisMCP implements the Model Context Protocol, AI agents in Cursor or Claude can call this tool over stdio while writing code. JurisMCP proves that development-time regulatory intelligence is practical, essential, and ready for modern AI engineering."*
+  *Click 'Copy Checklist' and open the 'MCP Protocol' dialog.*
+  *"With one click, the developer gets an actionable markdown checklist for their repository. And because JurisMesh implements the Model Context Protocol, AI agents in Cursor or Claude can call this tool over stdio while writing code. JurisMesh proves that development-time regulatory intelligence is practical, essential, and ready for modern AI engineering."*
 
 ---
 

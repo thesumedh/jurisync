@@ -1157,6 +1157,110 @@ body {
   color: var(--accent-terracotta-text);
 }
 
+/* Inspectable Statutory Evidence Drawer */
+.evidence-drawer {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  font-size: 0.78rem;
+  transition: all 0.2s ease;
+}
+
+.evidence-drawer[open] {
+  border-color: var(--border-medium);
+  background: var(--bg-surface);
+}
+
+.evidence-summary {
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-terracotta);
+  font-weight: 500;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.evidence-summary:hover {
+  color: var(--accent-terracotta-hover);
+}
+
+.evidence-summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-content {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-subtle);
+}
+
+.evidence-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.evidence-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  min-width: 125px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.evidence-val {
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.evidence-val code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  color: var(--accent-terracotta);
+}
+
+.evidence-link {
+  color: var(--accent-terracotta);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.evidence-link:hover {
+  text-decoration: underline;
+}
+
+.evidence-caveat {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  border-top: 1px dashed var(--border-medium);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+.callout-notice-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  border-top: 1px dashed var(--tension-border);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
 .rule-footer-meta {
   display: flex;
   justify-content: space-between;

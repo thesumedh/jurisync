@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JurisMCP — Cross-Jurisdictional AI Compliance Decision Support</title>
+  <title>JurisMesh — Cross-Jurisdictional AI Compliance Decision Support</title>
   <meta name="description" content="Claude-inspired compliance decision-support tool turning feature descriptions into visible risk signals, sourced multi-jurisdiction statutory rules, and actionable developer checklists." />
   
   <!-- Claude Editorial & Humanist Typography: Newsreader + Plus Jakarta Sans + JetBrains Mono -->
@@ -26,13 +26,13 @@
             </svg>
           </div>
           <div class="brand-text-group">
-            <span class="brand-name">JurisMCP</span>
-            <span class="brand-tag">Statutory Orchestration</span>
+            <span class="brand-name">JurisMesh</span>
+            <span class="brand-tag">Regulatory Orchestration Mesh</span>
           </div>
         </div>
         <div class="engine-badge-pill" title="Curated Traceable Statutory Rules Engine">
           <span class="pulse-dot"></span>
-          <span>Curated Rule Library • 12 Sourced Statutes</span>
+          <span>Curated Rule Library • 12 Curated Rules</span>
         </div>
       </div>
 
@@ -176,7 +176,7 @@
                 <span>Visual Blueprint</span>
               </button>
               <button id="tab-mcp-view" class="view-tab" type="button">
-                <span>MCP Agent Payload</span>
+                <span>MCP Tool Output</span>
               </button>
             </div>
 
@@ -213,14 +213,17 @@
               <div class="callout-header">
                 <span class="callout-icon">⚖️</span>
                 <div class="callout-title-group">
-                  <h3 id="tension-title" class="callout-title">Cross-Jurisdictional Divergence Detected</h3>
+                  <h3 id="tension-title" class="callout-title">Potential Regulatory Divergence for Review</h3>
                   <span id="tension-parties" class="callout-parties">EU AI Act vs US NIST vs India DPDP</span>
                 </div>
               </div>
               <p id="tension-summary" class="callout-body"></p>
               <div class="callout-strategy">
-                <div class="strategy-badge">Recommended Orchestration Strategy</div>
+                <div class="strategy-badge">Architectural Exploration for Legal Review</div>
                 <p id="tension-guidance" class="strategy-body"></p>
+                <div class="callout-notice-note">
+                  ℹ️ <em>Preliminary decision-support indicator for engineering &amp; legal review. Does not constitute an established legal conflict or binding legal counsel.</em>
+                </div>
               </div>
             </div>
           </div>
@@ -330,14 +333,14 @@
             <div class="mcp-raw-header">
               <div class="mcp-raw-title">
                 <span class="mcp-icon">⚡</span>
-                <span>Model Context Protocol (MCP) Standard JSON-RPC Response</span>
+                <span>Model Context Protocol (MCP) Stdio Tool Output</span>
               </div>
               <button id="btn-copy-mcp-payload" class="btn-claude-ghost btn-xs">
                 Copy JSON Payload
               </button>
             </div>
             <p class="mcp-raw-desc">
-              This is the exact JSON data structure returned when Claude Desktop, Cursor, or Antigravity invokes the <code>analyze_compliance</code> MCP tool via stdio:
+              Matches the protocol-compliant JSON-RPC 2.0 response returned by our working Model Context Protocol server (<code>node mcp-server.js</code>) when an AI coding assistant invokes the <code>analyze_compliance</code> tool via stdio:
             </p>
             <pre class="claude-code-block"><code id="mcp-inline-code"></code></pre>
           </div>
@@ -361,7 +364,7 @@
           <div class="research-col">
             <h4 class="research-subhead">The Hackathon Proof-of-Concept</h4>
             <p>
-              <strong>JurisMCP</strong> proves that compliance can be orchestrated at development time. Instead of an ungrounded LLM making up legal claims, JurisMCP uses deterministic signal extraction, a curated 12-statute library, cross-border tension detection, and an actionable developer checklist—accessible both via this web UI and headlessly as an MCP tool.
+              <strong>JurisMesh</strong> proves that compliance can be orchestrated at development time. Instead of an ungrounded LLM making up legal claims, JurisMesh uses deterministic signal extraction, a curated 12-statute library, cross-border tension detection, and an actionable developer checklist—accessible both via this web UI and headlessly as an MCP tool.
             </p>
           </div>
         </div>
@@ -396,7 +399,7 @@
       </div>
       <div class="modal-body">
         <p class="modal-instruction">
-          Configure JurisMCP in your <code>claude_desktop_config.json</code> or Antigravity configuration to enable AI coding assistants to evaluate compliance in real time:
+          Configure JurisMesh in your <code>claude_desktop_config.json</code> or Antigravity configuration to enable AI coding assistants to evaluate compliance in real time:
         </p>
         <div class="code-wrapper">
           <div class="code-header">

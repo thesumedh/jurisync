@@ -19,7 +19,7 @@ export const MANDATORY_LEGAL_DISCLAIMER =
  * @returns {string} Markdown checklist
  */
 export function generateChecklistMarkdown(query, guidance, tension) {
-  let md = `# JurisMCP Developer Compliance Checklist\n\n`;
+  let md = `# JurisMesh Developer Compliance Checklist\n\n`;
   md += `> Feature Description: "${query}"\n\n`;
 
   md += `## 📋 Core Architectural Tasks\n`;
@@ -29,10 +29,10 @@ export function generateChecklistMarkdown(query, guidance, tension) {
   md += `- [ ] Verify each recommendation against its cited source\n\n`;
 
   if (tension) {
-    md += `## ⚠️ Cross-Jurisdictional Divergence Alert\n`;
+    md += `## ⚠️ Potential Cross-Jurisdictional Divergence for Review\n`;
     md += `**${tension.title}**\n`;
     md += `*Parties:* ${tension.parties}\n\n`;
-    md += `*Strategy:* ${tension.developerGuidance}\n\n`;
+    md += `*Architectural Exploration for Legal Review:* ${tension.developerGuidance}\n\n`;
   }
 
   // European Union
