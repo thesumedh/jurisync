@@ -1,4 +1,4 @@
-# JurisMesh: Production Platform Engineering & Product Plan
+# JuriSync: Production Platform Engineering & Product Plan
 **From Hackathon Proof-of-Concept to Enterprise Cross-Jurisdictional AI Compliance Platform**
 
 *Document Version:* 2.0.0-PROD-PLAN  
@@ -12,9 +12,9 @@
 
 Modern software engineering teams write and ship AI applications in hours using agentic workflows (Claude, Cursor, Copilot, Antigravity) and the **Model Context Protocol (MCP)**. However, cross-border regulatory compliance remains manual, disjointed, and reactive. A team deploying in the US, Europe, and India often learns about statutory violations (e.g., EU AI Act Annex III high-risk classification, GDPR Article 22 automated scoring restrictions, India DPDP Act purpose limitations, or NYC Local Law 144 bias audit rules) only during legal audits or after receiving regulatory inquiries.
 
-**JurisMesh** bridges this gap by creating the **world's first IDE-native, CI/CD-enforced, and agentic (MCP) compliance orchestration mesh**. It acts like `ESLint` and `Snyk` for international AI and data regulations:
+**JuriSync** bridges this gap by creating the **world's first IDE-native, CI/CD-enforced, and agentic (MCP) compliance orchestration mesh**. It acts like `ESLint` and `Snyk` for international AI and data regulations:
 1. **Development-Time & In-Editor:** Evaluates natural language feature specifications, API contracts, and codebases *before* deployment.
-2. **Deterministic & Sourced:** Unlike generic LLMs that hallucinate legal text, JurisMesh matches against a curated, traceable statutory knowledge base with verified statutory citations.
+2. **Deterministic & Sourced:** Unlike generic LLMs that hallucinate legal text, JuriSync matches against a curated, traceable statutory knowledge base with verified statutory citations.
 3. **Statutory Tension Detection:** Flags potential incompatible requirements across international borders (e.g., ex-ante conformity vs retrospective audits vs data erasure mandates) and generates actionable reconciliation strategies.
 4. **Developer-Native Deliverables:** Translates legalese into prioritized markdown checklists, test specifications, and architectural requirements directly consumable by developers.
 

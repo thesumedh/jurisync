@@ -89,7 +89,7 @@ function handleRequest(req) {
           resources: {}
         },
         serverInfo: {
-          name: 'jurismesh-compliance-server',
+          name: 'jurisync-compliance-server',
           version: '1.0.0'
         }
       }
@@ -145,7 +145,14 @@ function handleRequest(req) {
               label: t.label,
               description: t.description
             })),
-            cross_border_tension: report.tension,
+            regulatory_divergences: report.tensions && report.tensions.length > 0
+              ? report.tensions.map(t => ({
+                  title: t.title,
+                  parties: t.parties,
+                  summary: t.summary,
+                  developer_guidance: t.developerGuidance
+                }))
+              : [],
             jurisdictions: {
               EU: {
                 jurisdiction: report.guidance.EU.jurisdiction,
@@ -249,7 +256,7 @@ function handleRequest(req) {
           content: [
             {
               type: 'text',
-              text: `# Supported International Regulations (12 Curated Rules)\n\n## Covered Jurisdictions\n${jurisdictions.map(j => `- ${j}`).join('\n')}\n\n## Primary Statutory Instruments\n${instruments.map(i => `- ${i}`).join('\n')}`
+              text: `# Supported International Regulations (${RULES.length} Curated Rules)\n\n## Covered Jurisdictions\n${jurisdictions.map(j => `- ${j}`).join('\n')}\n\n## Primary Statutory Instruments\n${instruments.map(i => `- ${i}`).join('\n')}`
             }
           ],
           total_rules: RULES.length,

@@ -3,7 +3,7 @@ doc: scope
 status: approved
 ---
 
-# JurisMCP
+# JuriSync
 
 A development-time cross-jurisdictional compliance orchestration layer that analyzes AI application feature descriptions and surfaces multi-country regulatory guidance (EU, India, US) before architectural lock-in.
 
@@ -12,7 +12,7 @@ A development-time compliance intelligence engine that extracts risk and data si
 
 ## Who It's For
 Developers, AI engineers, and technical founders building AI-powered software for global deployment.
-Today, they build without regulatory feedback until post-launch legal reviews or compliance audits, risking massive redesigns, regulatory fines, or blocked market access. With JurisMCP, they receive precise, context-aware compliance guardrails while authoring code and feature specs.
+Today, they build without regulatory feedback until post-launch legal reviews or compliance audits, risking massive redesigns, regulatory fines, or blocked market access. With JuriSync, they receive precise, context-aware compliance guardrails while authoring code and feature specs.
 
 ## The Core Loop
 1. **Input**: The developer inputs a natural language description of an app or feature (or clicks a representative real-world preset like an HR resume ranker, a biometric cloud photo app, or a customer service RAG chatbot).

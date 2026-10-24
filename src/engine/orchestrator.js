@@ -12,14 +12,14 @@ export const MANDATORY_LEGAL_DISCLAIMER =
   "Illustrative output for development support only. Not a verified legal assessment. Exact applicability depends on the specific system and current law.";
 
 /**
- * Generates an actionable Markdown checklist from the matched rules and tension
+ * Generates an actionable Markdown checklist from matched rules and tensions array.
  * @param {string} query
  * @param {object} guidance
- * @param {object|null} tension
+ * @param {Array<object>} tensions - Array of detected tensions (may be empty)
  * @returns {string} Markdown checklist
  */
-export function generateChecklistMarkdown(query, guidance, tension) {
-  let md = `# JurisMesh Developer Compliance Checklist\n\n`;
+export function generateChecklistMarkdown(query, guidance, tensions) {
+  let md = `# JuriSync Developer Compliance Checklist\n\n`;
   md += `> Feature Description: "${query}"\n\n`;
 
   md += `## 📋 Core Architectural Tasks\n`;
@@ -28,11 +28,13 @@ export function generateChecklistMarkdown(query, guidance, tension) {
   md += `- [ ] Test for bias and document human review\n`;
   md += `- [ ] Verify each recommendation against its cited source\n\n`;
 
-  if (tension) {
-    md += `## ⚠️ Potential Cross-Jurisdictional Divergence for Review\n`;
-    md += `**${tension.title}**\n`;
-    md += `*Parties:* ${tension.parties}\n\n`;
-    md += `*Architectural Exploration for Legal Review:* ${tension.developerGuidance}\n\n`;
+  if (tensions && tensions.length > 0) {
+    md += `## ⚠️ Potential Cross-Jurisdictional Divergences for Review\n`;
+    tensions.forEach(tension => {
+      md += `### ${tension.title}\n`;
+      md += `*Parties:* ${tension.parties}\n\n`;
+      md += `*Architectural Exploration for Legal Review:* ${tension.developerGuidance}\n\n`;
+    });
   }
 
   // European Union
@@ -74,7 +76,7 @@ export function generateChecklistMarkdown(query, guidance, tension) {
 }
 
 /**
- * Orchestrates full compliance analysis for a natural language feature description
+ * Orchestrates full compliance analysis for a natural language feature description.
  * @param {string} text - Natural language query
  * @returns {object} Complete compliance report
  */
@@ -82,15 +84,16 @@ export function orchestrateCompliance(text) {
   const query = text ? text.trim() : '';
   const signals = extractSignals(query);
   const guidance = evaluateRules(signals);
-  const tension = detectTensions(signals, guidance);
-  const checklist = generateChecklistMarkdown(query, guidance, tension);
+  const tensions = detectTensions(signals, guidance);
+  const checklist = generateChecklistMarkdown(query, guidance, tensions);
 
   return {
     timestamp: new Date().toISOString(),
     query,
     signals,
     guidance,
-    tension,
+    tensions,                          // Full array of all applicable tensions
+    tension: tensions[0] || null,      // First tension (backward compatibility)
     checklist,
     disclaimer: MANDATORY_LEGAL_DISCLAIMER
   };

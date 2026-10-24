@@ -1,4 +1,4 @@
-# JurisMesh ⚖️⚡
+# JuriSync ⚖️⚡
 
 > **A Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Application Development**  
 > *Built for the Devpost "Build With AI: Basics" Hackathon (October 2026)*
@@ -27,7 +27,7 @@ Existing solutions either:
 2. Focus only on **single-jurisdiction compliance** (e.g. EU AI Act checkers), or
 3. Provide passive **regulatory knowledge retrieval** (RAG databases) without delivering concrete, actionable guidance *during development*.
 
-**JurisMesh** implements a development-time compliance intelligence layer. It extracts regulatory triggers from plain-language feature descriptions, maps them against international legal frameworks, identifies potential cross-border statutory tensions for review, and delivers structured developer checklists—both through an interactive dashboard and directly to AI coding agents via the Model Context Protocol.
+**JuriSync** implements a development-time compliance intelligence layer. It extracts regulatory triggers from plain-language feature descriptions, maps them against international legal frameworks, identifies potential cross-border statutory tensions for review, and delivers structured developer checklists—both through an interactive dashboard and directly to AI coding agents via the Model Context Protocol.
 
 ---
 
@@ -37,7 +37,7 @@ Existing solutions either:
   Type any software feature or load pre-configured scenarios (*HR Resume Ranker*, *Biometric Cloud Photos*, *Customer Support RAG Chatbot*, *Clinical Triage Agent*).
 * 🔍 **High-Level Signal Radar**:
   Lexical pattern matching automatically detects regulatory triggers: `AI System`, `Personal Data (PII)`, `Biometric Data (GDPR Art 9)`, `Employment Domain (AI Act Annex III)`, `Clinical/Health Data`, and `Autonomous Decisions`.
-* 🌐 **Multi-Country Statutory Guidance (12 Curated Rules)**:
+* 🌐 **Multi-Country Statutory Guidance (15 Curated Rules)**:
   * **🇪🇺 European Union**: EU AI Act risk tiers (Prohibited, High Risk / Annex III, Specific Transparency / Art. 50, Minimal) and GDPR mandates (lawful basis, purpose limitation, DPIA requirements).
   * **🇮🇳 India**: DPDP Act 2023 obligations (Data Fiduciary responsibilities, notice in 22 languages, Section 8(7) retention erasure, Section 9 child tracking prohibitions).
   * **🇺🇸 United States**: NIST AI RMF core functions (Govern, Map, Measure, Manage), FTC deceptive AI scrutiny, and state laws (NYC Local Law 144 AEDT bias audits, Illinois BIPA).
@@ -141,17 +141,22 @@ npm run dev
 Open **[http://localhost:5173](http://localhost:5173)** in your browser.
 
 ### 2. Run Headless MCP Agent Tool (CLI Mode)
-You can query the compliance engine directly from your terminal:
+You can query the compliance engine directly from your terminal using a piped JSON-RPC call:
 ```bash
-node mcp-server.js "An AI chatbot that answers HR questions using internal employee documents"
+# Linux / macOS
+echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"An AI chatbot that answers HR questions using internal employee documents"}}}' | node mcp-server.js
+
+# Windows PowerShell
+$req = '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"An AI chatbot that answers HR questions"}}}'
+$req | node mcp-server.js
 ```
 
 ### 3. Run as an MCP Server in Claude Desktop / Cursor
-Add JurisMesh to your Claude Desktop configuration (`claude_desktop_config.json`):
+Add JuriSync to your Claude Desktop configuration (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
-    "jurismesh": {
+    "jurisync": {
       "command": "node",
       "args": ["F:/Projects/Devpost/MCP/mcp-server.js"]
     }
@@ -177,13 +182,13 @@ node tests/verify-slice5.js
   *"Developers building AI apps face an impossible challenge: their code deploys globally, but compliance rules are fragmented. The EU has the binding AI Act, India has the DPDP Act, and the US has NIST guidelines and state-level bias laws. Today, developers get compliance feedback late—after architectural lock-in."*
 * **0:25 - 0:50 (The Solution & Signal Detection)**:
   *Open the browser at `http://localhost:5173`.*
-  *"JurisMesh is a development-time compliance orchestration mesh. Watch what happens when I click 'HR Candidate Ranking': the signal radar instantly detects AI usage, sensitive employment domain, and autonomous rejection."*
+  *"JuriSync is a development-time compliance orchestration mesh. Watch what happens when I click 'HR Candidate Ranking': the signal radar instantly detects AI usage, sensitive employment domain, and autonomous rejection."*
 * **0:50 - 1:30 (Multi-Country Guidance & Inspectable Evidence)**:
   *Scroll down to the 3 jurisdiction cards and tension alert.*
-  *"In seconds, JurisMesh synthesizes three regimes: EU AI Act Annex III High-Risk classification, India DPDP Data Fiduciary rules, and US NYC Local Law 144 AEDT bias audit requirements. Crucially, JurisMesh flags a potential cross-jurisdictional tension for legal review: US law requires retaining candidate scoring telemetry for annual bias audits, while India DPDP Section 8(7) requires data erasure upon hiring completion! JurisMesh surfaces architectural exploration considerations to help engineers and legal teams reconcile these requirements. And every finding includes an inspectable evidence drawer linking directly to official legislative texts."*
+  *"In seconds, JuriSync synthesizes three regimes: EU AI Act Annex III High-Risk classification, India DPDP Data Fiduciary rules, and US NYC Local Law 144 AEDT bias audit requirements. Crucially, JuriSync flags a potential cross-jurisdictional tension for legal review: US law requires retaining candidate scoring telemetry for annual bias audits, while India DPDP Section 8(7) requires data erasure upon hiring completion! JuriSync surfaces architectural exploration considerations to help engineers and legal teams reconcile these requirements. And every finding includes an inspectable evidence drawer linking directly to official legislative texts."*
 * **1:30 - 2:00 (Checklist & MCP Protocol Integration)**:
   *Click 'Copy Checklist' and open the 'MCP Protocol' dialog.*
-  *"With one click, the developer gets an actionable markdown checklist for their repository. And because JurisMesh implements the Model Context Protocol, AI agents in Cursor or Claude can call this tool over stdio while writing code. JurisMesh proves that development-time regulatory intelligence is practical, essential, and ready for modern AI engineering."*
+  *"With one click, the developer gets an actionable markdown checklist for their repository. And because JuriSync implements the Model Context Protocol, AI agents in Cursor or Claude can call this tool over stdio while writing code. JuriSync proves that development-time regulatory intelligence is practical, essential, and ready for modern AI engineering."*
 
 ---
 
@@ -198,4 +203,4 @@ node tests/verify-slice5.js
 ---
 
 ## ⚖️ Legal Disclaimer
-*JurisMCP is an automated regulatory intelligence proof-of-concept designed to assist software developers in identifying potential compliance considerations during early-stage architecture. It does not provide formal legal advice, legal representation, or a guarantee of compliance.*
+*JuriSync is an automated regulatory intelligence proof-of-concept designed to assist software developers in identifying potential compliance considerations during early-stage architecture. It does not provide formal legal advice, legal representation, or a guarantee of compliance.*

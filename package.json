@@ -1,5 +1,5 @@
 {
-  "name": "jurismesh",
+  "name": "jurisync",
   "version": "1.0.0",
   "description": "Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Application Development",
   "type": "module",
@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "mcp": "node mcp-server.js"
+    "mcp": "node mcp-server.js",
+    "test": "node tests/verify-target-flow.js && node tests/verify-slice2.js && node tests/verify-slice3.js && node tests/verify-slice4.js && node tests/verify-slice5.js"
   },
   "keywords": [
     "compliance",

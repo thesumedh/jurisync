@@ -82,7 +82,7 @@ serverProcess.on('close', (code) => {
   // Response 1: Initialize
   const initRes = JSON.parse(lines[0]);
   assert.strictEqual(initRes.id, 1);
-  assert.strictEqual(initRes.result.serverInfo.name, 'jurismesh-compliance-server');
+  assert.strictEqual(initRes.result.serverInfo.name, 'jurisync-compliance-server');
 
   // Response 2: Tools List
   const listRes = JSON.parse(lines[1]);
@@ -94,7 +94,7 @@ serverProcess.on('close', (code) => {
   // Response 3: analyze_compliance call
   const callRes = JSON.parse(lines[2]);
   assert.strictEqual(callRes.id, 3);
-  assert.ok(callRes.result.content[0].text.includes('# JurisMesh Developer Compliance Checklist'));
+  assert.ok(callRes.result.content[0].text.includes('# JuriSync Developer Compliance Checklist'));
   assert.strictEqual(callRes.result.structuredReport.jurisdictions.EU.has_binding_rules, true);
   assert.ok(callRes.result.structuredReport.disclaimer.includes('Illustrative output for development support only'));
 

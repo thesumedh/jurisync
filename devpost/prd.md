@@ -3,7 +3,7 @@ doc: prd
 status: approved
 ---
 
-# JurisMCP — Product Requirements
+# JuriSync — Product Requirements
 
 A development-time compliance decision-support tool that transforms plain-language AI feature descriptions into transparent risk signals, maps them against a curated JSON rule library across multiple jurisdictions (EU, India, US), labels binding legislation vs voluntary frameworks, and outputs an actionable developer checklist.
 Source: `scope.md > The Unique Kernel` and `scope.md > Who It's For`.
@@ -17,7 +17,7 @@ Source: `scope.md > The Unique Kernel` and `scope.md > Who It's For`.
 6. **Mandatory Disclaimer** ("Illustrative output for development support only. Not a verified legal assessment.")
 
 ## The Core Journey
-1. **Arrival**: The developer opens the JurisMCP web dashboard. They see a clean, high-performance interface with an intuitive prompt console, four quick-load real-world scenario presets, and an architectural overview explaining the MCP integration angle.
+1. **Arrival**: The developer opens the JuriSync web dashboard. They see a clean, high-performance interface with an intuitive prompt console, four quick-load real-world scenario presets, and an architectural overview explaining the MCP integration angle.
 2. **Input**: The developer either types a custom feature description (e.g., *"A company is building an AI system that ranks job applicants using CVs and interview answers in the EU and India"*) or clicks a preloaded scenario button (*"HR Candidate Ranking"*, *"Biometric Face Clustering"*, *"Customer Support RAG Chatbot"*, or *"Clinical Triage Assistant"*).
 3. **Trigger**: The developer clicks **"Analyze Compliance"** (or presses `Ctrl+Enter`).
 4. **Signal Extraction**: The interface displays real-time signal badges identified by the analysis layer: detected AI system status, sensitive data classifications, biometric signals, employment domain triggers, and automated decision-making scope.

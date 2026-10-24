@@ -67,14 +67,14 @@ let currentReport = null;
 // Theme Management (Light / Dark Mode)
 // ============================================================================
 function initTheme() {
-  const savedTheme = localStorage.getItem('jurismcp_theme') || 'light';
+  const savedTheme = localStorage.getItem('jurisync_theme') || localStorage.getItem('jurismcp_theme') || 'light';
   applyTheme(savedTheme);
 
   btnThemeToggle.addEventListener('click', () => {
     const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     applyTheme(newTheme);
-    localStorage.setItem('jurismcp_theme', newTheme);
+    localStorage.setItem('jurisync_theme', newTheme);
   });
 }
 
@@ -163,19 +163,54 @@ export function renderSignals(signalVector) {
 }
 
 // ============================================================================
-// Render 02: Regulatory Tension Callout
+// Render 02: Regulatory Tension Callouts (supports multiple tensions)
 // ============================================================================
-export function renderTension(tension) {
-  if (!tension) {
+export function renderTension(tensions) {
+  // Accept either an array (new) or single object / null (backward compat)
+  const tensionList = Array.isArray(tensions)
+    ? tensions
+    : (tensions ? [tensions] : []);
+
+  if (tensionList.length === 0) {
     tensionSection.classList.add('hidden');
     return;
   }
 
   tensionSection.classList.remove('hidden');
-  tensionTitle.textContent = tension.title;
-  tensionParties.textContent = tension.parties;
-  tensionSummary.textContent = tension.summary;
-  tensionGuidance.textContent = tension.developerGuidance;
+
+  // Render the first tension into the existing static DOM elements
+  const first = tensionList[0];
+  tensionTitle.textContent = first.title;
+  tensionParties.textContent = first.parties;
+  tensionSummary.textContent = first.summary;
+  tensionGuidance.textContent = first.developerGuidance;
+
+  // Append additional tensions dynamically if more than one
+  const existingExtras = tensionSection.querySelectorAll('.tension-extra-callout');
+  existingExtras.forEach(el => el.remove());
+
+  tensionList.slice(1).forEach(tension => {
+    const extra = document.createElement('div');
+    extra.className = 'claude-callout tension-callout tension-extra-callout';
+    extra.innerHTML = `
+      <div class="callout-header">
+        <span class="callout-icon">⚖️</span>
+        <div class="callout-title-group">
+          <h3 class="callout-title">${tension.title}</h3>
+          <span class="callout-parties">${tension.parties}</span>
+        </div>
+      </div>
+      <p class="callout-body">${tension.summary}</p>
+      <div class="callout-strategy">
+        <div class="strategy-badge">Architectural Exploration for Legal Review</div>
+        <p class="strategy-body">${tension.developerGuidance}</p>
+        <div class="callout-notice-note">
+          ℹ️ <em>Preliminary decision-support indicator for engineering &amp; legal review. Does not constitute an established legal conflict or binding legal counsel.</em>
+        </div>
+      </div>
+    `;
+    tensionSection.appendChild(extra);
+  });
 }
 
 // ============================================================================
@@ -377,12 +412,14 @@ function generateMcpPayload(report) {
         label: t.label,
         matched: t.matched
       })),
-      regulatory_divergence: report.tension ? {
-        title: report.tension.title,
-        parties: report.tension.parties,
-        summary: report.tension.summary,
-        guidance: report.tension.developerGuidance
-      } : null,
+      regulatory_divergences: report.tensions && report.tensions.length > 0
+        ? report.tensions.map(t => ({
+            title: t.title,
+            parties: t.parties,
+            summary: t.summary,
+            guidance: t.developerGuidance
+          }))
+        : [],
       jurisdiction_rules: {
         EU: report.guidance.EU.rules.map(r => ({
           status: r.status,
@@ -435,7 +472,7 @@ function runAnalysis() {
 
   // Update visual components
   renderSignals(currentReport.signals);
-  renderTension(currentReport.tension);
+  renderTension(currentReport.tensions);
   renderJurisdictions(currentReport.guidance);
   renderChecklist(currentReport);
 
@@ -445,7 +482,7 @@ function runAnalysis() {
 
   // Persist query in localStorage
   try {
-    localStorage.setItem('jurismcp_last_query', query);
+    localStorage.setItem('jurisync_last_query', query);
   } catch {}
 
   // Smooth scroll artifact into view gently
@@ -466,6 +503,7 @@ function setupEventListeners() {
     welcomeEmptyState.classList.remove('hidden');
     currentReport = null;
     try {
+      localStorage.removeItem('jurisync_last_query');
       localStorage.removeItem('jurismcp_last_query');
     } catch {}
     featureInput.focus();
@@ -558,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Restore last query if available
   try {
-    const saved = localStorage.getItem('jurismcp_last_query');
+    const saved = localStorage.getItem('jurisync_last_query') || localStorage.getItem('jurismcp_last_query');
     if (saved) {
       featureInput.value = saved;
       updateCharCount();

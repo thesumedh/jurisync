@@ -19,7 +19,12 @@ const DICTIONARIES = {
     'cv', 'cvs', 'resume', 'resumes', 'candidate', 'candidates', 'interview', 'interview answers',
     'user', 'users', 'customer', 'customers', 'client', 'email', 'emails', 'profile', 'profiles',
     'account', 'accounts', 'record', 'records', 'pii', 'identity', 'employee', 'employees',
-    'personal', 'history', 'chat history', 'name', 'phone'
+    'personal', 'history', 'chat history', 'name', 'phone',
+    // Biometric data is definitionally personal data (GDPR Art. 4(14)) and DPDP sensitive data
+    'face', 'faces', 'facial', 'photo', 'photos', 'selfie', 'selfies',
+    'image', 'images', 'fingerprint', 'biometric', 'biometrics', 'voice', 'scan',
+    // Health data is personal data in all jurisdictions
+    'patient', 'patients', 'medical record', 'health record'
   ],
   biometric: [
     'face', 'faces', 'facial', 'photo', 'photos', 'selfie', 'selfies', 'image', 'images',

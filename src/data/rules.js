@@ -70,11 +70,11 @@ export const RULES = [
     "jurisdiction": "IN",
     "status": "binding",
     "instrument": "India DPDP Act 2023 (Section 8(7) - Data Erasure)",
-    "finding": "A Data Fiduciary must erase personal data as soon as the specified purpose is fulfilled or upon withdrawal of consent, whichever is earlier.",
-    "recommendation": "Establish explicit data lifecycle policies ensuring candidate, customer, or employee records are not retained indefinitely.",
-    "action": "Implement automated database TTL (time-to-live) purge jobs to delete applicant data once recruitment completes unless renewal consent is obtained.",
+    "finding": "A Data Fiduciary must erase personal data upon withdrawal of consent, or as soon as it is reasonable to assume the specified purpose is no longer being served, whichever is earlier — unless retention is required for compliance with any law in force (Section 8(7) statutory exception). This exception may partially accommodate retention needed for legally mandated audit obligations, but requires legal verification.",
+    "recommendation": "Establish explicit data lifecycle policies. Map every data collection to a documented legal basis and retention schedule. Where statutory retention is claimed, identify the specific law authorising it.",
+    "action": "Implement automated database TTL purge jobs to delete personal data once purpose is served. Document any ongoing retention under the statutory legal-compliance exception with the specific authorising law citation.",
     "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
-    "source_note": "DPDP Act 2023 Section 8(7) (Erasure of personal data upon purpose fulfilment)"
+    "source_note": "DPDP Act 2023 Section 8(7) (Erasure upon purpose fulfilment, subject to legal retention exceptions)"
   },
   {
     "id": "in_dpdp_children_tracking_ban",
@@ -82,11 +82,11 @@ export const RULES = [
     "jurisdiction": "IN",
     "status": "binding",
     "instrument": "India DPDP Act 2023 (Section 9 - Processing Children's Data)",
-    "finding": "Section 9 enforces an absolute statutory prohibition on undertaking tracking, behavioral monitoring, or targeted advertising directed at children (under 18).",
-    "recommendation": "Verify user age thresholds and prohibit behavioral telemetry ingestion for underage accounts.",
-    "action": "Deploy verifiable parental consent gates and completely strip recommendation tracking cookies for minor users.",
+    "finding": "Section 9(3) prohibits tracking, behavioural monitoring, or targeted advertising directed at children (under 18). Section 9(1) requires verifiable parental consent before processing children's personal data. Note: Section 9(4) allows the Central Government to prescribe exemptions for specific classes of Data Fiduciaries or purposes by notification.",
+    "recommendation": "Verify user age thresholds for all data flows. Prohibit behavioural telemetry and targeted advertising pipelines for underage accounts by default, unless covered by a government-notified exemption.",
+    "action": "Deploy verifiable parental consent gates and strip recommendation-tracking cookies for minor users. Confirm whether any government-notified age exemptions under Section 9(5) apply to the specific service.",
     "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
-    "source_note": "DPDP Act 2023 Section 9(1)-(3) (Special obligations for children's data)"
+    "source_note": "DPDP Act 2023 Section 9(1)-(4) (Special obligations for children's data and government-notified exemptions)"
   },
   {
     "id": "in_dpdp_multilingual_notice_grievance",
@@ -147,5 +147,41 @@ export const RULES = [
     "action": "Obtain executed written release from users specifying purpose and retention schedule; publish written destruction guidelines.",
     "source_url": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=3004",
     "source_note": "740 ILCS 14/15 (Retention, collection, disclosure, destruction)"
+  },
+  {
+    "id": "eu_ai_act_health_high_risk",
+    "triggers": ["health", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Article 6 & Annex I — Medical Device AI)",
+    "finding": "AI systems used for clinical decision support, diagnostic triage, or health risk assessment that qualify as Software as a Medical Device (SaMD) under EU MDR (Regulation 2017/745) are automatically classified as high-risk AI systems under EU AI Act Article 6(1). Obligations include mandatory human oversight (Article 14), automatic event logging (Article 12), and technical documentation before market placement (Article 11 & Annex IV).",
+    "recommendation": "Determine whether the health AI system constitutes SaMD under EU MDR or triggers Annex III Section 5 (essential public services). If so, Notified Body conformity assessment and CE marking are required before EU deployment.",
+    "action": "Implement physician override mechanisms for all AI-generated clinical recommendations, enable automatic event logging over the system lifecycle, and prepare and maintain technical documentation per EU AI Act Annex IV before any clinical deployment.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Article 6(1) & Annex I (Medical Devices Regulation 2017/745 cross-reference)"
+  },
+  {
+    "id": "in_it_spdi_health_records",
+    "triggers": ["health", "personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "IT Act 2000 (Section 43A) & IT (SPDI) Rules 2011",
+    "finding": "Health records constitute Sensitive Personal Data or Information (SPDI) under Rule 3(1) of the Information Technology (Reasonable Security Practices and Procedures and SPDI) Rules 2011, made under Section 43A of the IT Act 2000. Any body corporate collecting or processing patient health data must maintain reasonable security practices, publish a written privacy policy, and obtain prior written consent before collection.",
+    "recommendation": "Implement ISO/IEC 27001 or equivalent information security standard for systems holding health records. Ensure a written privacy policy covering data categories, purpose, and disclosure is publicly available.",
+    "action": "Obtain written (or electronic) patient consent before collecting health data. Publish a comprehensive privacy policy per Rule 4 of IT (SPDI) Rules 2011. Implement IS/ISO/IEC 27001 technical and organisational controls for health record storage.",
+    "source_url": "https://www.meity.gov.in/sites/upload_files/dit/files/GSR313E_10511%281%29.pdf",
+    "source_note": "IT (SPDI) Rules 2011, Rule 3(1) — Health Records as Sensitive Personal Data"
+  },
+  {
+    "id": "us_hipaa_phi_ai_systems",
+    "triggers": ["health", "personal_data"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "HIPAA Privacy & Security Rules (45 CFR Parts 160 & 164)",
+    "finding": "AI systems processing Protected Health Information (PHI) — including patient symptoms, diagnostic reports, treatment history, or drug prescriptions — must comply with the HIPAA Privacy Rule and Security Rule if the developer or deployer qualifies as a Covered Entity or Business Associate. Failure to implement required Technical Safeguards constitutes a HIPAA violation subject to tiered civil monetary penalties.",
+    "recommendation": "Determine whether the AI system qualifies as a Business Associate by processing PHI on behalf of a HIPAA Covered Entity. If so, execute a Business Associate Agreement (BAA) and implement all required Security Rule technical safeguards.",
+    "action": "Execute a BAA with the healthcare provider. Implement encryption at rest and in transit for PHI, establish audit controls and user access logs per 45 CFR 164.312, and conduct a formal Security Risk Analysis before deployment.",
+    "source_url": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html",
+    "source_note": "HIPAA Security Rule 45 CFR 164.312 (Technical Safeguards for Protected Health Information)"
   }
 ];
