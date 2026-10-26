@@ -17,6 +17,7 @@
 ## 🌐 Quick Links
 
 * **Live Interactive Console**: [https://jurisync-one.vercel.app/](https://jurisync-one.vercel.app/)
+* **Full Documentation Portal**: [https://jurisync-one.vercel.app/docs.html](https://jurisync-one.vercel.app/docs.html)
 * **npm Registry**: [https://www.npmjs.com/package/jurisync](https://www.npmjs.com/package/jurisync) (`npx -y jurisync`)
 * **GitHub Repository**: [https://github.com/thesumedh/jurisync](https://github.com/thesumedh/jurisync)
 * **Model Context Protocol (MCP) Stdio Server**: [`mcp-server.js`](mcp-server.js)

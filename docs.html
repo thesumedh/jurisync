@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation — JuriSync Regulatory Orchestration Mesh</title>
+  <meta name="description" content="Comprehensive technical documentation for JuriSync, the development-time cross-jurisdictional compliance orchestration layer and Model Context Protocol (MCP) server." />
+
+  <!-- Google Typography: Newsreader + Plus Jakarta Sans + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core & Docs Stylesheets -->
+  <link rel="stylesheet" href="./src/styles/main.css" />
+  <link rel="stylesheet" href="./src/styles/docs.css" />
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <a href="./index.html" class="docs-brand-link">
+          <div class="claude-spark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8L12 2Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-name">JuriSync</span>
+            <span class="brand-tag">Documentation</span>
+          </div>
+        </a>
+
+        <a href="./index.html" class="btn-claude-secondary" style="font-size:0.75rem; padding:4px 10px;" title="Switch to the interactive compliance console">
+          ← Web Console
+        </a>
+      </div>
+
+      <div class="docs-search-wrapper">
+        <span class="docs-search-icon">🔍</span>
+        <input 
+          type="search" 
+          id="docs-search-input" 
+          class="docs-search-input" 
+          placeholder="Filter documentation topics (e.g. EU AI Act, BIPA, MCP, SDK, tensions)..." 
+          aria-label="Filter documentation"
+        />
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <a href="https://www.npmjs.com/package/jurisync" target="_blank" rel="noopener noreferrer" class="npm-nav-pill" title="View package on npm">
+          <span class="npm-logo">npm</span>
+          <span class="npm-pkg-name">jurisync</span>
+          <span class="npm-version-badge">v1.0.1</span>
+        </a>
+
+        <a href="https://github.com/thesumedh/jurisync" target="_blank" rel="noopener noreferrer" class="btn-icon-subtle" title="GitHub Repository">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+        </a>
+
+        <button id="btn-theme-toggle" class="btn-icon-subtle" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-Column Documentation Container -->
+  <div class="docs-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="docs-sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Getting Started</div>
+        <ul class="sidebar-list">
+          <li><a href="#overview" class="sidebar-link active">Overview &amp; Problem</a></li>
+          <li><a href="#quickstart" class="sidebar-link">Quickstart (5 Min)</a></li>
+          <li><a href="#philosophy" class="sidebar-link">Core Principles</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Setup &amp; Integration</div>
+        <ul class="sidebar-list">
+          <li><a href="#npm-package" class="sidebar-link">npm Package &amp; CLI</a></li>
+          <li><a href="#mcp-setup" class="sidebar-link">MCP Agent Setup</a></li>
+          <li><a href="#sdk-usage" class="sidebar-link">Node.js SDK</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Architecture</div>
+        <ul class="sidebar-list">
+          <li><a href="#pipeline" class="sidebar-link">5-Stage Pipeline</a></li>
+          <li><a href="#signal-radar" class="sidebar-link">Risk Signal Radar</a></li>
+          <li><a href="#tension-engine" class="sidebar-link">Tension Engine</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Statutory Rules</div>
+        <ul class="sidebar-list">
+          <li><a href="#statutory-matrix" class="sidebar-link">Coverage Matrix (15)</a></li>
+          <li><a href="#eu-framework" class="sidebar-link">🇪🇺 European Union</a></li>
+          <li><a href="#india-framework" class="sidebar-link">🇮🇳 India (DPDP Act)</a></li>
+          <li><a href="#us-framework" class="sidebar-link">🇺🇸 United States</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Protocols &amp; APIs</div>
+        <ul class="sidebar-list">
+          <li><a href="#mcp-spec" class="sidebar-link">MCP Protocol Specification</a></li>
+          <li><a href="#tool-analyze" class="sidebar-link">analyze_compliance</a></li>
+          <li><a href="#tool-rules" class="sidebar-link">get_statutory_rule</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-heading">Governance &amp; Future</div>
+        <ul class="sidebar-list">
+          <li><a href="#governance" class="sidebar-link">Responsible AI &amp; Privacy</a></li>
+          <li><a href="#disclaimer" class="sidebar-link">Legal Safe Harbor</a></li>
+          <li><a href="#roadmap" class="sidebar-link">Engineering Roadmap</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Center Main Documentation Article -->
+    <main class="docs-content">
+      <article class="docs-article">
+        <!-- 1. Overview -->
+        <section id="overview" class="doc-section">
+          <span class="doc-badge-pill">Overview</span>
+          <h1 class="doc-h1">JuriSync Documentation</h1>
+          <p class="doc-lead">
+            A development-time cross-jurisdictional compliance orchestration layer and Model Context Protocol (MCP) server for AI-assisted software engineering.
+          </p>
+
+          <p class="doc-p">
+            As developers build AI-enabled features using autonomous coding agents (Claude Desktop, Cursor, Antigravity), systems are deployed across international borders without automated visibility into regulatory divergence. A system built in the US may function fine under voluntary guidelines like the <strong>NIST AI RMF 1.0</strong>, but upon international release trigger mandatory high-risk conformity assessments under <strong>EU AI Act Annex III</strong>, or violate <strong>India's DPDP Act Section 8(7)</strong> data erasure rules.
+          </p>
+
+          <p class="doc-p">
+            Discovering these non-conformities during post-launch legal reviews forces costly architectural rewrites, schema overhauls, or regulatory fines. <strong>JuriSync shifts regulatory evaluation left</strong> into the earliest design phase before code leaves your editor.
+          </p>
+
+          <div class="doc-callout info">
+            <div class="doc-callout-title">💡 Why Not Just Ask an LLM?</div>
+            <p class="doc-p" style="margin-bottom:0;">
+              Generic generative LLMs are prone to legal hallucinations—inventing statutory clauses, quoting repealed directives, and conflating voluntary best practices with legally binding mandates. JuriSync replaces ungrounded text with a <strong>deterministic evaluation pipeline</strong> backed by verified government gazette citations.
+            </p>
+          </div>
+        </section>
+
+        <!-- 2. Quickstart -->
+        <section id="quickstart" class="doc-section">
+          <span class="doc-badge-pill">Quickstart</span>
+          <h2 class="doc-h2">Quickstart in 5 Minutes</h2>
+          <p class="doc-p">
+            JuriSync can be utilized in three primary modalities:
+          </p>
+
+          <h3 class="doc-h3">Modality 1: Interactive Web Console</h3>
+          <p class="doc-p">
+            Visit the live interactive console at <a href="https://jurisync-one.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--accent-terracotta);">https://jurisync-one.vercel.app/</a>. Enter a natural language feature description (or select one of the 4 preset scenarios) and press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to generate an instant regulatory blueprint.
+          </p>
+
+          <h3 class="doc-h3">Modality 2: Zero-Install MCP Server (`npx`)</h3>
+          <p class="doc-p">
+            Connect JuriSync directly to Claude Desktop, Cursor, or any agentic IDE with zero cloning:
+          </p>
+
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>claude_desktop_config.json</span>
+              <button class="btn-doc-copy" data-copy-target="code-mcp-quick">Copy</button>
+            </div>
+            <pre class="doc-code-body"><code id="code-mcp-quick">{
+  "mcpServers": {
+    "jurisync": {
+      "command": "npx",
+      "args": ["-y", "jurisync"]
+    }
+  }
+}</code></pre>
+          </div>
+
+          <h3 class="doc-h3">Modality 3: Terminal Headless Stdio Call</h3>
+          <p class="doc-p">
+            Execute the compliance pipeline from any shell via stdio:
+          </p>
+
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>bash / zsh / PowerShell</span>
+              <button class="btn-doc-copy" data-copy-target="code-cli-quick">Copy</button>
+            </div>
+            <pre class="doc-code-body"><code id="code-cli-quick">echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"AI system filtering resume CVs in EU and India"}}}' | npx -y jurisync</code></pre>
+          </div>
+        </section>
+
+        <!-- 3. Core Principles -->
+        <section id="philosophy" class="doc-section">
+          <span class="doc-badge-pill">Governance &amp; Philosophy</span>
+          <h2 class="doc-h2">Core Engineering Principles</h2>
+
+          <h3 class="doc-h3">1. Deterministic Rule Matching</h3>
+          <p class="doc-p">
+            Every finding emitted by JuriSync corresponds to a deterministic rule object containing exact statutory citations (e.g. <code>eu_ai_act_employment_high_risk</code>, <code>in_dpdp_retention_erasure_mandate</code>). Rules are curated and mapped to statutory triggers (`employment`, `biometric`, `health`, `autonomous_action`, `personal_data`, `children`).
+          </p>
+
+          <h3 class="doc-h3">2. Binding vs. Voluntary Stratification</h3>
+          <p class="doc-p">
+            Regulatory confusion often stems from treating voluntary guidance as binding law, or vice-versa. JuriSync strictly classifies all output:
+          </p>
+          <ul style="margin-left:24px; margin-bottom:16px; font-size:0.95rem; color:var(--text-secondary);">
+            <li><strong style="color:var(--binding-text);">[BINDING LEGISLATION]</strong>: Enacted statutes carrying legal enforcement mechanisms, statutory damages, or regulatory fines (e.g., EU AI Act, GDPR, India DPDP Act 2023, NYC Local Law 144, Illinois BIPA).</li>
+            <li><strong style="color:var(--voluntary-text);">[VOLUNTARY FRAMEWORK]</strong>: Industry risk management standards and federal guidance (e.g., NIST AI RMF 1.0, EEOC guidance).</li>
+          </ul>
+
+          <h3 class="doc-h3">3. Zero-Egress Privacy Architecture</h3>
+          <p class="doc-p">
+            JuriSync is engineered with zero remote telemetry. Web console analyses run client-side in the browser; MCP stdio queries run locally in Node.js. No developer prompts, proprietary feature descriptions, or candidate resumes are ever transmitted to third-party servers.
+          </p>
+        </section>
+
+        <!-- 4. Setup & Integration -->
+        <section id="npm-package" class="doc-section">
+          <span class="doc-badge-pill">Packaging</span>
+          <h2 class="doc-h2">npm Package &amp; CLI Specification</h2>
+          <p class="doc-p">
+            JuriSync is distributed on the official npm registry as <strong><code>jurisync</code></strong> (v1.0.1).
+          </p>
+
+          <div class="doc-callout info">
+            <div class="doc-callout-title">📦 Package Highlights</div>
+            <ul style="margin-left:20px; font-size:0.85rem; color:var(--text-secondary);">
+              <li><strong>Zero Dependencies</strong>: Built entirely with standard Node.js libraries. No runtime dependency vulnerabilities.</li>
+              <li><strong>Ultra-Lightweight</strong>: 41.7 kB tarball on registry (160 kB unpacked). Installs and executes in under 2 seconds.</li>
+              <li><strong>Dual-Mode</strong>: Functions both as an executable binary (<code>npx jurisync</code>) and an ES Module programmatic SDK.</li>
+            </ul>
+          </div>
+
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>Install Globally or Locally</span>
+              <button class="btn-doc-copy" data-copy-target="code-npm-install">Copy</button>
+            </div>
+            <pre class="doc-code-body"><code id="code-npm-install"># Install locally in a project
+npm install jurisync
+
+# Or run instantly via npx without installing
+npx -y jurisync</code></pre>
+          </div>
+        </section>
+
+        <!-- 5. MCP Setup -->
+        <section id="mcp-setup" class="doc-section">
+          <span class="doc-badge-pill">MCP Protocol</span>
+          <h2 class="doc-h2">Model Context Protocol (MCP) Setup</h2>
+          <p class="doc-p">
+            The <strong>Model Context Protocol (MCP v1.0)</strong> is an open specification enabling AI coding assistants to invoke external tools over JSON-RPC 2.0 stdio pipes.
+          </p>
+
+          <h3 class="doc-h3">Claude Desktop Configuration</h3>
+          <p class="doc-p">
+            Locate your configuration file:
+          </p>
+          <ul style="margin-left:24px; margin-bottom:16px; font-size:0.85rem; color:var(--text-secondary); font-family:var(--font-mono);">
+            <li>macOS: ~/Library/Application Support/Claude/claude_desktop_config.json</li>
+            <li>Windows: %APPDATA%\Claude\claude_desktop_config.json</li>
+          </ul>
+
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>claude_desktop_config.json</span>
+              <button class="btn-doc-copy" data-copy-target="code-mcp-claude">Copy</button>
+            </div>
+            <pre class="doc-code-body"><code id="code-mcp-claude">{
+  "mcpServers": {
+    "jurisync": {
+      "command": "npx",
+      "args": ["-y", "jurisync"]
+    }
+  }
+}</code></pre>
+          </div>
+
+          <h3 class="doc-h3">Cursor IDE Configuration</h3>
+          <p class="doc-p">
+            In Cursor, navigate to <strong>Cursor Settings → Features → MCP</strong> and click <strong>Add New MCP Server</strong>:
+          </p>
+          <ul style="margin-left:24px; margin-bottom:16px; font-size:0.9rem; color:var(--text-secondary);">
+            <li><strong>Name</strong>: <code>jurisync</code></li>
+            <li><strong>Type</strong>: <code>command</code></li>
+            <li><strong>Command</strong>: <code>npx -y jurisync</code></li>
+          </ul>
+        </section>
+
+        <!-- 6. Node.js SDK -->
+        <section id="sdk-usage" class="doc-section">
+          <span class="doc-badge-pill">Programmatic SDK</span>
+          <h2 class="doc-h2">Node.js SDK Usage</h2>
+          <p class="doc-p">
+            Use JuriSync directly in your CI/CD linters, GitHub Actions, or backend compliance microservices:
+          </p>
+
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>index.js (ES Module)</span>
+              <button class="btn-doc-copy" data-copy-target="code-sdk-example">Copy</button>
+            </div>
+            <pre class="doc-code-body"><code id="code-sdk-example">import { orchestrateCompliance } from 'jurisync';
+
+const feature = 'Automated candidate screening tool using CV parsing and facial video interview analysis in the EU and India';
+
+// Run central compliance orchestration pipeline
+const report = orchestrateCompliance(feature);
+
+console.log('Signals Detected:', report.signals.tags.map(t => t.label));
+console.log('EU Rules Triggered:', report.guidance.EU.rules.length);
+console.log('India Rules Triggered:', report.guidance.IN.rules.length);
+console.log('Cross-Border Tensions:', report.tensions.map(t => t.title));
+
+// Export Markdown action checklist for GitHub PR
+console.log(report.checklist);</code></pre>
+          </div>
+        </section>
+
+        <!-- 7. Architecture & Pipeline -->
+        <section id="pipeline" class="doc-section">
+          <span class="doc-badge-pill">Internals</span>
+          <h2 class="doc-h2">5-Stage Orchestration Pipeline</h2>
+          <p class="doc-p">
+            When a query is received, JuriSync executes five deterministic stages in sequence (&lt; 5ms total execution latency):
+          </p>
+
+          <div class="doc-callout info">
+            <div class="doc-callout-title">The 5-Stage Execution Flow</div>
+            <ol style="margin-left:20px; font-size:0.9rem; color:var(--text-secondary); line-height:1.7;">
+              <li><strong>Signal Extraction</strong> (<code>signalExtractor.js</code>): Parses text for token patterns, domain triggers, and autonomous decision indicators.</li>
+              <li><strong>Statutory Rule Matching</strong> (<code>ruleEngine.js</code>): Filters the 15 curated statutory rules against active signals across EU, India, and US.</li>
+              <li><strong>Jurisdiction Synthesis</strong> (<code>knowledgeBase.js</code>): Computes risk tiers (High Risk vs. Standard) and contextualizes obligations.</li>
+              <li><strong>Tension Detection</strong> (<code>tensionEngine.js</code>): Evaluates potential frictions between conflicting statutory mandates across borders.</li>
+              <li><strong>Checklist Synthesis</strong> (<code>orchestrator.js</code>): Merges findings into grouped Markdown tasks ready for developer PRs and sprint tracking.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- 8. Signal Radar -->
+        <section id="signal-radar" class="doc-section">
+          <span class="doc-badge-pill">Signal Radar</span>
+          <h2 class="doc-h2">Risk Signal Extraction Radar</h2>
+          <p class="doc-p">
+            The signal engine detects 7 core regulatory risk classes:
+          </p>
+
+          <div class="doc-table-wrapper">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Signal ID</th>
+                  <th>Domain Label</th>
+                  <th>Key Lexical Indicators</th>
+                  <th>Key Regulatory Impact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>ai_decision</code></td>
+                  <td>AI-Assisted Decisions</td>
+                  <td><code>ai</code>, <code>llm</code>, <code>gpt</code>, <code>model</code>, <code>machine learning</code>, <code>scoring</code></td>
+                  <td>Triggers EU AI Act scoping and FTC Act deceptive claims rules.</td>
+                </tr>
+                <tr>
+                  <td><code>personal_data</code></td>
+                  <td>Personal Data (PII)</td>
+                  <td><code>user</code>, <code>email</code>, <code>profile</code>, <code>resume</code>, <code>candidate</code>, <code>data</code></td>
+                  <td>Triggers GDPR lawful basis and India DPDP Data Fiduciary duties.</td>
+                </tr>
+                <tr>
+                  <td><code>biometric</code></td>
+                  <td>Biometric / Facial Data</td>
+                  <td><code>facial</code>, <code>selfie</code>, <code>biometric</code>, <code>face</code>, <code>voiceprint</code>, <code>embedding</code></td>
+                  <td>Triggers GDPR Art. 9 Special Category bans and Illinois BIPA releases.</td>
+                </tr>
+                <tr>
+                  <td><code>employment</code></td>
+                  <td>Employment / Hiring</td>
+                  <td><code>hire</code>, <code>resume</code>, <code>cv</code>, <code>recruitment</code>, <code>applicant</code>, <code>candidate</code></td>
+                  <td>Triggers EU AI Act Annex III High-Risk classification and NYC LL144 AEDT audits.</td>
+                </tr>
+                <tr>
+                  <td><code>health</code></td>
+                  <td>Clinical / Health Records</td>
+                  <td><code>medical</code>, <code>health</code>, <code>patient</code>, <code>clinical</code>, <code>symptom</code>, <code>diagnosis</code></td>
+                  <td>Triggers EU MDR / SaMD high-risk rules, HIPAA PHI safeguards, and India SPDI.</td>
+                </tr>
+                <tr>
+                  <td><code>autonomous_action</code></td>
+                  <td>Autonomous Decisions</td>
+                  <td><code>automatic</code>, <code>solely</code>, <code>reject</code>, <code>filter</code>, <code>without human</code></td>
+                  <td>Triggers GDPR Art. 22 automated decision-making prohibition.</td>
+                </tr>
+                <tr>
+                  <td><code>children</code></td>
+                  <td>Minors &amp; Children Data</td>
+                  <td><code>child</code>, <code>children</code>, <code>minor</code>, <code>teen</code>, <code>school</code>, <code>under 18</code></td>
+                  <td>Triggers India DPDP Sec. 9 tracking/monitoring bans and US COPPA.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 9. Cross-Border Tension Engine -->
+        <section id="tension-engine" class="doc-section">
+          <span class="doc-badge-pill">Tension Detection</span>
+          <h2 class="doc-h2">Cross-Border Tension Engine</h2>
+          <p class="doc-p">
+            The Tension Engine surfaces architectural friction where complying with one country's statutory obligation creates compliance challenges under another's.
+          </p>
+
+          <div class="doc-callout warning">
+            <div class="doc-callout-title">⚠️ Classical Conflict: Audit Retention vs Erasure Mandates</div>
+            <p class="doc-p">
+              <strong>US NYC Local Law 144 &amp; EEOC</strong>: Requires employers to retain candidate scoring distributions and evaluation logs to conduct annual independent bias audits.<br>
+              <strong>India DPDP Act Section 8(7)</strong>: Mandates complete erasure of applicant personal data as soon as the recruitment purpose is satisfied, subject to a statutory legal-compliance exception.<br>
+              <strong>Architectural Resolution</strong>: Development teams should decouple direct applicant identity data from anonymized statistical scoring distributions to satisfy both auditability and erasure duties simultaneously.
+            </p>
+          </div>
+        </section>
+
+        <!-- 10. Statutory Coverage Matrix -->
+        <section id="statutory-matrix" class="doc-section">
+          <span class="doc-badge-pill">Curated Ruleset</span>
+          <h2 class="doc-h2">Curated Statutory Coverage Matrix (15 Rules)</h2>
+          <p class="doc-p">
+            Every rule in JuriSync is verified against official government publications. Filter by jurisdiction below:
+          </p>
+
+          <!-- Interactive Jurisdiction Filter Buttons -->
+          <div class="rules-filter-bar">
+            <button class="filter-btn active" data-jur="ALL" type="button">All Jurisdictions (15)</button>
+            <button class="filter-btn" data-jur="EU" type="button">🇪🇺 European Union (5)</button>
+            <button class="filter-btn" data-jur="IN" type="button">🇮🇳 India (5)</button>
+            <button class="filter-btn" data-jur="US" type="button">🇺🇸 United States (5)</button>
+          </div>
+
+          <div class="doc-table-wrapper">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Jurisdiction</th>
+                  <th>Status</th>
+                  <th>Statutory Instrument</th>
+                  <th>Regulatory Finding</th>
+                  <th>Required Developer Action</th>
+                  <th>Gazette Source</th>
+                </tr>
+              </thead>
+              <tbody id="rules-table-body">
+                <!-- Dynamically populated from src/data/rules.js via src/docs.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 11. MCP Protocol Specification -->
+        <section id="mcp-spec" class="doc-section">
+          <span class="doc-badge-pill">API Reference</span>
+          <h2 class="doc-h2">Model Context Protocol (MCP) Tool Reference</h2>
+          <p class="doc-p">
+            JuriSync exposes three standard JSON-RPC 2.0 tools over stdio:
+          </p>
+
+          <h3 class="doc-h3">1. <code>analyze_compliance</code></h3>
+          <p class="doc-p">
+            Runs the complete orchestration pipeline on a natural language feature description.
+          </p>
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>analyze_compliance Input Schema</span>
+            </div>
+            <pre class="doc-code-body"><code>{
+  "name": "analyze_compliance",
+  "arguments": {
+    "feature_description": "An AI recruitment system that parses employee resumes and scores candidates for interview rejection in the EU and India.",
+    "jurisdictions": ["EU", "IN", "US"] // Optional, defaults to all
+  }
+}</code></pre>
+          </div>
+
+          <h3 class="doc-h3">2. <code>get_statutory_rule</code></h3>
+          <p class="doc-p">
+            Retrieves the full statutory citation, legal classification, and developer action for a specific rule ID.
+          </p>
+          <div class="doc-code-block">
+            <div class="doc-code-header">
+              <span>get_statutory_rule Input Schema</span>
+            </div>
+            <pre class="doc-code-body"><code>{
+  "name": "get_statutory_rule",
+  "arguments": {
+    "rule_id": "eu_ai_act_employment_high_risk"
+  }
+}</code></pre>
+          </div>
+
+          <h3 class="doc-h3">3. <code>list_supported_regulations</code></h3>
+          <p class="doc-p">
+            Lists all 15 tracked international statutory instruments and regulatory bodies.
+          </p>
+        </section>
+
+        <!-- 12. Governance & Safe Harbor -->
+        <section id="governance" class="doc-section">
+          <span class="doc-badge-pill">Ethics &amp; Trust</span>
+          <h2 class="doc-h2">Responsible AI &amp; Governance Framework</h2>
+          <p class="doc-p">
+            Compliance automation requires strict architectural ethics:
+          </p>
+          <ul style="margin-left:24px; margin-bottom:20px; font-size:0.95rem; color:var(--text-secondary); line-height:1.7;">
+            <li><strong>Decision Support vs. Replacement</strong>: JuriSync is designed for engineers and architects to flag risks during sprint planning. It empowers informed dialogue with legal counsel.</li>
+            <li><strong>Human-in-the-Loop Safeguards</strong>: Where AI makes automated evaluations affecting individuals, JuriSync enforces oversight mechanisms per GDPR Art. 22 and EU AI Act Art. 14.</li>
+            <li><strong>Data Minimization</strong>: The system processes only the natural language feature description provided. No system code, applicant PII, or internal credentials are required or ingested.</li>
+          </ul>
+
+          <div id="disclaimer" class="doc-callout legal">
+            <div class="doc-callout-title">⚖️ Legal Safe Harbor Notice</div>
+            <p class="doc-p" style="margin-bottom:0;">
+              JuriSync is an automated technical decision-support and regulatory intelligence tool intended to assist software developers, system architects, and AI engineers in identifying potential compliance considerations during early-stage software design. It does not provide formal legal advice, legal representation, or a guarantee of compliance. All findings and classifications are illustrative and must be validated by qualified legal counsel admitted to practice in the relevant jurisdictions prior to deployment.
+            </p>
+          </div>
+        </section>
+
+        <!-- 13. Roadmap & Future Scope -->
+        <section id="roadmap" class="doc-section">
+          <span class="doc-badge-pill">Future Scope</span>
+          <h2 class="doc-h2">Engineering Roadmap (6 Phases)</h2>
+          <p class="doc-p">
+            The ongoing development roadmap includes:
+          </p>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 1: Static Codebase &amp; AST Compliance Scanning</h4>
+            <p class="doc-p">Building AST static analyzers using Tree-sitter to inspect source code repositories directly for biometric libraries (<code>face-api.js</code>), automated decision branches lacking human oversight, and database models lacking automatic TTL erasure routines.</p>
+          </div>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 2: SMT / Z3 Formal Verification of Conflicts</h4>
+            <p class="doc-p">Mathematical modeling of statutory constraints to compute formal satisfiability proofs for multi-jurisdiction data architectures.</p>
+          </div>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 3: Expanded Global Regulatory Coverage</h4>
+            <p class="doc-p">Incorporating Singapore PDPA &amp; AI Verify, Japan APPI, South Korea PIPA, Brazil LGPD, California SB 1047, and Canada AIDA.</p>
+          </div>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 4: GitHub Action CI/CD Gatekeeper</h4>
+            <p class="doc-p">A lightweight <code>jurisync-action</code> that inspects Pull Request descriptions and diffs, posting automated compliance feedback before merging.</p>
+          </div>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 5: EU AI Act Annex IV Conformity Dossier Generator</h4>
+            <p class="doc-p">Compiles machine-readable compliance dossiers in JSON-LD signed cryptographically with Sigstore / Cosign.</p>
+          </div>
+
+          <div class="doc-callout info">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">Phase 6: Multi-Tenant Enterprise Policy DSL</h4>
+            <p class="doc-p">A declarative YAML/JSON DSL enabling enterprise governance teams to define custom internal ethical boundaries alongside public statutes.</p>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <!-- Right Table of Contents (On this page) -->
+    <aside class="docs-toc">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li><a href="#overview" class="toc-link active">Overview &amp; Problem</a></li>
+        <li><a href="#quickstart" class="toc-link">Quickstart in 5 Min</a></li>
+        <li><a href="#philosophy" class="toc-link">Core Principles</a></li>
+        <li><a href="#npm-package" class="toc-link">npm Package &amp; CLI</a></li>
+        <li><a href="#mcp-setup" class="toc-link">MCP Agent Setup</a></li>
+        <li><a href="#sdk-usage" class="toc-link">Node.js SDK</a></li>
+        <li><a href="#pipeline" class="toc-link">5-Stage Pipeline</a></li>
+        <li><a href="#signal-radar" class="toc-link">Signal Radar</a></li>
+        <li><a href="#tension-engine" class="toc-link">Tension Engine</a></li>
+        <li><a href="#statutory-matrix" class="toc-link">Coverage Matrix (15)</a></li>
+        <li><a href="#mcp-spec" class="toc-link">MCP Reference</a></li>
+        <li><a href="#governance" class="toc-link">Governance &amp; Privacy</a></li>
+        <li><a href="#roadmap" class="toc-link">Roadmap (6 Phases)</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- Documentation Portal Script -->
+  <script type="module" src="./src/docs.js"></script>
+</body>
+</html>
