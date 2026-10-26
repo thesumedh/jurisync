@@ -47,6 +47,9 @@ const checklistItemsContainer = document.getElementById('checklist-items');
 const checklistProgress = document.getElementById('checklist-progress');
 const btnCopyChecklist = document.getElementById('btn-copy-checklist');
 
+// Quick npx copy button in navbar
+const btnCopyNpx = document.getElementById('btn-copy-npx');
+
 // MCP Modals & Inspector
 const btnOpenMcp = document.getElementById('btn-open-mcp');
 const btnCloseMcp = document.getElementById('btn-close-mcp');
@@ -55,6 +58,24 @@ const mcpSchemaCode = document.getElementById('mcp-schema-code');
 const btnCopyMcpSchema = document.getElementById('btn-copy-mcp-schema');
 const mcpInlineCode = document.getElementById('mcp-inline-code');
 const btnCopyMcpPayload = document.getElementById('btn-copy-mcp-payload');
+
+// Modal Tabs & Panes
+const mcpTabConfig = document.getElementById('mcp-tab-config');
+const mcpTabCli = document.getElementById('mcp-tab-cli');
+const mcpTabSdk = document.getElementById('mcp-tab-sdk');
+const mcpTabSchema = document.getElementById('mcp-tab-schema');
+
+const paneMcpConfig = document.getElementById('pane-mcp-config');
+const paneMcpCli = document.getElementById('pane-mcp-cli');
+const paneMcpSdk = document.getElementById('pane-mcp-sdk');
+const paneMcpSchema = document.getElementById('pane-mcp-schema');
+
+const btnCopyMcpConfig = document.getElementById('btn-copy-mcp-config');
+const mcpConfigCode = document.getElementById('mcp-config-code');
+const btnCopyMcpCli = document.getElementById('btn-copy-mcp-cli');
+const mcpCliCode = document.getElementById('mcp-cli-code');
+const btnCopyMcpSdk = document.getElementById('btn-copy-mcp-sdk');
+const mcpSdkCode = document.getElementById('mcp-sdk-code');
 
 // Toast
 const toast = document.getElementById('toast');
@@ -557,6 +578,65 @@ function setupEventListeners() {
       showToast('Failed to copy to clipboard.');
     }
   });
+
+  // Copy npx command from Navbar
+  if (btnCopyNpx) {
+    btnCopyNpx.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('npx -y jurisync');
+        showToast('✓ Copied "npx -y jurisync" to clipboard!');
+      } catch {
+        showToast('npx -y jurisync');
+      }
+    });
+  }
+
+  // Modal Tab Switching
+  function switchMcpTab(activeTab, activePane) {
+    [mcpTabConfig, mcpTabCli, mcpTabSdk, mcpTabSchema].forEach(t => t && t.classList.remove('active'));
+    [paneMcpConfig, paneMcpCli, paneMcpSdk, paneMcpSchema].forEach(p => p && p.classList.add('hidden'));
+    if (activeTab) activeTab.classList.add('active');
+    if (activePane) activePane.classList.remove('hidden');
+  }
+
+  if (mcpTabConfig) mcpTabConfig.addEventListener('click', () => switchMcpTab(mcpTabConfig, paneMcpConfig));
+  if (mcpTabCli) mcpTabCli.addEventListener('click', () => switchMcpTab(mcpTabCli, paneMcpCli));
+  if (mcpTabSdk) mcpTabSdk.addEventListener('click', () => switchMcpTab(mcpTabSdk, paneMcpSdk));
+  if (mcpTabSchema) mcpTabSchema.addEventListener('click', () => switchMcpTab(mcpTabSchema, paneMcpSchema));
+
+  // Copy modal code blocks
+  if (btnCopyMcpConfig) {
+    btnCopyMcpConfig.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(mcpConfigCode.textContent);
+        showToast('✓ Claude Desktop / Cursor config copied!');
+      } catch {
+        showToast('Failed to copy.');
+      }
+    });
+  }
+
+  if (btnCopyMcpCli) {
+    btnCopyMcpCli.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(mcpCliCode.textContent);
+        showToast('✓ Stdio command copied to clipboard!');
+      } catch {
+        showToast('Failed to copy.');
+      }
+    });
+  }
+
+  if (btnCopyMcpSdk) {
+    btnCopyMcpSdk.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(mcpSdkCode.textContent);
+        showToast('✓ Node.js SDK snippet copied!');
+      } catch {
+        showToast('Failed to copy.');
+      }
+    });
+  }
 
   // MCP Top Modal Inspector
   btnOpenMcp.addEventListener('click', () => {

@@ -37,29 +37,39 @@
       </div>
 
       <div class="nav-right">
-        <!-- Pipeline steps indicator -->
-        <div class="nav-pipeline-summary" title="Transparent Decision Support Pipeline">
-          <span class="pipe-node active">Input</span>
-          <span class="pipe-sep">→</span>
-          <span class="pipe-node">Signals</span>
-          <span class="pipe-sep">→</span>
-          <span class="pipe-node">Rules</span>
-          <span class="pipe-sep">→</span>
-          <span class="pipe-node">Checklist</span>
-        </div>
+        <!-- npm Package Link -->
+        <a href="https://www.npmjs.com/package/jurisync" target="_blank" rel="noopener noreferrer" class="npm-nav-pill" title="View jurisync on npm registry">
+          <span class="npm-logo">npm</span>
+          <span class="npm-pkg-name">jurisync</span>
+          <span class="npm-version-badge">v1.0.1</span>
+        </a>
 
-        <button id="btn-theme-toggle" class="btn-icon-subtle" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
-          <span id="theme-icon">🌙</span>
+        <!-- npx Quick Run Copy Button -->
+        <button id="btn-copy-npx" class="btn-npx-pill" type="button" title="Click to copy: npx -y jurisync">
+          <span class="cli-prompt">$</span>
+          <code>npx jurisync</code>
+          <span class="copy-subtle-icon">📋</span>
         </button>
 
         <button id="btn-open-mcp" class="btn-claude-secondary" title="Inspect MCP Agent Protocol & JSON-RPC Schema">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
-          <span>MCP Protocol</span>
+          <span>MCP Setup</span>
         </button>
 
-        <a href="#research-context" class="nav-text-link">Research Vision</a>
+        <!-- GitHub Repository Link -->
+        <a href="https://github.com/thesumedh/jurisync" target="_blank" rel="noopener noreferrer" class="btn-icon-subtle" title="View GitHub Repository" aria-label="GitHub Repository">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+        </a>
+
+        <button id="btn-theme-toggle" class="btn-icon-subtle" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+
+        <a href="#research-context" class="nav-text-link">Architecture</a>
       </div>
     </header>
 
@@ -69,7 +79,7 @@
       <section class="claude-hero">
         <h1 class="claude-title">Cross-jurisdictional compliance for <em>AI applications</em>.</h1>
         <p class="claude-subtitle">
-          Deterministic statutory mapping across the <strong>EU AI Act &amp; GDPR</strong>, <strong>India DPDP Act</strong>, and <strong>US NIST AI RMF</strong> before code leaves your editor.
+          Deterministic statutory mapping across the <strong>EU AI Act &amp; GDPR</strong>, <strong>India DPDP Act 2023</strong>, and <strong>US NIST AI RMF</strong> before code leaves your editor. Published on npm as <code>jurisync</code> with native Model Context Protocol (MCP) support.
         </p>
 
         <!-- Claude Prompt Container Card -->
@@ -347,39 +357,51 @@
         </div>
       </section>
 
-      <!-- Research Context Section (Claude Editorial Card) -->
+      <!-- System Architecture & Principles Section -->
       <section id="research-context" class="claude-research-card">
         <div class="research-badge-row">
-          <span class="research-pill">Academic &amp; Architectural Context</span>
-          <span class="devpost-pill">Devpost: Build With AI: Basics</span>
+          <span class="enterprise-pill">Open Source AI Governance</span>
+          <a href="https://www.npmjs.com/package/jurisync" target="_blank" rel="noopener noreferrer" class="npm-nav-pill" style="padding: 2px 8px; font-size: 0.72rem;">
+            <span class="npm-logo">npm</span>
+            <span>jurisync@1.0.1</span>
+          </a>
+          <span class="research-pill">Deterministic Statutory Grounding</span>
         </div>
-        <h3 class="research-title">Research Vision: Cross-Jurisdictional MCP Compliance Layer</h3>
+        <h3 class="research-title">System Architecture: Cross-Jurisdictional Regulatory Orchestration</h3>
         <div class="research-content-grid">
           <div class="research-col">
-            <h4 class="research-subhead">The Problem</h4>
+            <h4 class="research-subhead">1. The Divergence Problem</h4>
             <p>
-              AI coding assistants and autonomous agents increasingly rely on the <strong>Model Context Protocol (MCP)</strong> to trigger tools and external data. However, software teams write code without real-time awareness of cross-border statutory differences. An AI feature deemed acceptable under voluntary frameworks in one country may trigger heavy fines or mandatory risk assessments under binding legislation in another.
+              AI coding assistants and autonomous agents build software globally, but AI regulation is fragmented. A feature permitted under US voluntary frameworks may trigger mandatory high-risk conformity assessments under EU AI Act Annex III, or violate India DPDP purpose-limitation rules before developers even notice.
             </p>
           </div>
           <div class="research-col">
-            <h4 class="research-subhead">The Hackathon Proof-of-Concept</h4>
+            <h4 class="research-subhead">2. Deterministic Rule Matching</h4>
             <p>
-              <strong>JuriSync</strong> proves that compliance can be orchestrated at development time. Instead of an ungrounded LLM making up legal claims, JuriSync uses deterministic signal extraction, a curated 15-statute library, cross-border tension detection, and an actionable developer checklist—accessible both via this web UI and headlessly as an MCP tool.
+              Generic LLMs frequently hallucinate legal sections. JuriSync replaces ungrounded text with a deterministic pipeline: natural language signal detection, 15 curated statutory rules from official government gazettes, cross-border tension detection, and an actionable developer checklist.
+            </p>
+          </div>
+          <div class="research-col">
+            <h4 class="research-subhead">3. Zero-Egress Privacy Architecture</h4>
+            <p>
+              Evaluations execute 100% client-side in the browser or locally via stdio pipes. Zero prompt exfiltration, zero PII retention, and zero external network calls. Built for early-stage architectural decision support to bridge engineering and legal teams.
             </p>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- Claude-style Minimal Footer -->
+    <!-- Professional Minimal Footer -->
     <footer class="claude-footer">
       <div class="footer-left">
-        <span>Devpost Build With AI: Basics Hackathon 2026</span>
+        <span><strong>JuriSync</strong> — Open-Source AI Compliance Orchestration Layer (MIT License)</span>
         <span class="footer-dot">•</span>
-        <span>Decision-Support Prototype (Not Legal Advice)</span>
+        <a href="https://www.npmjs.com/package/jurisync" target="_blank" rel="noopener noreferrer">npm: jurisync@1.0.1</a>
+        <span class="footer-dot">•</span>
+        <span>Decision-Support System (Not Formal Legal Advice)</span>
       </div>
       <div class="footer-right">
-        <span>Repository Artifacts: <a href="./scope.md">scope.md</a> | <a href="./prd.md">prd.md</a> | <a href="./spec.md">spec.md</a></span>
+        <span><a href="https://github.com/thesumedh/jurisync" target="_blank" rel="noopener noreferrer">GitHub</a> • <a href="https://jurisync-one.vercel.app/">Live Web Console</a> • <a href="https://github.com/thesumedh/jurisync#readme" target="_blank" rel="noopener noreferrer">Documentation</a></span>
       </div>
     </footer>
   </div>
@@ -392,25 +414,87 @@
           <div class="modal-spark">⚡</div>
           <div>
             <h3 class="modal-title">Model Context Protocol (MCP) Integration</h3>
-            <span class="modal-subtitle">Direct tool call over stdio via <code>node mcp-server.js</code></span>
+            <span class="modal-subtitle">Published on npm as <code>jurisync</code> • Zero local setup</span>
           </div>
         </div>
         <button id="btn-close-mcp" class="modal-close-btn" aria-label="Close dialog">&times;</button>
       </div>
+      
       <div class="modal-body">
-        <p class="modal-instruction">
-          Configure JuriSync in your <code>claude_desktop_config.json</code> or Antigravity configuration to enable AI coding assistants to evaluate compliance in real time:
-        </p>
-        <div class="code-wrapper">
-          <div class="code-header">
-            <span>MCP Tool Definition</span>
-            <button id="btn-copy-mcp-schema" class="btn-claude-ghost btn-xs">Copy JSON</button>
-          </div>
-          <pre class="claude-code-block"><code id="mcp-schema-code"></code></pre>
+        <!-- Modal Tab Navigation -->
+        <div class="modal-tab-nav">
+          <button id="mcp-tab-config" class="modal-tab-btn active" type="button">Claude Desktop / Cursor</button>
+          <button id="mcp-tab-cli" class="modal-tab-btn" type="button">Terminal (npx)</button>
+          <button id="mcp-tab-sdk" class="modal-tab-btn" type="button">Node.js SDK</button>
+          <button id="mcp-tab-schema" class="modal-tab-btn" type="button">JSON-RPC Schema</button>
         </div>
-        <div class="terminal-callout">
-          <strong>Terminal Command:</strong>
-          <code>node mcp-server.js</code>
+
+        <!-- Tab 1: Agent Config -->
+        <div id="pane-mcp-config" class="modal-tab-pane">
+          <p class="modal-instruction">
+            Add JuriSync to your <code>claude_desktop_config.json</code> or Cursor MCP settings. Zero cloning required:
+          </p>
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>claude_desktop_config.json</span>
+              <button id="btn-copy-mcp-config" class="btn-claude-ghost btn-xs" type="button">Copy JSON</button>
+            </div>
+            <pre class="claude-code-block"><code id="mcp-config-code">{
+  "mcpServers": {
+    "jurisync": {
+      "command": "npx",
+      "args": ["-y", "jurisync"]
+    }
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Tab 2: Terminal / CLI -->
+        <div id="pane-mcp-cli" class="modal-tab-pane hidden">
+          <p class="modal-instruction">
+            Query the MCP compliance server directly from your terminal over stdio:
+          </p>
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Stdio CLI Command</span>
+              <button id="btn-copy-mcp-cli" class="btn-claude-ghost btn-xs" type="button">Copy Command</button>
+            </div>
+            <pre class="claude-code-block"><code id="mcp-cli-code">echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"AI system filtering resume CVs in EU and India"}}}' | npx -y jurisync</code></pre>
+          </div>
+        </div>
+
+        <!-- Tab 3: Node.js SDK -->
+        <div id="pane-mcp-sdk" class="modal-tab-pane hidden">
+          <p class="modal-instruction">
+            Install and import the programmatic compliance engine in your CI/CD pipelines or backend:
+          </p>
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Node.js ESM Usage</span>
+              <button id="btn-copy-mcp-sdk" class="btn-claude-ghost btn-xs" type="button">Copy Code</button>
+            </div>
+            <pre class="claude-code-block"><code id="mcp-sdk-code">import { orchestrateCompliance } from 'jurisync';
+
+const result = orchestrateCompliance('AI tool ranking job applicants with resume parsing in EU and India');
+console.log(result.guidance);
+console.log(result.developerChecklist);</code></pre>
+          </div>
+          <div class="terminal-callout">
+            <span>Install Package:</span>
+            <code>npm install jurisync</code>
+          </div>
+        </div>
+
+        <!-- Tab 4: Live Tool Schema -->
+        <div id="pane-mcp-schema" class="modal-tab-pane hidden">
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Protocol Tool Definition (analyze_compliance)</span>
+              <button id="btn-copy-mcp-schema" class="btn-claude-ghost btn-xs" type="button">Copy Schema</button>
+            </div>
+            <pre class="claude-code-block"><code id="mcp-schema-code"></code></pre>
+          </div>
         </div>
       </div>
     </div>
