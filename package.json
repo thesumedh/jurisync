@@ -1,8 +1,23 @@
 {
   "name": "jurisync",
-  "version": "1.0.0",
-  "description": "Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Application Development",
+  "version": "1.0.1",
+  "description": "Development-Time Cross-Jurisdictional Compliance Orchestration Layer for AI-Assisted Software Engineering",
   "type": "module",
+  "main": "./src/engine/orchestrator.js",
+  "bin": {
+    "jurisync": "mcp-server.js"
+  },
+  "exports": {
+    ".": "./src/engine/orchestrator.js",
+    "./rules": "./src/data/rules.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "mcp-server.js",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,15 +28,25 @@
   "keywords": [
     "compliance",
     "mcp",
+    "model-context-protocol",
     "ai-governance",
     "eu-ai-act",
     "gdpr",
     "dpdp",
     "nist-ai-rmf",
-    "devpost"
+    "responsible-ai",
+    "regulatory-intelligence"
   ],
-  "author": "Hackathon Participant",
+  "author": "Sumedh <https://github.com/thesumedh>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesumedh/jurisync.git"
+  },
+  "homepage": "https://jurisync-one.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/thesumedh/jurisync/issues"
+  },
   "devDependencies": {
     "vite": "^5.4.11"
   }

@@ -4,6 +4,7 @@
 > *Translating natural language system designs into deterministic, multi-jurisdiction regulatory intelligence before architectural lock-in.*
 
 [![Live Deployment](https://img.shields.io/badge/Live_Deployment-Vercel-000000.svg?logo=vercel&logoColor=white)](https://jurisync-one.vercel.app/)
+[![npm package](https://img.shields.io/npm/v/jurisync.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/jurisync)
 [![MCP Protocol v1.0](https://img.shields.io/badge/MCP-Protocol_v1.0-6366f1.svg)](https://modelcontextprotocol.io/)
 [![EU AI Act](https://img.shields.io/badge/EU_AI_Act-Reg_2024%2F1689-003399.svg)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689)
 [![India DPDP 2023](https://img.shields.io/badge/India_DPDP-Act_22_of_2023-FF9933.svg)](https://www.meity.gov.in/content/digital-personal-data-protection-act-2023)
@@ -16,6 +17,7 @@
 ## 🌐 Quick Links
 
 * **Live Interactive Console**: [https://jurisync-one.vercel.app/](https://jurisync-one.vercel.app/)
+* **npm Registry**: [https://www.npmjs.com/package/jurisync](https://www.npmjs.com/package/jurisync) (`npx -y jurisync`)
 * **GitHub Repository**: [https://github.com/thesumedh/jurisync](https://github.com/thesumedh/jurisync)
 * **Model Context Protocol (MCP) Stdio Server**: [`mcp-server.js`](mcp-server.js)
 * **Automated Test Suite**: `npm test` (5 verification suites covering signals, rules, tension, and MCP)
@@ -163,30 +165,53 @@ JuriSync implements the open **Model Context Protocol (v1.0)** standard, allowin
 
 ### Configuration for Claude Desktop / Cursor / Antigravity
 
-Add JuriSync to your agent configuration file (e.g. `claude_desktop_config.json`):
+Because JuriSync is published to the npm registry, you can configure it with **zero local installation** using `npx`:
 
 ```json
 {
   "mcpServers": {
     "jurisync": {
-      "command": "node",
-      "args": ["/absolute/path/to/jurisync/mcp-server.js"]
+      "command": "npx",
+      "args": ["-y", "jurisync"]
     }
   }
 }
 ```
 
+*(Alternatively, if running from a local git clone, specify `"command": "node"` with `"args": ["/absolute/path/to/jurisync/mcp-server.js"]`)*.
+
 ### CLI / Headless Verification
 
-You can test the MCP server directly via stdio JSON-RPC 2.0:
+You can query the MCP server directly via stdio JSON-RPC 2.0 without cloning:
 
 ```bash
-# Query compliance via Stdio (Linux / macOS / Git Bash)
-echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"AI system filtering resume CVs and automatically rejecting candidates in the EU and India"}}}' | node mcp-server.js
+# Query compliance via npx (Linux / macOS / Git Bash)
+echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"AI system filtering resume CVs and automatically rejecting candidates in the EU and India"}}}' | npx -y jurisync
 
 # Windows PowerShell
 $request = '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"analyze_compliance","arguments":{"feature_description":"AI system filtering resume CVs and automatically rejecting candidates in the EU and India"}}}'
-$request | node mcp-server.js
+$request | npx -y jurisync
+```
+
+### Programmatic SDK Usage (Node.js)
+
+JuriSync can also be integrated directly into your backend services, CI linters, or custom compliance agents:
+
+```bash
+npm install jurisync
+```
+
+```javascript
+import { orchestrateCompliance } from 'jurisync';
+
+const result = orchestrateCompliance(
+  'A medical triage chatbot that diagnoses patient symptoms and recommends treatments'
+);
+
+console.log('Detected Risk Signals:', result.signals);
+console.log('EU Findings:', result.guidance.EU.findings);
+console.log('Cross-Border Tensions:', result.tensions);
+console.log('Action Checklist:\n', result.developerChecklist);
 ```
 
 ---
