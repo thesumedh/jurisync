@@ -17,18 +17,18 @@ import { RULES } from './src/data/rules.js';
 const TOOL_ANALYZE_COMPLIANCE = {
   name: 'analyze_compliance',
   description:
-    'Evaluates a natural language description of an AI feature against a curated, traceable library of international statutory rules (EU AI Act, GDPR, India DPDP Act 2023, US NIST AI RMF). Returns explicit risk signals, sourced findings labeled by legal status (binding legislation vs voluntary framework), actionable recommendations, and a developer checklist.',
+    'Evaluates a natural language description of an AI software feature or data architecture against a curated library of 32 sovereign statutory rules (EU AI Act Annex III, GDPR, India DPDP Act 2023, US NIST AI RMF, California CCPA/CPRA, Illinois BIPA, NYC Local Law 144, FTC Section 5). Automatically identifies sensitive domain triggers, respects explicit negations (e.g., "does not process biometrics"), calculates a signal fidelity confidence score (HIGH/MEDIUM/LOW), surfaces cross-border regulatory divergences with severity ratings (CRITICAL/HIGH/MEDIUM), and returns an actionable, copyable markdown developer checklist.',
   inputSchema: {
     type: 'object',
     properties: {
       feature_description: {
         type: 'string',
-        description: 'Plain-language description of the software feature or AI component being developed.'
+        description: 'Plain-language description of the software feature, data model, or AI component (e.g., "An automated loan underwriting model that scores credit risk from bank transactions in the US and India without facial recognition").'
       },
       jurisdictions: {
         type: 'array',
         items: { type: 'string' },
-        description: "List of jurisdictions to evaluate (e.g. ['EU', 'IN', 'US']). Defaults to all."
+        description: "List of jurisdictions to evaluate (e.g. ['EU', 'IN', 'US']). Defaults to all three."
       }
     },
     required: ['feature_description']
@@ -140,17 +140,28 @@ function handleRequest(req) {
           ],
           structuredReport: {
             query: report.query,
+            confidence: {
+              score: report.confidenceScore || 85,
+              level: report.confidenceLevel || 'HIGH',
+              rationale: report.confidenceRationale || 'Signal fidelity assessment'
+            },
             detected_signals: report.signals.tags.map(t => ({
               id: t.id,
               label: t.label,
               description: t.description
             })),
+            negated_triggers: report.negatedTriggers || [],
             regulatory_divergences: report.tensions && report.tensions.length > 0
               ? report.tensions.map(t => ({
+                  id: t.id,
                   title: t.title,
+                  severity: t.severity,
+                  likelihood: t.likelihood,
+                  impact_domain: t.impactDomain,
                   parties: t.parties,
                   summary: t.summary,
-                  developer_guidance: t.developerGuidance
+                  architectural_guidance: t.architecturalGuidance || t.developerGuidance,
+                  developer_guidance: t.architecturalGuidance || t.developerGuidance
                 }))
               : [],
             jurisdictions: {

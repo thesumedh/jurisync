@@ -23,7 +23,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "mcp": "node mcp-server.js",
-    "test": "node tests/verify-target-flow.js && node tests/verify-slice2.js && node tests/verify-slice3.js && node tests/verify-slice4.js && node tests/verify-slice5.js"
+    "test": "node tests/verify-target-flow.js && node tests/verify-slice2.js && node tests/verify-slice3.js && node tests/verify-slice4.js && node tests/verify-slice5.js && node tests/verify-edge-cases.js"
   },
   "keywords": [
     "compliance",

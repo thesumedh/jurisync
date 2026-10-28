@@ -1007,6 +1007,166 @@ body {
   font-size: 0.95rem;
 }
 
+/* Signals Header Badges & Confidence Pill */
+.signals-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.confidence-pill {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: help;
+  transition: all 0.15s ease;
+}
+
+.confidence-pill.high {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #059669;
+}
+
+[data-theme="dark"] .confidence-pill.high {
+  color: #34D399;
+}
+
+.confidence-pill.medium {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #D97706;
+}
+
+[data-theme="dark"] .confidence-pill.medium {
+  color: #FBBF24;
+}
+
+.confidence-pill.low {
+  background: rgba(100, 116, 139, 0.12);
+  border-color: rgba(100, 116, 139, 0.35);
+  color: var(--text-muted);
+}
+
+/* Negated Triggers Badge Flow */
+.negated-badge-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border-medium);
+  border-radius: var(--radius-md);
+}
+
+.negated-badge-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.negated-badge-item strong {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+/* Signals Empty State Guide */
+.signals-empty-guide {
+  margin-top: 12px;
+  padding: 16px 20px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.signals-empty-guide h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signals-empty-guide ul {
+  margin: 8px 0 0 18px;
+  padding: 0;
+}
+
+.signals-empty-guide li {
+  margin-bottom: 4px;
+}
+
+/* Severity Pills in Tension Callouts */
+.callout-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.severity-pill {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.severity-pill.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: #DC2626;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="dark"] .severity-pill.critical {
+  color: #F87171;
+}
+
+.severity-pill.high {
+  background: rgba(245, 158, 11, 0.15);
+  color: #D97706;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+[data-theme="dark"] .severity-pill.high {
+  color: #FBBF24;
+}
+
+.severity-pill.medium {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563EB;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+[data-theme="dark"] .severity-pill.medium {
+  color: #60A5FA;
+}
+
+.tension-extra-callout {
+  margin-top: 16px;
+}
+
 /* ==========================================================================
    Section 02: Claude Editorial Tension Callout
    ========================================================================== */

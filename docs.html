@@ -341,10 +341,10 @@ console.log(report.checklist);</code></pre>
           <div class="doc-callout info">
             <div class="doc-callout-title">The 5-Stage Execution Flow</div>
             <ol style="margin-left:20px; font-size:0.9rem; color:var(--text-secondary); line-height:1.7;">
-              <li><strong>Signal Extraction</strong> (<code>signalExtractor.js</code>): Parses text for token patterns, domain triggers, and autonomous decision indicators.</li>
-              <li><strong>Statutory Rule Matching</strong> (<code>ruleEngine.js</code>): Filters the 15 curated statutory rules against active signals across EU, India, and US.</li>
+              <li><strong>Signal Extraction</strong> (<code>signalExtractor.js</code>): Parses text for token patterns, domain triggers, autonomous decision indicators, compound clause negations, and confidence scoring.</li>
+              <li><strong>Statutory Rule Matching</strong> (<code>ruleEngine.js</code>): Filters the 32 curated statutory rules against active signals across EU, India, and US.</li>
               <li><strong>Jurisdiction Synthesis</strong> (<code>knowledgeBase.js</code>): Computes risk tiers (High Risk vs. Standard) and contextualizes obligations.</li>
-              <li><strong>Tension Detection</strong> (<code>tensionEngine.js</code>): Evaluates potential frictions between conflicting statutory mandates across borders.</li>
+              <li><strong>Tension Detection</strong> (<code>tensionEngine.js</code>): Evaluates potential frictions between conflicting statutory mandates across borders with severity and likelihood metrics.</li>
               <li><strong>Checklist Synthesis</strong> (<code>orchestrator.js</code>): Merges findings into grouped Markdown tasks ready for developer PRs and sprint tracking.</li>
             </ol>
           </div>
@@ -353,9 +353,9 @@ console.log(report.checklist);</code></pre>
         <!-- 8. Signal Radar -->
         <section id="signal-radar" class="doc-section">
           <span class="doc-badge-pill">Signal Radar</span>
-          <h2 class="doc-h2">Risk Signal Extraction Radar</h2>
+          <h2 class="doc-h2">Risk Signal Extraction Radar (15 Signal Domains)</h2>
           <p class="doc-p">
-            The signal engine detects 7 core regulatory risk classes:
+            The signal engine detects 15 granular regulatory risk classes with phrase n-gram matching, compound clause negation handling (e.g., <em>"does not process biometrics or facial scans"</em>), and a 0–100% confidence rating:
           </p>
 
           <div class="doc-table-wrapper">
@@ -411,6 +411,54 @@ console.log(report.checklist);</code></pre>
                   <td><code>child</code>, <code>children</code>, <code>minor</code>, <code>teen</code>, <code>school</code>, <code>under 18</code></td>
                   <td>Triggers India DPDP Sec. 9 tracking/monitoring bans and US COPPA.</td>
                 </tr>
+                <tr>
+                  <td><code>education</code></td>
+                  <td>Education &amp; Vocational Assessment</td>
+                  <td><code>student examination</code>, <code>automated grading</code>, <code>admission scoring</code>, <code>tutor</code></td>
+                  <td>Triggers EU AI Act Annex III Point 3 high-risk educational classification.</td>
+                </tr>
+                <tr>
+                  <td><code>infrastructure</code></td>
+                  <td>Critical Infrastructure</td>
+                  <td><code>power grid</code>, <code>water supply</code>, <code>traffic control</code>, <code>industrial scada</code></td>
+                  <td>Triggers EU AI Act Annex III Point 2 critical infrastructure safety requirements.</td>
+                </tr>
+                <tr>
+                  <td><code>finance_credit</code></td>
+                  <td>Credit Risk &amp; Underwriting</td>
+                  <td><code>credit score</code>, <code>loan underwriting</code>, <code>creditworthiness</code>, <code>borrower</code></td>
+                  <td>Triggers EU AI Act Annex III Point 5(b), RBI Digital Lending, and US FCRA.</td>
+                </tr>
+                <tr>
+                  <td><code>emotion_biometric</code></td>
+                  <td>Emotion &amp; Mood Recognition</td>
+                  <td><code>emotion recognition</code>, <code>mood detection</code>, <code>facial expression analysis</code></td>
+                  <td>Triggers EU AI Act Article 5(1)(f) prohibited AI practices in workplaces/schools.</td>
+                </tr>
+                <tr>
+                  <td><code>law_enforcement</code></td>
+                  <td>Law Enforcement &amp; Public Space</td>
+                  <td><code>predictive policing</code>, <code>suspect</code>, <code>public camera</code>, <code>surveillance</code></td>
+                  <td>Triggers EU AI Act Annex III Point 6 law enforcement conformity assessments.</td>
+                </tr>
+                <tr>
+                  <td><code>cross_border</code></td>
+                  <td>Cross-Border Data Transfer</td>
+                  <td><code>cross-border</code>, <code>international transfer</code>, <code>overseas hosting</code>, <code>offshore cloud</code></td>
+                  <td>Triggers India DPDP Sec. 16 blacklists, RBI data localization, and GDPR Chapter V.</td>
+                </tr>
+                <tr>
+                  <td><code>large_scale_data</code></td>
+                  <td>Significant Scale / Fiduciary</td>
+                  <td><code>significant data fiduciary</code>, <code>millions of users</code>, <code>large scale</code></td>
+                  <td>Triggers India DPDP Sec. 10 DPO, Data Protection Impact Assessments, and independent audits.</td>
+                </tr>
+                <tr>
+                  <td><code>content_moderation</code></td>
+                  <td>Content Moderation &amp; Synthetic Media</td>
+                  <td><code>deepfake</code>, <code>content moderation</code>, <code>watermarking</code>, <code>synthetic media</code></td>
+                  <td>Triggers California AB 2013/3211 watermarking and India IT Rules due diligence.</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -419,17 +467,26 @@ console.log(report.checklist);</code></pre>
         <!-- 9. Cross-Border Tension Engine -->
         <section id="tension-engine" class="doc-section">
           <span class="doc-badge-pill">Tension Detection</span>
-          <h2 class="doc-h2">Cross-Border Tension Engine</h2>
+          <h2 class="doc-h2">Cross-Border Tension Engine (6 Modeled Divergences)</h2>
           <p class="doc-p">
-            The Tension Engine surfaces architectural friction where complying with one country's statutory obligation creates compliance challenges under another's.
+            The Tension Engine surfaces architectural friction where complying with one country's statutory obligation creates compliance challenges under another's, complete with severity ratings and engineering explorations:
           </p>
 
           <div class="doc-callout warning">
-            <div class="doc-callout-title">⚠️ Classical Conflict: Audit Retention vs Erasure Mandates</div>
+            <div class="doc-callout-title">⚠️ Classical Conflict 1: Candidate Audit Retention vs Erasure Mandates [HIGH SEVERITY]</div>
             <p class="doc-p">
               <strong>US NYC Local Law 144 &amp; EEOC</strong>: Requires employers to retain candidate scoring distributions and evaluation logs to conduct annual independent bias audits.<br>
               <strong>India DPDP Act Section 8(7)</strong>: Mandates complete erasure of applicant personal data as soon as the recruitment purpose is satisfied, subject to a statutory legal-compliance exception.<br>
-              <strong>Architectural Resolution</strong>: Development teams should decouple direct applicant identity data from anonymized statistical scoring distributions to satisfy both auditability and erasure duties simultaneously.
+              <strong>Architectural Resolution</strong>: Decouple direct applicant identity data from pseudonymized statistical scoring distributions to satisfy both auditability and erasure duties simultaneously.
+            </p>
+          </div>
+
+          <div class="doc-callout danger" style="margin-top:16px;">
+            <div class="doc-callout-title">🛑 Classical Conflict 2: Algorithmic Disgorgement vs Model Traceability [CRITICAL SEVERITY]</div>
+            <p class="doc-p">
+              <strong>US FTC Section 5 Enforcement</strong>: Mandates permanent destruction of AI models and weights trained on non-consensual consumer data (e.g. Everalbum, Kurbo orders).<br>
+              <strong>EU AI Act Articles 12 &amp; 72</strong>: Requires continuous post-market traceability, version event logging, and unbroken lineage of high-risk models.<br>
+              <strong>Architectural Resolution</strong>: Utilize modular parameter adapters (LoRA) or decoupled RAG vector stores so training subsets can be pruned without destroying core foundation model audit trails.
             </p>
           </div>
         </section>
@@ -437,17 +494,17 @@ console.log(report.checklist);</code></pre>
         <!-- 10. Statutory Coverage Matrix -->
         <section id="statutory-matrix" class="doc-section">
           <span class="doc-badge-pill">Curated Ruleset</span>
-          <h2 class="doc-h2">Curated Statutory Coverage Matrix (15 Rules)</h2>
+          <h2 class="doc-h2">Curated Statutory Coverage Matrix (32 Rules)</h2>
           <p class="doc-p">
             Every rule in JuriSync is verified against official government publications. Filter by jurisdiction below:
           </p>
 
           <!-- Interactive Jurisdiction Filter Buttons -->
           <div class="rules-filter-bar">
-            <button class="filter-btn active" data-jur="ALL" type="button">All Jurisdictions (15)</button>
-            <button class="filter-btn" data-jur="EU" type="button">🇪🇺 European Union (5)</button>
-            <button class="filter-btn" data-jur="IN" type="button">🇮🇳 India (5)</button>
-            <button class="filter-btn" data-jur="US" type="button">🇺🇸 United States (5)</button>
+            <button class="filter-btn active" data-jur="ALL" type="button">All Jurisdictions (32)</button>
+            <button class="filter-btn" data-jur="EU" type="button">🇪🇺 European Union (11)</button>
+            <button class="filter-btn" data-jur="IN" type="button">🇮🇳 India (11)</button>
+            <button class="filter-btn" data-jur="US" type="button">🇺🇸 United States (10)</button>
           </div>
 
           <div class="doc-table-wrapper">

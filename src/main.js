@@ -26,12 +26,16 @@ const tabMcpView = document.getElementById('tab-mcp-view');
 const signalsSection = document.getElementById('signals-section');
 const signalsContainer = document.getElementById('signals-container');
 const signalCountBadge = document.getElementById('signal-count-badge');
+const confidenceBadge = document.getElementById('confidence-badge');
+const negatedContainer = document.getElementById('negated-container');
+const signalsEmptyGuide = document.getElementById('signals-empty-guide');
 
 const tensionSection = document.getElementById('tension-section');
 const tensionTitle = document.getElementById('tension-title');
 const tensionParties = document.getElementById('tension-parties');
 const tensionSummary = document.getElementById('tension-summary');
 const tensionGuidance = document.getElementById('tension-guidance');
+const tensionSeverity = document.getElementById('tension-severity');
 
 const guidanceSection = document.getElementById('guidance-section');
 const euRulesContainer = document.getElementById('eu-rules-container');
@@ -161,7 +165,7 @@ export function showToast(message) {
 }
 
 // ============================================================================
-// Render 01: Risk Signals Badge Flow
+// Render 01: Risk Signals Badge Flow & Confidence Metrics
 // ============================================================================
 export function renderSignals(signalVector) {
   signalsSection.classList.remove('hidden');
@@ -170,6 +174,16 @@ export function renderSignals(signalVector) {
   const activeCount = signalVector.tags.filter(t => t.id !== 'minimal_footprint').length;
   signalCountBadge.textContent = `${activeCount} risk signal${activeCount === 1 ? '' : 's'} identified`;
 
+  // Update confidence badge
+  if (confidenceBadge) {
+    const score = signalVector.confidenceScore || (activeCount > 0 ? 88 : 35);
+    const level = (signalVector.confidenceLevel || (score >= 82 ? 'HIGH' : score >= 60 ? 'MEDIUM' : 'LOW')).toUpperCase();
+    confidenceBadge.textContent = `Signal Fidelity: ${score}% • ${level}`;
+    confidenceBadge.className = `confidence-pill ${level.toLowerCase()}`;
+    confidenceBadge.title = signalVector.confidenceRationale || 'Signal fidelity assessment';
+  }
+
+  // Render positive/active tags
   signalVector.tags.forEach(tag => {
     const chip = document.createElement('div');
     const isMinimal = tag.id === 'minimal_footprint';
@@ -181,10 +195,49 @@ export function renderSignals(signalVector) {
     `;
     signalsContainer.appendChild(chip);
   });
+
+  // Render honored negations
+  if (negatedContainer) {
+    const negations = signalVector.negatedTriggers || [];
+    if (negations.length > 0) {
+      negatedContainer.classList.remove('hidden');
+      negatedContainer.innerHTML = negations.map(nt => `
+        <div class="negated-badge-item" title="${nt.note}">
+          <span>🛡️ Honored Negation:</span>
+          <strong>${nt.id}</strong>
+          <span>("${nt.terms.join(', ')}")</span>
+        </div>
+      `).join('');
+    } else {
+      negatedContainer.classList.add('hidden');
+      negatedContainer.innerHTML = '';
+    }
+  }
+
+  // Render guidance when 0 risk signals detected
+  if (signalsEmptyGuide) {
+    if (activeCount === 0) {
+      signalsEmptyGuide.classList.remove('hidden');
+      signalsEmptyGuide.innerHTML = `
+        <h4>ℹ️ Baseline Software Profile Detected</h4>
+        <p>No high-risk statutory triggers were identified. Baseline software due diligence, cybersecurity hygiene, and standard copyright terms apply.</p>
+        <p style="margin-top:6px; font-weight:600;">To explore sovereign AI regulations, test descriptions containing:</p>
+        <ul>
+          <li><strong>Biometrics:</strong> Face recognition, voiceprints, biometric verification</li>
+          <li><strong>Employment:</strong> Candidate CV parsing, interview evaluation, workforce promotion</li>
+          <li><strong>Underwriting / Credit:</strong> Loan approval, creditworthiness scoring, solvency models</li>
+          <li><strong>Education / Children:</strong> Automated grading, minor learning tutors, student tracking</li>
+          <li><strong>Cross-Border:</strong> International cloud transfers, multi-region database replication</li>
+        </ul>
+      `;
+    } else {
+      signalsEmptyGuide.classList.add('hidden');
+    }
+  }
 }
 
 // ============================================================================
-// Render 02: Regulatory Tension Callouts (supports multiple tensions)
+// Render 02: Regulatory Tension Callouts (supports multiple tensions & severity)
 // ============================================================================
 export function renderTension(tensions) {
   // Accept either an array (new) or single object / null (backward compat)
@@ -204,7 +257,13 @@ export function renderTension(tensions) {
   tensionTitle.textContent = first.title;
   tensionParties.textContent = first.parties;
   tensionSummary.textContent = first.summary;
-  tensionGuidance.textContent = first.developerGuidance;
+  tensionGuidance.textContent = first.architecturalGuidance || first.developerGuidance;
+
+  if (tensionSeverity) {
+    const sev = (first.severity || 'HIGH').toUpperCase();
+    tensionSeverity.textContent = `${sev} SEVERITY`;
+    tensionSeverity.className = `severity-pill ${sev.toLowerCase()}`;
+  }
 
   // Append additional tensions dynamically if more than one
   const existingExtras = tensionSection.querySelectorAll('.tension-extra-callout');
@@ -212,19 +271,23 @@ export function renderTension(tensions) {
 
   tensionList.slice(1).forEach(tension => {
     const extra = document.createElement('div');
+    const extraSev = (tension.severity || 'HIGH').toUpperCase();
     extra.className = 'claude-callout tension-callout tension-extra-callout';
     extra.innerHTML = `
       <div class="callout-header">
         <span class="callout-icon">⚖️</span>
         <div class="callout-title-group">
-          <h3 class="callout-title">${tension.title}</h3>
+          <div class="callout-title-row">
+            <h3 class="callout-title">${tension.title}</h3>
+            <span class="severity-pill ${extraSev.toLowerCase()}">${extraSev} SEVERITY</span>
+          </div>
           <span class="callout-parties">${tension.parties}</span>
         </div>
       </div>
       <p class="callout-body">${tension.summary}</p>
       <div class="callout-strategy">
         <div class="strategy-badge">Architectural Exploration for Legal Review</div>
-        <p class="strategy-body">${tension.developerGuidance}</p>
+        <p class="strategy-body">${tension.architecturalGuidance || tension.developerGuidance}</p>
         <div class="callout-notice-note">
           ℹ️ <em>Preliminary decision-support indicator for engineering &amp; legal review. Does not constitute an established legal conflict or binding legal counsel.</em>
         </div>
@@ -428,37 +491,56 @@ function generateMcpPayload(report) {
     result: {
       tool: "analyze_compliance",
       query: report.query,
+      confidence: {
+        score: report.confidenceScore || 85,
+        level: report.confidenceLevel || 'HIGH',
+        rationale: report.confidenceRationale || 'Signal fidelity assessment'
+      },
       signals: report.signals.tags.map(t => ({
         id: t.id,
         label: t.label,
-        matched: t.matched
+        description: t.description
       })),
+      negated_triggers: report.negatedTriggers || [],
       regulatory_divergences: report.tensions && report.tensions.length > 0
         ? report.tensions.map(t => ({
+            id: t.id,
             title: t.title,
+            severity: t.severity,
+            likelihood: t.likelihood,
+            impact_domain: t.impactDomain,
             parties: t.parties,
             summary: t.summary,
-            guidance: t.developerGuidance
+            architectural_guidance: t.architecturalGuidance || t.developerGuidance
           }))
         : [],
       jurisdiction_rules: {
         EU: report.guidance.EU.rules.map(r => ({
+          id: r.id,
           status: r.status,
           instrument: r.instrument,
+          finding: r.finding,
+          recommendation: r.recommendation,
           action: r.action,
           source_note: r.source_note,
           source_url: r.source_url
         })),
         India: report.guidance.IN.rules.map(r => ({
+          id: r.id,
           status: r.status,
           instrument: r.instrument,
+          finding: r.finding,
+          recommendation: r.recommendation,
           action: r.action,
           source_note: r.source_note,
           source_url: r.source_url
         })),
         UnitedStates: report.guidance.US.rules.map(r => ({
+          id: r.id,
           status: r.status,
           instrument: r.instrument,
+          finding: r.finding,
+          recommendation: r.recommendation,
           action: r.action,
           source_note: r.source_note,
           source_url: r.source_url

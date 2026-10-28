@@ -1,20 +1,24 @@
 /**
  * Curated Rule Library (JavaScript ES Module representation)
  * Matches src/data/rules.json exactly for seamless cross-platform execution.
+ * 32 Granular, Traceable International Statutory Rules (EU, India, US).
  */
 
 export const RULES = [
+  // ==========================================================================
+  // EUROPEAN UNION (11 Rules)
+  // ==========================================================================
   {
     "id": "eu_ai_act_employment_high_risk",
     "triggers": ["employment", "ai_decision"],
     "jurisdiction": "EU",
     "status": "binding",
     "instrument": "EU AI Act (Regulation 2024/1689, Annex III, Point 4)",
-    "finding": "Potentially high-risk AI use in employment context. AI systems intended to be used for recruitment or selection of natural persons, notably for screening or filtering applications and evaluating candidates, are classified as High-Risk.",
-    "recommendation": "Investigate whether the system falls within EU AI Act employment-related high-risk categories. Assess technical documentation and quality management requirements under Chapter III.",
-    "action": "Implement human-in-the-loop oversight mechanism allowing qualified HR staff to verify and override AI recommendations before any rejection is communicated.",
+    "finding": "Potentially high-risk AI use in employment and workforce management. AI systems intended to be used for recruitment or selection of natural persons, notably for placing targeted job ads, screening or filtering applications, and evaluating candidates during interviews or tests, are classified as High-Risk.",
+    "recommendation": "Investigate whether the system falls within EU AI Act employment-related high-risk categories under Chapter III. Assess technical documentation, logging, accuracy metrics, and quality management requirements.",
+    "action": "Implement a human-in-the-loop oversight mechanism allowing qualified HR staff to verify and override AI recommendations before any rejection or filtering decision is communicated to candidates.",
     "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
-    "source_note": "EU AI Act Annex III, Point 4(a) (Recruitment and selection)"
+    "source_note": "EU AI Act Annex III, Point 4(a) (Recruitment and selection of workers)"
   },
   {
     "id": "eu_gdpr_employment_automated_decisions",
@@ -22,11 +26,11 @@ export const RULES = [
     "jurisdiction": "EU",
     "status": "binding",
     "instrument": "EU GDPR (Regulation 2016/679, Article 22)",
-    "finding": "Solely automated candidate scoring or filtering that produces legal effects triggers GDPR Article 22 prohibitions against automated decision-making without human intervention.",
-    "recommendation": "Assess GDPR requirements for candidate data. Determine lawful basis under Article 6 (contractual necessity vs consent) and provide transparency notice.",
-    "action": "Ensure candidate evaluation includes meaningful human review, and establish a mechanism for candidates to contest automated scoring.",
+    "finding": "Solely automated candidate scoring, ranking, or filtering that produces legal effects or similarly significantly affects candidates triggers GDPR Article 22 prohibitions against automated decision-making without human intervention.",
+    "recommendation": "Determine the lawful basis under Article 6 (contractual necessity vs explicit consent). Provide candidates with clear pre-assessment information regarding the algorithmic logic involved and its envisaged consequences.",
+    "action": "Ensure candidate evaluation workflows include meaningful, non-rubber-stamp human review. Establish an explicit mechanism for candidates to express their point of view and contest automated scoring.",
     "source_url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
-    "source_note": "GDPR Article 22(1) (Automated individual decision-making, including profiling)"
+    "source_note": "GDPR Article 22(1) & (3) (Automated individual decision-making, including profiling)"
   },
   {
     "id": "eu_gdpr_biometric_special_category",
@@ -34,11 +38,11 @@ export const RULES = [
     "jurisdiction": "EU",
     "status": "binding",
     "instrument": "EU GDPR (Article 9 & Article 35)",
-    "finding": "Biometric face recognition or physical embedding processing constitutes Special Category Data, strictly prohibited unless explicit consent or statutory necessity is established.",
-    "recommendation": "Conduct a mandatory Data Protection Impact Assessment (DPIA) under Article 35 prior to deployment.",
-    "action": "Obtain standalone explicit consent decoupled from service terms, and store biometric vectors in client-side or hardware-isolated enclaves.",
+    "finding": "Biometric face recognition, facial geometry extraction, or physical embedding processing constitutes Special Category Data, strictly prohibited unless an Article 9(2) exception (such as explicit, freely given consent) is established.",
+    "recommendation": "Conduct a mandatory Data Protection Impact Assessment (DPIA) under Article 35 prior to deployment, consulting your designated Data Protection Officer (DPO).",
+    "action": "Obtain standalone explicit consent decoupled from general terms of service. Isolate biometric feature extraction to client-side hardware enclaves (e.g. Secure Enclave / WebCrypto) to eliminate central vector retention.",
     "source_url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
-    "source_note": "GDPR Article 9(1) (Processing of special categories of personal data)"
+    "source_note": "GDPR Article 9(1) (Processing of special categories) & Article 35 (DPIA)"
   },
   {
     "id": "eu_ai_act_transparency_chatbots",
@@ -46,19 +50,107 @@ export const RULES = [
     "jurisdiction": "EU",
     "status": "binding",
     "instrument": "EU AI Act (Article 50 - Transparency)",
-    "finding": "AI systems intended to interact directly with natural persons (chatbots, RAG assistants) must be designed to inform individuals that they are interacting with an AI system.",
+    "finding": "AI systems intended to interact directly with natural persons (conversational chatbots, RAG assistants, virtual avatars) must be designed to inform individuals that they are interacting with an AI system, unless obvious from the context.",
     "recommendation": "Review user interface disclosures and ensure automated responses are marked as synthetic or AI-assisted.",
-    "action": "Add an unambiguous visual badge indicating AI generation and expose system capabilities and limitation summaries.",
+    "action": "Add an unambiguous visual badge indicating AI generation and expose system capabilities, confidence indicators, and limitation summaries to the user.",
     "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
     "source_note": "EU AI Act Article 50(1) (Transparency obligations for providers and deployers)"
   },
+  {
+    "id": "eu_ai_act_health_high_risk",
+    "triggers": ["health", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Article 6 & Annex I — Medical Device AI)",
+    "finding": "AI systems used for clinical decision support, diagnostic triage, or health risk assessment that qualify as Software as a Medical Device (SaMD) under EU MDR (Regulation 2017/745) are automatically classified as high-risk AI systems under EU AI Act Article 6(1).",
+    "recommendation": "Determine whether the health AI system constitutes SaMD under EU MDR or triggers Annex III Section 5 (essential public services). If so, Notified Body conformity assessment and CE marking are required before EU deployment.",
+    "action": "Implement physician override mechanisms for all AI-generated clinical recommendations, enable automatic event logging over the system lifecycle, and maintain technical documentation per EU AI Act Annex IV before clinical deployment.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Article 6(1) & Annex I (Medical Devices Regulation 2017/745 cross-reference)"
+  },
+  {
+    "id": "eu_ai_act_education_high_risk",
+    "triggers": ["education", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Regulation 2024/1689, Annex III, Point 3)",
+    "finding": "AI systems used in education and vocational training—notably for determining admission or assignment to educational institutions, evaluating learning outcomes, scoring tests, or monitoring and detecting student behavior during exams—are classified as High-Risk.",
+    "recommendation": "Conduct rigorous bias and accuracy evaluations across student demographic cohorts. Establish technical documentation and human intervention capabilities for educators.",
+    "action": "Ensure all automated grading, test evaluation, or admission recommendations require educator review before becoming final. Implement audit logs capturing input variables and model confidence for every student assessment.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Annex III, Point 3 (Education and vocational training)"
+  },
+  {
+    "id": "eu_ai_act_critical_infrastructure",
+    "triggers": ["infrastructure", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Regulation 2024/1689, Annex III, Point 2)",
+    "finding": "AI systems intended to be used as safety components in the management and operation of critical digital infrastructure, road traffic, and the supply of water, gas, heating, or electricity are classified as High-Risk.",
+    "recommendation": "Assess resilience against cyber threats, adversarial perturbations, and unexpected failure modes. Align with the EU Network and Information Security (NIS2) Directive.",
+    "action": "Implement redundant physical/digital fail-safe interlocks independent of AI inference. Maintain automatic continuous anomaly logging and establish a dual-operator manual override procedure.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Annex III, Point 2 (Management and operation of critical infrastructure)"
+  },
+  {
+    "id": "eu_ai_act_credit_scoring_essential_services",
+    "triggers": ["finance_credit", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Regulation 2024/1689, Annex III, Point 5(b))",
+    "finding": "AI systems intended to be used to evaluate the creditworthiness of natural persons or establish their credit score are classified as High-Risk (except AI systems used for the purpose of detecting financial fraud).",
+    "recommendation": "Conduct statistical parity and disparate impact testing to prevent socio-economic discrimination. Prepare Chapter III technical documentation covering model training data governance.",
+    "action": "Provide applicants with meaningful explanations of the key financial variables determining their score. Ensure credit-scoring models allow manual underwriter reassessment upon applicant request.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Annex III, Point 5(b) (Access to essential private services - Creditworthiness)"
+  },
+  {
+    "id": "eu_ai_act_prohibited_emotion_recognition",
+    "triggers": ["emotion_biometric", "ai_decision"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Article 5(1)(f) & Article 50(3))",
+    "finding": "The placing on the market, putting into service, or use of AI systems to infer emotions of a natural person in the areas of workplace and education institutions is strictly PROHIBITED, unless intended for medical or safety reasons.",
+    "recommendation": "Audit feature roadmap to identify and eliminate any emotion-recognition, sentiment-from-facial-video, or stress-detection pipelines deployed in employment or academic contexts.",
+    "action": "Deprecate all affective computing or facial sentiment classifiers targeting workers or students to avoid Article 5 prohibition penalties (up to €35M or 7% global annual turnover).",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Article 5(1)(f) (Prohibited AI practices - Emotion recognition in workplace/education)"
+  },
+  {
+    "id": "eu_ai_act_law_enforcement_public_biometric",
+    "triggers": ["law_enforcement", "biometric"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU AI Act (Article 5(1)(d) & Annex III, Point 1)",
+    "finding": "Real-time remote biometric identification systems in publicly accessible spaces for law enforcement are prohibited under Article 5(1)(d), except under strictly circumscribed statutory judicial authorizations.",
+    "recommendation": "Establish strict boundary fences preventing remote biometric surveillance from operating in publicly accessible physical or digital spaces.",
+    "action": "Block automated facial scanning against public camera feeds. Verify that any biometric identification workflow is post-remote, strictly judicial-warrant bound, and complies with Annex III Chapter III conformity.",
+    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+    "source_note": "EU AI Act Article 5(1)(d) (Prohibited remote biometric identification in public spaces)"
+  },
+  {
+    "id": "eu_gdpr_cross_border_data_transfer",
+    "triggers": ["cross_border", "personal_data"],
+    "jurisdiction": "EU",
+    "status": "binding",
+    "instrument": "EU GDPR (Regulation 2016/679, Articles 44–49)",
+    "finding": "Transfers of personal data to third countries or international organizations outside the European Economic Area (EEA) require an adequacy decision, Standard Contractual Clauses (SCCs), or Binding Corporate Rules (BCRs).",
+    "recommendation": "Review cloud infrastructure topology. Ensure EU user data is processed within EEA regions or protected by valid Standard Contractual Clauses with Transfer Impact Assessments (TIAs).",
+    "action": "Configure database sharding and LLM inference endpoints to preserve EU data sovereignty or implement encrypted confidential computing relays under validated SCCs.",
+    "source_url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "source_note": "GDPR Chapter V (Transfers of personal data to third countries or international organisations)"
+  },
+
+  // ==========================================================================
+  // INDIA (11 Rules)
+  // ==========================================================================
   {
     "id": "in_dpdp_candidate_data_fiduciary",
     "triggers": ["employment", "personal_data"],
     "jurisdiction": "IN",
     "status": "binding",
     "instrument": "India DPDP Act 2023 (Section 4, 5 & 6)",
-    "finding": "Personal data processing of job candidates likely triggers Data Fiduciary obligations under India's Digital Personal Data Protection Act 2023.",
+    "finding": "Personal data processing of job candidates triggers Data Fiduciary obligations under India's Digital Personal Data Protection Act 2023. Processing must be for a lawful purpose with clear itemized notice and verifiable consent.",
     "recommendation": "Assess applicability of DPDP framework: determine purpose limitation, notice delivery, and lawful processing basis.",
     "action": "Map data collection, purpose, access, retention, and applicable duties before ingesting applicant resumes.",
     "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
@@ -70,7 +162,7 @@ export const RULES = [
     "jurisdiction": "IN",
     "status": "binding",
     "instrument": "India DPDP Act 2023 (Section 8(7) - Data Erasure)",
-    "finding": "A Data Fiduciary must erase personal data upon withdrawal of consent, or as soon as it is reasonable to assume the specified purpose is no longer being served, whichever is earlier — unless retention is required for compliance with any law in force (Section 8(7) statutory exception). This exception may partially accommodate retention needed for legally mandated audit obligations, but requires legal verification.",
+    "finding": "A Data Fiduciary must erase personal data upon withdrawal of consent, or as soon as it is reasonable to assume the specified purpose is no longer being served, whichever is earlier — unless retention is required for compliance with any law in force.",
     "recommendation": "Establish explicit data lifecycle policies. Map every data collection to a documented legal basis and retention schedule. Where statutory retention is claimed, identify the specific law authorising it.",
     "action": "Implement automated database TTL purge jobs to delete personal data once purpose is served. Document any ongoing retention under the statutory legal-compliance exception with the specific authorising law citation.",
     "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
@@ -82,11 +174,11 @@ export const RULES = [
     "jurisdiction": "IN",
     "status": "binding",
     "instrument": "India DPDP Act 2023 (Section 9 - Processing Children's Data)",
-    "finding": "Section 9(3) prohibits tracking, behavioural monitoring, or targeted advertising directed at children (under 18). Section 9(1) requires verifiable parental consent before processing children's personal data. Note: Section 9(4) allows the Central Government to prescribe exemptions for specific classes of Data Fiduciaries or purposes by notification.",
-    "recommendation": "Verify user age thresholds for all data flows. Prohibit behavioural telemetry and targeted advertising pipelines for underage accounts by default, unless covered by a government-notified exemption.",
+    "finding": "Section 9(3) prohibits tracking, behavioural monitoring, or targeted advertising directed at children (defined as natural persons under 18 years). Section 9(1) requires verifiable parental consent before processing children's personal data.",
+    "recommendation": "Verify user age thresholds for all data flows. Prohibit behavioural telemetry and targeted recommendation pipelines for underage accounts by default, unless covered by a government-notified exemption.",
     "action": "Deploy verifiable parental consent gates and strip recommendation-tracking cookies for minor users. Confirm whether any government-notified age exemptions under Section 9(5) apply to the specific service.",
     "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
-    "source_note": "DPDP Act 2023 Section 9(1)-(4) (Special obligations for children's data and government-notified exemptions)"
+    "source_note": "DPDP Act 2023 Section 9(1)-(4) (Special obligations for children's data)"
   },
   {
     "id": "in_dpdp_multilingual_notice_grievance",
@@ -101,14 +193,102 @@ export const RULES = [
     "source_note": "DPDP Act 2023 Section 5(3) (Notice in 22 languages) and Section 12 (Grievance)"
   },
   {
+    "id": "in_it_spdi_health_records",
+    "triggers": ["health", "personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "IT Act 2000 (Section 43A) & IT (SPDI) Rules 2011",
+    "finding": "Health records constitute Sensitive Personal Data or Information (SPDI) under Rule 3(1) of the Information Technology (Reasonable Security Practices and Procedures and SPDI) Rules 2011, made under Section 43A of the IT Act 2000.",
+    "recommendation": "Implement ISO/IEC 27001 or equivalent information security standard for systems holding health records. Ensure a written privacy policy covering data categories, purpose, and disclosure is publicly available.",
+    "action": "Obtain written (or electronic) patient consent before collecting health data. Publish a comprehensive privacy policy per Rule 4 of IT (SPDI) Rules 2011. Implement technical and organisational controls for health record storage.",
+    "source_url": "https://www.meity.gov.in/sites/upload_files/dit/files/GSR313E_10511%281%29.pdf",
+    "source_note": "IT (SPDI) Rules 2011, Rule 3(1) — Health Records as Sensitive Personal Data"
+  },
+  {
+    "id": "in_dpdp_significant_data_fiduciary",
+    "triggers": ["large_scale_data", "personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "India DPDP Act 2023 (Section 10 — Significant Data Fiduciary)",
+    "finding": "Entities designated as Significant Data Fiduciaries (SDFs) by the Central Government based on data volume, sensitivity, or risk to electoral democracy/public order face enhanced compliance mandates.",
+    "recommendation": "Assess whether large-scale user data ingestion or high-volume algorithmic processing will trigger Section 10 SDF notification criteria.",
+    "action": "Appoint a resident Data Protection Officer (DPO) based in India, engage an independent Data Auditor to evaluate DPDP compliance, and execute periodic Data Protection Impact Assessments (DPIAs).",
+    "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
+    "source_note": "DPDP Act 2023 Section 10 (Significant Data Fiduciary obligations)"
+  },
+  {
+    "id": "in_dpdp_cross_border_transfer_restrictions",
+    "triggers": ["cross_border", "personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "India DPDP Act 2023 (Section 16 — Cross-Border Transfers)",
+    "finding": "The Central Government may notify countries or territories outside India to which personal data transfers are restricted (negative list/blacklist). Sector-specific localization mandates (such as RBI payment data storage directives) remain preserved under Section 16(2).",
+    "recommendation": "Maintain a dynamic registry of external cloud hosting regions and verify destinations against MeitY blacklists and sectoral localization circulars.",
+    "action": "Implement geolocation routing rules in cloud storage and LLM inference pipelines ensuring Indian user personal data is not transmitted to restricted jurisdictions.",
+    "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
+    "source_note": "DPDP Act 2023 Section 16 (Transfer of personal data outside India)"
+  },
+  {
+    "id": "in_dpdp_breach_reporting_dpbi",
+    "triggers": ["personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "India DPDP Act 2023 (Section 8(6) — Breach Notification)",
+    "finding": "In the event of a personal data breach, the Data Fiduciary must give intimation of such breach to the Data Protection Board of India (DPBI) and to each affected Data Principal in such form and manner as may be prescribed.",
+    "recommendation": "Establish automated security incident detection, forensic logging, and standardized customer notification templates.",
+    "action": "Build automated incident response pipelines with CERT-In 6-hour cybersecurity reporting and DPBI personal data breach notification workflows.",
+    "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
+    "source_note": "DPDP Act 2023 Section 8(6) (Mandatory personal data breach notification)"
+  },
+  {
+    "id": "in_dpdp_reasonable_security_safeguards",
+    "triggers": ["personal_data"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "India DPDP Act 2023 (Section 8(5) & Schedule Penalties)",
+    "finding": "A Data Fiduciary must protect personal data in its possession or under its control by taking reasonable security safeguards to prevent personal data breach. Failure to take reasonable safeguards carries statutory penalties under the Schedule up to ₹250 crore.",
+    "recommendation": "Implement end-to-end encryption, strict role-based access control (RBAC), and continuous vulnerability testing across all data stores.",
+    "action": "Enforce AES-256 encryption at rest and TLS 1.3 in transit for all personal data. Maintain audit trails of all system access and API credential usage.",
+    "source_url": "https://www.meity.gov.in/content/digital-personal-data-protection-act-2023",
+    "source_note": "DPDP Act 2023 Section 8(5) & Schedule item 1 (Penalties up to ₹250 crore)"
+  },
+  {
+    "id": "in_rbi_digital_lending_ai_underwriting",
+    "triggers": ["finance_credit", "ai_decision"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "Reserve Bank of India (RBI) Digital Lending Guidelines 2022",
+    "finding": "Regulated Entities (REs) and Lending Service Providers (LSPs) utilizing automated scoring or algorithmic credit assessments must ensure algorithmic transparency, auditability, and non-discriminatory lending practices.",
+    "recommendation": "Ensure algorithmic loan assessment models maintain comprehensive audit trails and cannot be modified without formal credit risk committee approval.",
+    "action": "Document model credit scoring factors, eliminate opaque third-party alternative data scraping (such as SMS or contact lists), and provide borrowers with clear key fact statements (KFS).",
+    "source_url": "https://www.rbi.org.in/scripts/BS_CircularIndexDisplay.aspx?Id=12382",
+    "source_note": "RBI Guidelines on Digital Lending (DOR.CRE.REC.66/21.07.001/2022-23)"
+  },
+  {
+    "id": "in_it_rules_intermediary_due_diligence_ai",
+    "triggers": ["content_moderation", "ai_decision"],
+    "jurisdiction": "IN",
+    "status": "binding",
+    "instrument": "IT (Intermediary Guidelines) Rules 2021 & MeitY AI Advisory 2024",
+    "finding": "Online intermediaries and platforms deploying AI for content moderation, synthetic media, or conversational generation must exercise due diligence to prevent hosting misinformation, deepfakes, or unlawful content under Rule 3(1)(b).",
+    "recommendation": "Deploy conspicuous metadata labelling on AI-generated or synthetically altered audio-visual media. Establish an expedited 24-hour take-down mechanism for non-consensual deepfakes.",
+    "action": "Implement cryptographic provenance watermarks on generated media and expose a dedicated Grievance Officer channel for rapid content remediation.",
+    "source_url": "https://www.meity.gov.in/writereaddata/files/Information%20Technology%20%28Intermediary%20Guidelines%20and%20Digital%20Media%20Ethics%20Code%29%20Rules%2C%202021.pdf",
+    "source_note": "IT Rules 2021, Rule 3(1)(b) & MeitY Advisory on Deepfakes / Unlawful Content (2024)"
+  },
+
+  // ==========================================================================
+  // UNITED STATES (10 Rules)
+  // ==========================================================================
+  {
     "id": "us_nist_employment_bias_testing",
     "triggers": ["employment", "ai_decision"],
     "jurisdiction": "US",
     "status": "voluntary",
     "instrument": "NIST AI RMF 1.0 (Measure 2.5) & EEOC Guidance",
-    "finding": "Employment + AI ranking raises fairness and transparency expectations. Automated candidate ranking can produce unintended disparate impact across protected demographic categories.",
+    "finding": "Employment + AI ranking raises fairness and transparency expectations. Automated candidate ranking can produce unintended disparate impact across protected demographic categories under Title VII of the Civil Rights Act.",
     "recommendation": "Consider NIST AI RMF-style risk documentation and bias testing even where federal regulation is not yet codified into a single binding statute.",
-    "action": "Keep a simple decision log and bias testing notes documenting selection ratios across demographic subgroups.",
+    "action": "Keep an automated decision log and bias testing notes documenting selection ratios across demographic subgroups, ensuring selection rates satisfy the EEOC four-fifths rule.",
     "source_url": "https://www.nist.gov/itl/ai-risk-management-framework",
     "source_note": "NIST AI RMF 1.0 Measure 2.5 (AI systems evaluated for bias and equity)"
   },
@@ -118,11 +298,11 @@ export const RULES = [
     "jurisdiction": "US",
     "status": "binding",
     "instrument": "NYC Local Law 144 (AEDT Regulation)",
-    "finding": "Automated Employment Decision Tools (AEDT) used in New York City are subject to mandatory annual independent bias audits and candidate notice rules.",
+    "finding": "Automated Employment Decision Tools (AEDT) used in New York City to screen or rank candidates for employment or promotion are subject to mandatory annual independent bias audits and candidate notice rules.",
     "recommendation": "Check whether candidates reside in NYC or covered jurisdictions before deploying automated ranking or scoring algorithms.",
-    "action": "Publish an annual independent bias audit summary on website and provide candidates with 10 business days advance notice prior to AEDT evaluation.",
+    "action": "Publish an annual independent bias audit summary on website detailing impact ratios across race/ethnicity and sex categories. Provide candidates with 10 business days advance notice prior to AEDT evaluation.",
     "source_url": "https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page",
-    "source_note": "NYC Admin. Code § 20-870 et seq."
+    "source_note": "NYC Admin. Code § 20-870 et seq. (AEDT Audit & Notice Requirements)"
   },
   {
     "id": "us_ftc_act_sec5_algorithmic_truth",
@@ -130,9 +310,9 @@ export const RULES = [
     "jurisdiction": "US",
     "status": "binding",
     "instrument": "FTC Act Section 5 (Unfair or Deceptive Practices)",
-    "finding": "The Federal Trade Commission actively enforces against deceptive claims regarding AI accuracy, hidden bias, or undisclosed commercial use of user prompts for model training.",
+    "finding": "The Federal Trade Commission actively enforces against deceptive claims regarding AI accuracy, hidden algorithmic bias, or undisclosed commercial use of user prompts for model training.",
     "recommendation": "Ensure marketing and product documentation accurately reflects model limitations, potential hallucinations, and evaluation benchmarks.",
-    "action": "Maintain verifiable test benchmarks for all accuracy claims, and disclose whether user data is retained for secondary model training.",
+    "action": "Maintain verifiable empirical test benchmarks for all accuracy claims, and disclose clearly whether user prompt data is retained for secondary model training.",
     "source_url": "https://www.ftc.gov/business-guidance/blog/2023/02/keep-your-ai-claims-check",
     "source_note": "FTC Policy Statement on Deceptive AI and Algorithmic Claims"
   },
@@ -142,35 +322,11 @@ export const RULES = [
     "jurisdiction": "US",
     "status": "binding",
     "instrument": "Illinois Biometric Information Privacy Act (740 ILCS 14/)",
-    "finding": "Capturing or storing biometric identifiers (facial geometry, photo embeddings) without prior informed written consent triggers private right of action with statutory damages.",
-    "recommendation": "Establish written biometric privacy policy and written releases before collecting user selfies or facial scans.",
+    "finding": "Capturing, collecting, purchasing, or storing biometric identifiers (facial geometry scans, retina, fingerprints) without prior informed written consent triggers strict private rights of action with statutory damages.",
+    "recommendation": "Establish written biometric privacy policy and written releases before collecting user selfies or facial scans from Illinois residents.",
     "action": "Obtain executed written release from users specifying purpose and retention schedule; publish written destruction guidelines.",
     "source_url": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=3004",
     "source_note": "740 ILCS 14/15 (Retention, collection, disclosure, destruction)"
-  },
-  {
-    "id": "eu_ai_act_health_high_risk",
-    "triggers": ["health", "ai_decision"],
-    "jurisdiction": "EU",
-    "status": "binding",
-    "instrument": "EU AI Act (Article 6 & Annex I — Medical Device AI)",
-    "finding": "AI systems used for clinical decision support, diagnostic triage, or health risk assessment that qualify as Software as a Medical Device (SaMD) under EU MDR (Regulation 2017/745) are automatically classified as high-risk AI systems under EU AI Act Article 6(1). Obligations include mandatory human oversight (Article 14), automatic event logging (Article 12), and technical documentation before market placement (Article 11 & Annex IV).",
-    "recommendation": "Determine whether the health AI system constitutes SaMD under EU MDR or triggers Annex III Section 5 (essential public services). If so, Notified Body conformity assessment and CE marking are required before EU deployment.",
-    "action": "Implement physician override mechanisms for all AI-generated clinical recommendations, enable automatic event logging over the system lifecycle, and prepare and maintain technical documentation per EU AI Act Annex IV before any clinical deployment.",
-    "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
-    "source_note": "EU AI Act Article 6(1) & Annex I (Medical Devices Regulation 2017/745 cross-reference)"
-  },
-  {
-    "id": "in_it_spdi_health_records",
-    "triggers": ["health", "personal_data"],
-    "jurisdiction": "IN",
-    "status": "binding",
-    "instrument": "IT Act 2000 (Section 43A) & IT (SPDI) Rules 2011",
-    "finding": "Health records constitute Sensitive Personal Data or Information (SPDI) under Rule 3(1) of the Information Technology (Reasonable Security Practices and Procedures and SPDI) Rules 2011, made under Section 43A of the IT Act 2000. Any body corporate collecting or processing patient health data must maintain reasonable security practices, publish a written privacy policy, and obtain prior written consent before collection.",
-    "recommendation": "Implement ISO/IEC 27001 or equivalent information security standard for systems holding health records. Ensure a written privacy policy covering data categories, purpose, and disclosure is publicly available.",
-    "action": "Obtain written (or electronic) patient consent before collecting health data. Publish a comprehensive privacy policy per Rule 4 of IT (SPDI) Rules 2011. Implement IS/ISO/IEC 27001 technical and organisational controls for health record storage.",
-    "source_url": "https://www.meity.gov.in/sites/upload_files/dit/files/GSR313E_10511%281%29.pdf",
-    "source_note": "IT (SPDI) Rules 2011, Rule 3(1) — Health Records as Sensitive Personal Data"
   },
   {
     "id": "us_hipaa_phi_ai_systems",
@@ -178,10 +334,70 @@ export const RULES = [
     "jurisdiction": "US",
     "status": "binding",
     "instrument": "HIPAA Privacy & Security Rules (45 CFR Parts 160 & 164)",
-    "finding": "AI systems processing Protected Health Information (PHI) — including patient symptoms, diagnostic reports, treatment history, or drug prescriptions — must comply with the HIPAA Privacy Rule and Security Rule if the developer or deployer qualifies as a Covered Entity or Business Associate. Failure to implement required Technical Safeguards constitutes a HIPAA violation subject to tiered civil monetary penalties.",
-    "recommendation": "Determine whether the AI system qualifies as a Business Associate by processing PHI on behalf of a HIPAA Covered Entity. If so, execute a Business Associate Agreement (BAA) and implement all required Security Rule technical safeguards.",
-    "action": "Execute a BAA with the healthcare provider. Implement encryption at rest and in transit for PHI, establish audit controls and user access logs per 45 CFR 164.312, and conduct a formal Security Risk Analysis before deployment.",
+    "finding": "AI systems processing Protected Health Information (PHI)—including patient symptoms, diagnostic reports, treatment history, or drug prescriptions—must comply with the HIPAA Privacy Rule and Security Rule if the entity qualifies as a Covered Entity or Business Associate.",
+    "recommendation": "Determine whether the AI system qualifies as a Business Associate by processing PHI on behalf of a HIPAA Covered Entity. If so, execute a Business Associate Agreement (BAA).",
+    "action": "Execute a formal BAA with healthcare providers. Implement technical safeguards under 45 CFR 164.312 (AES encryption, access controls, audit logs) and complete a Security Risk Analysis.",
     "source_url": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html",
     "source_note": "HIPAA Security Rule 45 CFR 164.312 (Technical Safeguards for Protected Health Information)"
+  },
+  {
+    "id": "us_ccpa_cpra_automated_decision_making",
+    "triggers": ["personal_data", "autonomous_action"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "California Consumer Privacy Act / CPRA (Cal. Civ. Code § 1798.185)",
+    "finding": "Under CPRA and draft CPPA regulations, California consumers possess explicit rights to opt out of Automated Decision-Making Technology (ADMT) profiling concerning work performance, economic situation, health, or personal behavior, and right to pre-use notices.",
+    "recommendation": "Audit automated decision logic to confirm whether decisions produce legal or similarly significant effects regarding financial, housing, education, or employment access.",
+    "action": "Expose an affirmative 'Opt-Out of Automated Decision-Making' link in user account settings and deliver a pre-use notice explaining the logic and human review options.",
+    "source_url": "https://oag.ca.gov/privacy/ccpa",
+    "source_note": "Cal. Civ. Code § 1798.185(a)(16) & CPPA Automated Decisionmaking Technology Framework"
+  },
+  {
+    "id": "us_california_ai_transparency_watermarking",
+    "triggers": ["ai_decision", "content_moderation"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "California Generative AI Transparency Acts (AB 2013 & AB 3211)",
+    "finding": "California statutes mandate that developers of generative AI models publicly disclose high-level summaries of training data datasets and implement cryptographic watermarks / C2PA provenance metadata into AI-generated audio, video, and text.",
+    "recommendation": "Document dataset sources, copyright status, and custodial data provenance. Integrate digital provenance standards (e.g. C2PA Coalition for Content Provenance and Authenticity).",
+    "action": "Publish a public training data summary portal per AB 2013 requirements and inject imperceptible cryptographic watermarks into all synthesized content streams.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2013",
+    "source_note": "California AB 2013 (Training Data Transparency) & AB 3211 (Digital Content Provenance)"
+  },
+  {
+    "id": "us_ftc_algorithmic_disgorgement_remedy",
+    "triggers": ["ai_decision", "personal_data"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "FTC Algorithmic Disgorgement Enforcement Precedents",
+    "finding": "In multiple enforcement actions (Everalbum, Kurbo/Weight Watchers, Rite Aid), the FTC has mandated 'algorithmic disgorgement'—requiring companies to permanently destroy AI models, weights, and algorithms trained on improperly collected or deceptive consumer data.",
+    "recommendation": "Maintain strict provenance linking every training dataset to its explicit consent authorization to mitigate existential model destruction risk.",
+    "action": "Implement data lineage tracking isolating customer inference data from secondary model fine-tuning sets. Ensure models can be retrained without tainted subsets if consent is withdrawn.",
+    "source_url": "https://www.ftc.gov/business-guidance/blog/2021/05/you-cant-build-ai-stolen-data-ftc-orders-model-destruction",
+    "source_note": "FTC Policy on Algorithmic Disgorgement (Mandatory Model & Weight Destruction Orders)"
+  },
+  {
+    "id": "us_fcra_automated_credit_adverse_action",
+    "triggers": ["finance_credit", "ai_decision"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "Fair Credit Reporting Act (15 U.S.C. § 1681m) & CFPB Circular 2022-03",
+    "finding": "When an AI system or algorithmic model denies credit, sets less favorable loan terms, or limits credit lines, the creditor must issue an Adverse Action Notice stating specific, accurate key reasons. The CFPB has confirmed that model complexity or black-box opacity is not a legal defense.",
+    "recommendation": "Implement explainable AI methods (e.g., TreeSHAP, integrated gradients) capable of isolating the top negative score factors for each individual applicant.",
+    "action": "Generate automated Adverse Action Notices listing the top 4 primary reasons for unfavorable credit decisions. Ensure applicant input data can be audited by human loan officers.",
+    "source_url": "https://www.consumerfinance.gov/compliance/circulars/circular-2022-03-adverse-action-notification-requirements-in-connection-with-credit-decisions-based-on-complex-algorithms/",
+    "source_note": "CFPB Circular 2022-03 (Adverse action requirements in complex algorithm credit decisions)"
+  },
+  {
+    "id": "us_illinois_bipa_damages_per_scan_amendment",
+    "triggers": ["biometric"],
+    "jurisdiction": "US",
+    "status": "binding",
+    "instrument": "Illinois BIPA (740 ILCS 14/20) & 2024 SB 2979 Amendment",
+    "finding": "Illinois General Assembly enacted SB 2979 (effective 2024), establishing that multiple biometric collections of the same person using the same method constitutes a single statutory violation, capping run-away per-scan damages while reaffirming strict liability for unconsented capture.",
+    "recommendation": "Review biometric capture mechanisms to ensure electronic consent execution occurs before the very first frame of biometric data is captured.",
+    "action": "Implement a mandatory click-through written release gate and maintain an immutable cryptographic log of user consent timestamp before initializing camera or biometric sensors.",
+    "source_url": "https://www.ilga.gov/legislation/BillStatus.asp?DocNum=2979&GAID=17&DocTypeID=SB&LegId=152781&SessionID=112",
+    "source_note": "Illinois Public Act 103-0769 (SB 2979 BIPA Damages Per-Person Clarification)"
   }
 ];

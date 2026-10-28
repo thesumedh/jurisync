@@ -209,11 +209,20 @@
                 <span class="section-num">01</span>
                 <h3 class="section-heading">Detected Risk Signals</h3>
               </div>
-              <span id="signal-count-badge" class="count-pill">0 signals detected</span>
+              <div class="signals-header-badges">
+                <span id="confidence-badge" class="confidence-pill" title="Signal fidelity based on statutory term specificity">Confidence: --</span>
+                <span id="signal-count-badge" class="count-pill">0 signals detected</span>
+              </div>
             </div>
-            <p class="section-desc">Lexical triggers identified in the feature description mapped to statutory risk categories.</p>
+            <p class="section-desc">Statutory triggers identified in the feature description mapped to sovereign compliance regimes.</p>
             <div id="signals-container" class="signals-badge-flow">
               <!-- Populated dynamically -->
+            </div>
+            <div id="negated-container" class="negated-badge-flow hidden">
+              <!-- Honored negations rendered here -->
+            </div>
+            <div id="signals-empty-guide" class="signals-empty-guide hidden">
+              <!-- Guidance when 0 signals detected -->
             </div>
           </div>
 
@@ -223,7 +232,10 @@
               <div class="callout-header">
                 <span class="callout-icon">⚖️</span>
                 <div class="callout-title-group">
-                  <h3 id="tension-title" class="callout-title">Potential Regulatory Divergence for Review</h3>
+                  <div class="callout-title-row">
+                    <h3 id="tension-title" class="callout-title">Potential Regulatory Divergence for Review</h3>
+                    <span id="tension-severity" class="severity-pill">HIGH SEVERITY</span>
+                  </div>
                   <span id="tension-parties" class="callout-parties">EU AI Act vs US NIST vs India DPDP</span>
                 </div>
               </div>
