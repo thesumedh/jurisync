@@ -46,7 +46,7 @@ Tech Stack: Node.js, Model Context Protocol (MCP v1.0), JavaScript (ESM), JSON-R
 
 > *"When developers build AI applications with tools like Cursor or Claude, they operate in a regulatory vacuum. A feature that looks harmless under US voluntary guidance can trigger mandatory conformity assessments under EU AI Act Annex III or violate India's DPDP Act purpose-limitation rules.*
 >
-> *I designed and published **JuriSync** (`npx jurisync`) to solve this before architectural lock-in occurs. It's a deterministic, zero-dependency compliance engine and MCP stdio server. It takes natural language feature descriptions, detects risk signals like biometric data or automated rejections, evaluates them against 15 curated statutory rules from official gazettes in under 5 milliseconds, surfaces cross-border legal tensions, and outputs actionable developer checklists.*
+> *I designed and published **JuriSync** (`npx jurisync`) to solve this before architectural lock-in occurs. It's a deterministic, zero-dependency compliance engine and MCP stdio server. It takes natural language feature descriptions, detects risk signals like biometric data or automated rejections, evaluates them against 32 curated statutory rules from official gazettes in under 5 milliseconds, surfaces cross-border legal tensions, and outputs actionable developer checklists.*
 >
 > *It runs 100% locally with zero data exfiltration, is live on npm and Vercel, and directly integrates into AI coding assistants via the Model Context Protocol."*
 

@@ -70,23 +70,33 @@ The platform operates as a deterministic regulatory decision-support layer posit
 
 ## 2. Core Subsystems
 
-### 2.1 Lexical Signal Extractor (`src/engine/signalExtractor.js`)
-- **Objective:** Detect regulatory risk indicators without probabilistic hallucinations.
-- **Mechanism:** Deterministic regex pattern matching over normalized text tokens.
-- **Extracted Signal Attributes:**
-  - `usesAi`: Identifies machine learning, neural networks, LLMs, computer vision, predictive scoring.
-  - `personalData`: Identifies PII, user identifiers, contact information, browsing records.
-  - `biometricData`: Identifies facial recognition, fingerprints, voice embeddings, retina scans.
-  - `employmentDomain`: Identifies hiring, recruitment, CV ranking, interview evaluation, worker termination.
-  - `childrenData`: Identifies minors, kids, parental consent, schools, underage users.
-  - `autonomousAction`: Identifies automated rejections, self-executing triggers, direct decision-making.
-  - `multiJurisdiction`: Detects cross-border deployment triggers (e.g. EU, India, US).
+### 2.1 Smart Signal Extractor (`src/engine/signalExtractor.js`)
+- **Objective:** Detect regulatory risk indicators with phrase n-gram matching, clause-level negation awareness, and confidence scoring.
+- **Mechanism:** Weighted lexical dictionaries (`strong` weight 1.0 vs `weak` weight 0.5) with sentence/clause negation boundary detection (`getNegatedSpans`).
+- **Extracted Signal Attributes (15 Domains):**
+  - `usesAi`: Machine learning, neural networks, LLMs, computer vision, predictive scoring.
+  - `personalData`: Identifies PII, user identifiers, contact information, records.
+  - `biometricData`: Facial recognition, fingerprints, voice embeddings, retina scans.
+  - `employmentDomain`: Hiring, recruitment, CV ranking, interview evaluation, worker termination.
+  - `childrenData`: Minors, kids, parental consent, schools, underage users under 18.
+  - `autonomousAction`: Automated rejections, self-executing triggers, direct decision-making.
+  - `educationDomain`: Admissions, automated grading, student behavioral evaluation.
+  - `infrastructureDomain`: Safety components in energy, water, gas, digital networks.
+  - `financeCreditDomain`: Credit scoring, loan underwriting, borrower solvency assessments.
+  - `emotionBiometricDomain`: Workplace/education emotion recognition and mood inference.
+  - `lawEnforcementDomain`: Predictive policing, public camera surveillance, suspect evaluation.
+  - `crossBorderDomain`: International cloud transfers, offshore hosting, trans-border flows.
+  - `largeScaleDomain`: Significant Data Fiduciary thresholds, high-volume processing.
+  - `contentModerationDomain`: Deepfake detection, AI media watermarking, intermediary due diligence.
+  - `multiJurisdiction`: Detects cross-border deployment triggers (EU, India, US).
+- **Negation Handling:** Automatically suppresses false-positive triggers when negative clauses are detected (e.g. *"does not process biometric data or facial scans"*).
+- **Confidence Scoring:** Computes quantitative signal fidelity score (0–100%) and level (`HIGH`, `MEDIUM`, `LOW`) with explanatory rationale.
 
 ### 2.2 Curated Rule Engine (`src/engine/ruleEngine.js`)
-- **Objective:** Evaluate active signal vectors against verified statutory provisions.
+- **Objective:** Deterministically evaluate active signal vectors against 32 verified statutory provisions.
 - **Stratification:**
-  - `binding`: Legally enforceable statutory duties backed by administrative fines or statutory damages (e.g., EU AI Act, GDPR, India DPDP Act 2023, NYC Local Law 144, Illinois BIPA, FTC Act § 5).
-  - `voluntary`: Best-practice risk management frameworks, consensus standards, and guidance (e.g., NIST AI RMF 1.0, OECD AI Principles).
+  - `binding`: Legally enforceable statutory duties backed by administrative fines or statutory damages (e.g., EU AI Act, GDPR, India DPDP Act 2023, NYC Local Law 144, Illinois BIPA, FTC Act § 5, FCRA, California CPRA).
+  - `voluntary`: Best-practice risk management frameworks, consensus standards, and guidance (e.g., NIST AI RMF 1.0).
 - **Rule Data Schema:**
   ```typescript
   interface StatutoryRule {
@@ -106,13 +116,15 @@ The platform operates as a deterministic regulatory decision-support layer posit
   ```
 
 ### 2.3 Cross-Border Regulatory Tension Engine (`src/engine/tensionEngine.js`)
-- **Objective:** Surface potential friction points across conflicting legal philosophies.
+- **Objective:** Surface potential friction points across conflicting legal philosophies with explicit severity and likelihood ratings.
 - **Philosophical Grounding:** Avoids claiming false legal certainty; frames conflicts as **"Potential Divergences for Review"** and outputs **"Architectural Considerations for Legal Review"**.
-- **Conflict Topologies Covered:**
-  1. *Retention vs Erasure:* US bias audit retention requirements vs India DPDP Section 8(7) purpose-fulfilment erasure mandates.
-  2. *Biometric Liability:* US BIPA statutory damages vs EU GDPR Article 9 special category DPIA requirements.
-  3. *Minor Protection Boundaries:* US COPPA (age 13) vs India DPDP Section 9 (strict age 18, absolute ban on behavioral tracking).
-  4. *Inference Training Reuse:* EU GDPR purpose limitation vs US FTC deception enforcement.
+- **Conflict Topologies Covered (6 Modeled Divergences):**
+  1. *Candidate Retention vs Erasure (HIGH SEVERITY):* US bias audit retention requirements (NYC LL144 / EEOC) vs India DPDP Section 8(7) purpose-fulfilment erasure mandates vs GDPR Art. 17.
+  2. *Algorithmic Disgorgement vs Traceability (CRITICAL SEVERITY):* US FTC Section 5 model/weight destruction precedents vs EU AI Act continuous post-market audit logging (Articles 12 & 72).
+  3. *Biometric Liability & Consent Conditioning (CRITICAL SEVERITY):* US Illinois BIPA statutory damages per person (SB 2979) vs EU GDPR Article 9/35 DPIA vs India DPDP Section 6 unbundled consent.
+  4. *Minor Protection Age Boundaries & Tracking Bans (HIGH SEVERITY):* India DPDP Section 9 (strict age 18, absolute ban on behavioral tracking) vs US COPPA (age 13 commercial consent) vs EU GDPR Art. 8.
+  5. *Cloud Data Localization vs Global Distributed LLMs (HIGH SEVERITY):* India DPDP Section 16 & RBI digital lending domestic residency vs EU GDPR Chapter V SCCs vs US CLOUD Act.
+  6. *Automated Decision Opt-Out vs Real-Time Execution (MEDIUM SEVERITY):* California CPRA / CPPA ADMT pre-use opt-out and EU GDPR Art. 22 vs low-latency autonomous inference pipelines.
 
 ### 2.4 Orchestration Layer (`src/engine/orchestrator.js`)
 - Composes the execution pipeline:

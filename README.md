@@ -96,7 +96,7 @@ JuriSync comes preloaded with 7 production scenarios illustrating complex cross-
 
 * **Deterministic Execution Speed**: `< 5 ms` end-to-end evaluation latency across all 3 jurisdictions.
 * **Network & Privacy Footprint**: `0 KB` external egress. Zero remote API dependencies, zero prompt exfiltration, and 100% offline-operable via stdio or client-side WASM/ESM.
-* **Package Footprint**: `41.7 kB` total tarball on npm (`jurisync@1.0.1`).
+* **Package Footprint**: `70.1 kB` tarball on npm registry (`262.9 kB` unpacked, 0 runtime dependencies).
 * **Test Verification**: 100% test pass rate across 6 modular integration and protocol verification suites (`npm test`).
 
 ---
